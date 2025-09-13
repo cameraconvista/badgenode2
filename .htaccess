@@ -1,0 +1,24 @@
+
+RewriteEngine On
+
+# Gestione routing per SPA
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/storico\.html
+RewriteRule ^ /storico.html [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/utenti\.html
+RewriteRule ^ /utenti.html [L]
+
+# Fallback per tutte le altre route
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /index.html [L]
+
+# Cache headers per assets
+<FilesMatch "\.(ico|jpg|jpeg|png|gif|js|css)$">
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+</FilesMatch>

@@ -1,0 +1,21 @@
+
+{
+  "auto_upgrade": {
+    "enabled": true,
+    "require_confirmation": true,
+    "branch": "main",
+    "exclude_files": [
+      "node_modules/",
+      "dist/",
+      ".env",
+      "*.log"
+    ],
+    "commit_prefix": "🔄 BADGEBOX Auto-Update",
+    "max_files_per_commit": 50
+  },
+  "security": {
+    "check_file_integrity": true,
+    "backup_before_push": true,
+    "verify_remote": true
+  }
+}

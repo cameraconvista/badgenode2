@@ -1,0 +1,35 @@
+
+{
+  "name": "BADGENODE - Sistema Timbrature",
+  "short_name": "BADGENODE",
+  "description": "Sistema di timbrature dipendenti con PIN",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/",
+  "categories": ["business", "productivity"],
+  "prefer_related_applications": false,
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#0c1a2a",
+  "theme_color": "#0c1a2a",
+  "icons": [
+    {
+      "src": "/assets/icons/badgenode-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/badgenode-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/badgenode-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

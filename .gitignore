@@ -1,0 +1,10 @@
+node_modules
+attached_assets
+dist
+build
+.vscode
+.replit
+.cache
+*.log
+.DS_Store
+.env.local

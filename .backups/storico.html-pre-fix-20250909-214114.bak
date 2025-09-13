@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <script>
+  (function () {
+    if (location.protocol !== 'https:') return;  // only on https
+    var HMR = /:\/\/(0\.0\.0\.0|127\.0\.0\.1|localhost):517\d/;
+
+    // Patch WebSocket (block only Vite HMR)
+    var OldWS = window.WebSocket;
+    window.WebSocket = function (url, protocols) {
+      try { if (typeof url === 'string' && HMR.test(url)) throw new Error('HMR disabled on HTTPS'); }
+      catch (e) { console.debug('[HMR muted]', e.message); return { close(){}, readyState: 3, addEventListener(){}, removeEventListener(){}, send(){} }; }
+      var ws = new OldWS(url, protocols);
+      return ws;
+    };
+    if (OldWS) window.WebSocket.prototype = OldWS.prototype;
+
+    // Patch EventSource (some setups use it for HMR)
+    var OldES = window.EventSource;
+    if (OldES) {
+      window.EventSource = function (url, conf) {
+        if (typeof url === 'string' && HMR.test(url)) {
+          console.debug('[HMR muted] EventSource blocked');
+          return { close(){}, readyState: 2, onopen:null, onmessage:null, onerror:null, addEventListener(){}, removeEventListener(){} };
+        }
+        return new OldES(url, conf);
+      };
+      window.EventSource.prototype = OldES.prototype;
+    }
+  })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover, shrink-to-fit=no" />
+  <title>Storico Timbrature - BADGEBOX</title>
+
+  <!-- PWA Meta -->
+  <meta name="theme-color" content="#0d1b2b" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BADGEBOX" />
+
+  <!-- Icone PWA -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="60x60" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/badgenode-192.png" />
+  <meta name="msapplication-TileImage" content="/icons/badgenode-192.png" />
+  <meta name="msapplication-TileColor" content="#0d1b2b" />
+  <link rel="manifest" href="manifest.json" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://txmjqrnitfsiytbytxlc.supabase.co" crossorigin>
+  <link rel="dns-prefetch" href="https://txmjqrnitfsiytbytxlc.supabase.co">
+
+  <!-- Preload risorse critiche -->
+  <link rel="preload" href="utenti.html" as="document">
+  <link rel="preload" href="style.css" as="style">
+  <script defer src="/assets/scripts/perf.patch.js" type="module"></script>
+
+  <!-- Fonts e CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/styles/storico-styles.css" />
+</head>
+<body style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); min-height: 100vh;">
+  <div class="container">
+    <div id="storico-top-bar">
+      <button id="torna-utenti" class="btn-torna-utenti" title="Torna a Utenti">
+        ⬅
+      </button>
+
+      <div class="header-fisso">
+        <div style="position: relative; text-align: center; margin-bottom: 10px;">
+          <p class="titolo-piccolo">Storico Timbrature</p>
+          <h1 id="intestazione" class="titolo-grande">Nome Cognome</h1>
+        </div>
+
+        <div class="filtro-e-pulsanti">
+          <div class="filtro-temporale">
+            <select id="filtro-mese">
+              <option value="corrente">Mese corrente</option>
+              <option value="precedente">Mese precedente</option>
+              <option value="due-precedenti">2 mesi precedenti</option>
+            </select>
+            <div class="data-container">
+              <input type="date" id="data-inizio" />
+              <img src="/icons/calendario.png" class="icona-calendario-campo" alt="Calendario" data-campo="data-inizio" />
+            </div>
+            <div class="data-container">
+              <input type="date" id="data-fine" />
+              <img src="/icons/calendario.png" class="icona-calendario-campo" alt="Calendario" data-campo="data-fine" />
+            </div>
+          </div>
+
+          <div class="pulsanti-alto">
+            <button id="btn-invia" title="Scarica PDF">
+              <div class="btn-icon pdf-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14,2 14,8 20,8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10,9 9,9 8,9"/>
+                </svg>
+                <span class="btn-label">PDF</span>
+              </div>
+            </button>
+            <button id="btn-excel" title="Esporta Excel">
+              <div class="btn-icon excel-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14,2 14,8 20,8"/>
+                  <rect x="8" y="13" width="8" height="7"/>
+                  <line x1="8" y1="13" x2="16" y2="20"/>
+                  <line x1="16" y1="13" x2="8" y2="20"/>
+                </svg>
+                <span class="btn-label">XLS</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabella-wrapper">
+      <div class="tabella-container">
+        <div class="tabella-header">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Mese</th>
+                <th>Entrata</th>
+                <th>Uscita</th>
+                <th>Ore</th>
+                <th>Extra</th>
+                <th>Modifica</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="tabella-body-wrapper">
+          <table>
+            <tbody id="storico-body"></tbody>
+          </table>
+        </div>
+        <div class="tabella-footer">
+          <table>
+            <tbody id="totale-footer">
+              <tr>
+                <td style="text-align:left;">TOTALE MENSILE</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="color: #ffff99;"></td>
+                <td style="text-align: center;"></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+  <div id="modalOverlay">
+    <div id="modal">
+      <h2>Modifica Timbrature</h2>
+      <form id="modaleForm">
+        <label for="modale-data-entrata">Data Entrata:</label>
+        <input type="date" id="modale-data-entrata" />
+        <label for="modale-entrata">Ora Entrata:</label>
+        <input type="time" id="modale-entrata" />
+
+        <label for="modale-data-uscita">Data Uscita:</label>
+        <input type="date" id="modale-data-uscita" />
+        <label for="modale-uscita">Ora Uscita:</label>
+        <input type="time" id="modale-uscita" />
+
+        <div class="modal-btns">
+          <button type="button" id="btnSalva">Salva</button>
+          <button type="button" id="btnElimina">Elimina</button>
+          <button type="button" id="btnChiudi">Chiudi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="assets/scripts/calendario-popup.js"></script>
+  <script type="module" src="assets/scripts/modale-modifica.js"></script>
+  <script type="module" src="assets/scripts/storico-logic.js"></script>
+
+  <script>
+    document.getElementById("torna-utenti")?.addEventListener("click", () => {
+      window.location.href = "utenti.html";
+    });
+  </script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('[SW] Registered:', registration.scope);
+          })
+          .catch((error) => {
+            console.error('[SW] Registration failed:', error);
+          });
+      });
+    }
+  </script>
+</body>
+</html>

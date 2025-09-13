@@ -1,0 +1,29 @@
+{
+  "name": "badgenode",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sistema di timbrature dipendenti con PIN e gestione Supabase",
+  "author": "BADGENODE Team",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "serve": "serve dist -s -l 3000",
+    "clean": "rm -rf dist node_modules/.vite"
+  },
+  "devDependencies": {
+    "serve": "^14.2.5",
+    "vite": "^5.4.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "timbrature",
+    "dipendenti",
+    "supabase",
+    "pwa",
+    "vite"
+  ]
+}

@@ -1,0 +1,24 @@
+
+# BADGEBOX - Redirects ottimizzati per deploy
+
+# Assets statici - serviti direttamente
+/assets/* /assets/:splat 200
+/icons/* /assets/icons/:splat 200
+
+# Pagine specifiche dell'app
+/utenti.html /utenti.html 200
+/storico.html /storico.html 200
+/ex-dipendenti.html /ex-dipendenti.html 200
+
+# PWA files
+/manifest.json /manifest.json 200
+/sw.js /sw.js 200
+/offline.html /offline.html 200
+
+# Parametri URL preservati
+/utenti.html* /utenti.html 200
+/storico.html* /storico.html 200
+/ex-dipendenti.html* /ex-dipendenti.html 200
+
+# Fallback per SPA
+/* /index.html 200
