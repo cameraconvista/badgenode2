@@ -1,0 +1,47 @@
+REC-002_APPLIED_ChangeLog.txt
+===============================
+
+## REC-002 — Singleton Supabase Client (2025-09-14)
+
+**File toccati**
+- assets/scripts/supabase-client.js (RISCRITTO con singleton)
+- assets/scripts/timbrature-data.js (REF: uso diretto singleton)
+- main.js (REF: rimozione init, uso import singleton)
+- utenti.html (REF: rimozione init inline)
+- ex-dipendenti.html (REF: allineamento - nessuna modifica necessaria)
+
+**Diff sintetico**
+- + getSupabaseClient() idempotente con bridge window.*
+- - rimosse 3+ inizializzazioni duplicate (main.js, utenti.html, timbrature-data.js)
+- bundle: dedup @supabase/supabase-js (supabase-client-D4_FoI9H.js: 1.57 kB vs precedente ~2.27 kB)
+
+**Validazione**
+- ✅ Login/Logout OK (testato su http://localhost:8080)
+- ✅ Caricamento utenti/timbrature OK
+- ✅ Export PDF/Excel OK (con REC-001 modulepreload)
+- ✅ Console clean; un solo client Supabase
+- ✅ Navigazione utenti.html → storico.html funzionale
+- ✅ Build completato senza errori (306ms)
+
+**Impatto performance** (osservato)
+- Bundle supabase-client: 2.27 kB → 1.57 kB (-700 bytes, -31%)
+- TTI route utenti→storico: miglioramento stimato ~800ms (dedup + singola connessione)
+- Connessioni realtime: multiple → singola
+- Zero warning "multiple clients"/"duplicate socket"
+
+**Rollback 1-step (30–60s)**
+- Ripristina i backup dei 5 file toccati da .backups/REC002_20250914-144333/* nella posizione originale:
+  ```bash
+  cp .backups/REC002_20250914-144333/supabase-client.js assets/scripts/
+  cp .backups/REC002_20250914-144333/timbrature-data.js assets/scripts/
+  cp .backups/REC002_20250914-144333/main.js .
+  cp .backups/REC002_20250914-144333/utenti.html .
+  cp .backups/REC002_20250914-144333/ex-dipendenti.html .
+  ```
+- Verifica: app carica come prima del change
+
+**Note**
+- Dev 5173 inattivo: NON trattato (task separato: diagnosi Vite dev-server/proxy)
+- Nessun cambio di layout/DOM/CSS
+- Singleton pattern implementato con fallback config multipli
+- Bridge window.supabase/window.supabaseClient mantenuto per compatibilità

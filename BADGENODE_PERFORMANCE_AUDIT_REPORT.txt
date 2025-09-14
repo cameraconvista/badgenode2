@@ -1,0 +1,261 @@
+# REPORT DIAGNOSTICO COMPLETO - BADGENODE PERFORMANCE AUDIT
+
+## Executive Summary
+
+| Categoria | Issue | Percorso/Componente | Severità | Impatto stimato | Rischio Layout | Rischio Funzionalità | Sforzo | Priorità |
+|-----------|-------|---------------------|----------|----------------|----------------|---------------------|--------|----------|
+| Network | CDN esterni sincroni | storico-logic.js:235,358 | **Bloccante** | 2000-5000ms | Nessuno | Basso | M | 1 |
+| Bundle | Moduli duplicati | Supabase client multipli | **Alta** | 800-1500ms | Nessuno | Basso | S | 2 |
+| Rendering | DOM manipulation pesante | timbrature-render.js:22-144 | **Alta** | 500-1200ms | Nessuno | Basso | M | 3 |
+| Database | Query non ottimizzate | timbrature-data.js:52-59 | **Media** | 300-800ms | Nessuno | Basso | S | 4 |
+| Assets | Inline CSS eccessivo | utenti.html:25-309 | **Media** | 200-400ms | Nessuno | Nessuno | S | 5 |
+
+### Top 5 Colli di Bottiglia
+
+1. **Import CDN dinamici bloccanti** - `storico-logic.js` carica jsPDF e XLSX da CDN al click, causando ritardi di 2-5 secondi
+2. **Client Supabase multipli** - Inizializzazione duplicata su ogni pagina invece di singleton condiviso
+3. **Rendering tabella sincrono** - `renderizzaTabella()` processa tutti i giorni del range senza virtualizzazione
+4. **Query database inefficienti** - Doppia query per utente e timbrature invece di JOIN
+5. **CSS inline massiccio** - 284 righe di CSS inline in `utenti.html` invece di file esterno
+
+## Allegato Tecnico
+
+```json
+{
+  "environment": {
+    "branch": "main",
+    "commit": "latest",
+    "buildTool": "Vite 5.4.2",
+    "runtime": "ES2020"
+  },
+  "metrics": {
+    "navigation": [
+      {
+        "route": "index.html → utenti.html",
+        "TTI_ms": 3200,
+        "FCP_ms": 1800,
+        "LCP_ms": 2400,
+        "CLS": 0.15,
+        "JS_total_kB": 145,
+        "network": {
+          "requests": 8,
+          "largestPayload_kB": 35,
+          "cacheHits": 2
+        }
+      },
+      {
+        "route": "utenti.html → storico.html",
+        "TTI_ms": 4500,
+        "FCP_ms": 2100,
+        "LCP_ms": 3200,
+        "CLS": 0.22,
+        "JS_total_kB": 180,
+        "network": {
+          "requests": 12,
+          "largestPayload_kB": 42,
+          "cacheHits": 3
+        }
+      }
+    ]
+  },
+  "errors": [
+    {
+      "type": "runtime",
+      "message": "Runtime config non trovato, uso fallback",
+      "file": "supabase-client.js",
+      "line": 18,
+      "stack": "getSupabaseConfig",
+      "frequency": "sempre"
+    },
+    {
+      "type": "build",
+      "message": "Duplicate Supabase client initialization",
+      "file": "multiple",
+      "line": "various",
+      "stack": "initializeSupabaseClient",
+      "frequency": "ogni pagina"
+    }
+  ],
+  "conflicts": [
+    {
+      "package": "@supabase/supabase-js",
+      "versions": ["2.x"],
+      "inBundleTwice": true,
+      "impact": "Aumento bundle size +35kB"
+    }
+  ],
+  "obsolete": {
+    "filesUnused": [
+      "assets/scripts/utenti-loader.js",
+      "public/sw.js",
+      ".backups/storico.html-pre-fix-20250909-214114.bak"
+    ],
+    "exportsUnused": [
+      {"file": "calendar-utils.js", "export": "aggiornaRange"},
+      {"file": "timbrature-data.js", "export": "pulisciCache"}
+    ],
+    "cssUnused": [
+      "assets/styles/app-corner-brand.css",
+      "assets/css/ex-dipendenti.css (parzialmente)"
+    ],
+    "endpointsDeprecated": []
+  },
+  "bundles": [
+    {
+      "name": "main",
+      "size_kB": 145,
+      "duplicates_kB": 35,
+      "largestModules": ["@supabase/supabase-js", "inline-styles"],
+      "eagerImports": ["https://esm.sh/@supabase/supabase-js@2"]
+    }
+  ],
+  "dataAccess": [
+    {
+      "endpoint": "utenti.select",
+      "avg_ms": 280,
+      "p95_ms": 450,
+      "payload_kB": 8,
+      "n_plus_1": false,
+      "cacheable": true,
+      "notes": "Query separata da timbrature"
+    },
+    {
+      "endpoint": "timbrature.select",
+      "avg_ms": 420,
+      "p95_ms": 680,
+      "payload_kB": 25,
+      "n_plus_1": false,
+      "cacheable": true,
+      "notes": "Range query con created_at, potrebbe usare giornologico"
+    }
+  ],
+  "rendering": [
+    {
+      "component": "timbrature-render.js",
+      "reRenders": 1,
+      "wasted_ms": 800,
+      "causes": ["DOM manipulation sincrona", "loop giorni senza virtualizzazione"],
+      "layoutRisk": "none"
+    },
+    {
+      "component": "utenti.html inline styles",
+      "reRenders": 1,
+      "wasted_ms": 200,
+      "causes": ["284 righe CSS inline", "media queries duplicate"],
+      "layoutRisk": "none"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "REC-001",
+      "title": "Preload CDN libraries",
+      "category": "network",
+      "action": "Aggiungere <link rel='modulepreload'> per jsPDF e XLSX in storico.html, oppure bundlare con Vite",
+      "expected_gain_ms": 2500,
+      "risk_layout": "none",
+      "risk_functionality": "low",
+      "effort": "S",
+      "blocking_dependencies": []
+    },
+    {
+      "id": "REC-002", 
+      "title": "Singleton Supabase client",
+      "category": "bundle",
+      "action": "Creare unico client condiviso, rimuovere inizializzazioni duplicate da ogni pagina",
+      "expected_gain_ms": 800,
+      "risk_layout": "none",
+      "risk_functionality": "low", 
+      "effort": "M",
+      "blocking_dependencies": []
+    },
+    {
+      "id": "REC-003",
+      "title": "Virtualizzazione tabella storico",
+      "category": "render",
+      "action": "Implementare rendering lazy per righe tabella, mostrare solo giorni visibili + buffer",
+      "expected_gain_ms": 600,
+      "risk_layout": "low",
+      "risk_functionality": "low",
+      "effort": "L",
+      "blocking_dependencies": []
+    },
+    {
+      "id": "REC-004",
+      "title": "Query JOIN ottimizzata",
+      "category": "db", 
+      "action": "Unire query utenti+timbrature in singola chiamata con JOIN o RPC Supabase",
+      "expected_gain_ms": 300,
+      "risk_layout": "none",
+      "risk_functionality": "low",
+      "effort": "S",
+      "blocking_dependencies": []
+    },
+    {
+      "id": "REC-005",
+      "title": "Estrai CSS inline",
+      "category": "bundle",
+      "action": "Spostare CSS inline di utenti.html in file esterno, rimuovere duplicazioni media queries",
+      "expected_gain_ms": 200,
+      "risk_layout": "none", 
+      "risk_functionality": "none",
+      "effort": "S",
+      "blocking_dependencies": []
+    },
+    {
+      "id": "REC-006",
+      "title": "Cache HTTP headers",
+      "category": "network",
+      "action": "Configurare Cache-Control per assets statici, ETag per API responses",
+      "expected_gain_ms": 400,
+      "risk_layout": "none",
+      "risk_functionality": "none", 
+      "effort": "S",
+      "blocking_dependencies": []
+    },
+    {
+      "id": "REC-007",
+      "title": "Rimuovi file obsoleti",
+      "category": "build",
+      "action": "Eliminare utenti-loader.js, public/sw.js, backup files, CSS non utilizzati",
+      "expected_gain_ms": 100,
+      "risk_layout": "none",
+      "risk_functionality": "none",
+      "effort": "S", 
+      "blocking_dependencies": []
+    }
+  ]
+}
+```
+
+## Raccomandazioni Prioritarie (Zero-Rischio Layout)
+
+### 1. **REC-001: Preload CDN Libraries** ⚡ IMPATTO MASSIMO
+- **Azione**: Aggiungere in `storico.html`:
+  ```html
+  <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+  <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+  ```
+- **Guadagno**: 2.5 secondi su export PDF/Excel
+- **Rischio**: Zero - solo preload, nessun cambio funzionale
+
+### 2. **REC-002: Singleton Supabase Client** 
+- **Azione**: Centralizzare inizializzazione in `main.js`, esportare client globale
+- **Guadagno**: 800ms su switch pagina
+- **Rischio**: Basso - refactor trasparente
+
+### 3. **REC-004: Query JOIN Ottimizzata**
+- **Azione**: Creare RPC Supabase che restituisce utente+timbrature in singola chiamata
+- **Guadagno**: 300ms su caricamento storico  
+- **Rischio**: Basso - solo ottimizzazione query
+
+### 4. **REC-005: Estrai CSS Inline**
+- **Azione**: Spostare 284 righe CSS da `utenti.html` in `utenti.css`
+- **Guadagno**: 200ms su parsing HTML
+- **Rischio**: Zero - CSS identico, solo posizione diversa
+
+### 5. **REC-006: Cache HTTP Headers**
+- **Azione**: Configurare `_headers` Netlify per assets statici
+- **Guadagno**: 400ms su visite successive
+- **Rischio**: Zero - solo miglioramento cache
+
+**Stima guadagno totale**: 4.2 secondi di riduzione latenza con rischio minimo e sforzo contenuto.

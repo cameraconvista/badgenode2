@@ -185,7 +185,7 @@ Response → Render Module → DOM Update
 #### Rotazione e Backup Attivi
 ```bash
 # ✅ Backup pre-modifica implementato
-node backup-current-system.js
+npm run esegui-backup
 # Genera backup timestampato con configurazioni
 
 # ✅ Versioning pattern
@@ -481,7 +481,7 @@ HTML → Logic Scripts → Data Modules → Supabase
 # .git/hooks/pre-commit
 
 # Backup automatico pre-commit
-node backup-current-system.js
+npm run esegui-backup
 
 # Verifica sintassi JS
 npm run lint

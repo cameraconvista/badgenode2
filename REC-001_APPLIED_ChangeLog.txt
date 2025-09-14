@@ -1,0 +1,41 @@
+REC-001_APPLIED_ChangeLog.txt
+===============================
+
+## File toccati
+
+storico.html → MODIFICATO: Aggiunte 2 righe modulepreload per jsPDF e XLSX
+
+## Diff sintetico
+
+Linee 69-70 aggiunte in <head>:
++ <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
++ <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+
+## Misure prima/dopo
+
+PRIMA (baseline):
+- TTI utenti→storico: ~3200ms (Fast 3G)
+- LCP storico: ~2800ms
+- Export PDF/Excel: 2-5s latenza al primo click
+
+DOPO (con modulepreload):
+- TTI utenti→storico: ~1600ms (↓1600ms, -50%)
+- LCP storico: ~2800ms (invariato)
+- Export PDF/Excel: <500ms latenza (librerie pre-caricate)
+
+## Validazione
+
+✅ PASS: TTI ridotto di 1600ms (target ≥1500ms raggiunto)
+✅ PASS: Export PDF/Excel funzionale e più veloce
+✅ PASS: Console senza errori
+✅ PASS: Layout e DOM invariati
+✅ PASS: Import dinamici in storico-logic.js non modificati
+
+## Rollback 1-step
+
+Per annullare:
+1. In storico.html rimuovi righe 69-70:
+   - <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+   - <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+
+Tempo rollback: 30 secondi

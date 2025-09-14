@@ -734,27 +734,6 @@
     caricaExDipendenti();
   </script>
 
-/* REC002-HOTFIX:exdip-error-guard */ 
-<script type="module">
-  import { supabaseClient as supabase } from './assets/scripts/supabase-client.js';
-  globalThis.supabase = supabase;
-  globalThis.loadExDip = globalThis.loadExDip || async function(){
-    try {
-      const { data, error } = await supabase.from('dipendenti_archiviati').select('*').order('cognome',{ascending:true});
-      if (error) throw error;
-      console.info('[EXDIP] Caricati', data?.length ?? 0, 'record');
-      // lasciare invariato: funzione che popola la tabella esistente, se definita
-      if (typeof renderExDipendenti === 'function') renderExDipendenti(data);
-    } catch (e) {
-      console.error('[EXDIP] Errore caricamento:', e?.message || e);
-      // UI fallback: mostra messaggio non bloccante se esiste container #exdip-msg
-      const c = document.querySelector('#exdip-msg'); if (c) c.textContent = 'Errore caricamento ex-dipendenti';
-    }
-  };
-  // avvio lazy senza reload
-  try { globalThis.loadExDip(); } catch(_) {}
-</script>
-
   <!-- PWA Service Worker Registration -->
   <script>
     // Service Worker registration per PWA

@@ -1,8 +1,3 @@
-// [REC002-HOTFIX] Env guard
-globalThis.__IS_PROD__ = (typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PROD !== 'undefined')
-  ? import.meta.env.PROD
-  : (location.port && location.port !== '5173'); 
-
 // 🚀 BADGEBOX - Entry Point Unico Applicativo
 // Architettura: ES Modules + API globali controllate
 
@@ -167,36 +162,56 @@ function initializeInterface() {
   pinInput.focus();
 }
 
-// Service Worker gestione semplificata - evita loop
-if ('serviceWorker' in navigator) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const forceUnregisterSW = urlParams.get('no-sw') === '1';
-  
-  if (forceUnregisterSW) {
-    // Kill-switch: rimuovi tutti i SW
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
-      registrations.forEach(registration => {
-        registration.unregister();
-        console.log('[SW] Force unregistered:', registration.scope);
-      });
+// Kill-switch per Service Worker (query ?no-sw=1)
+const urlParams = new URLSearchParams(window.location.search);
+const forceUnregisterSW = urlParams.get('no-sw') === '1';
+
+if (forceUnregisterSW && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach(registration => {
+      registration.unregister();
+      console.log('[SW] Force unregistered:', registration.scope);
     });
-    if ('caches' in window) {
-      caches.keys().then(names => {
-        names.forEach(name => caches.delete(name));
+  });
+
+  if ('caches' in window) {
+    caches.keys().then(names => {
+      names.forEach(name => {
+        caches.delete(name);
+        console.log('[SW] Force cache deleted:', name);
       });
-    }
-    console.log('🔧 Kill-switch attivato: SW rimosso');
-  } else if (globalThis.__IS_PROD__) {
-    // Solo in produzione: registra SW
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('[SW] Registered:', registration.scope);
-        })
-        .catch((error) => {
-          console.log('[SW] Registration failed:', error);
-        });
     });
   }
-  // In DEV: nessuna azione (evita cleanup loop)
+  console.log('🔧 Kill-switch attivato: SW rimosso. Ricarica senza ?no-sw=1');
+}
+
+// Registra il Service Worker solo in produzione
+else if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('[SW] Registered:', registration.scope);
+      })
+      .catch((error) => {
+        console.log('[SW] Registration failed:', error);
+      });
+  });
+} else if ('serviceWorker' in navigator && import.meta.env.DEV) {
+  // Auto-cleanup in development: unregister tutti i SW esistenti
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach(registration => {
+      registration.unregister();
+      console.log('[SW] Auto-unregistered in DEV:', registration.scope);
+    });
+  });
+
+  // Pulisce Cache Storage
+  if ('caches' in window) {
+    caches.keys().then(names => {
+      names.forEach(name => {
+        caches.delete(name);
+        console.log('[SW] Auto-cache deleted:', name);
+      });
+    });
+  }
 }

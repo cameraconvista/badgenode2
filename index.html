@@ -12,8 +12,8 @@
   <meta name="apple-mobile-web-app-title" content="BADGEBOX" />
 
   <!-- Icone PWA ottimizzate -->
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/badgenode-192-UNkmzwHW.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/badgenode-192-UNkmzwHW.png" />
   <link rel="manifest" href="manifest.json" />
 
   <!-- Performance optimizations -->
@@ -190,53 +190,5 @@
     // Inizializzazione gestita da main.js
   </script>
 
-  <!-- PWA Service Worker -->
-  <script>
-    // Kill-switch per DEV: ?no-sw=1 disabilita e rimuove SW
-    const urlParams = new URLSearchParams(window.location.search);
-    const noSW = urlParams.get('no-sw') === '1';
-
-    // Rileva ambiente DEV (Vite dev server)
-    const isDev = window.location.hostname === 'localhost' || 
-                  window.location.hostname.includes('replit.dev') ||
-                  window.location.port === '5000' ||
-                  window.location.port === '5173';
-
-    if (noSW || isDev) {
-      // KILL-SWITCH: Unregister tutti i SW e pulisci cache
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          registrations.forEach(registration => {
-            registration.unregister();
-            console.log('[SW] Unregistered (DEV mode):', registration.scope);
-          });
-        });
-
-        // Pulisci Cache Storage
-        if ('caches' in window) {
-          caches.keys().then(names => {
-            names.forEach(name => {
-              caches.delete(name);
-              console.log('[SW] Cache deleted (DEV mode):', name);
-            });
-          });
-        }
-      }
-      console.log('[SW] Service Worker DISABILITATO in ambiente DEV');
-    } else {
-      // PRODUZIONE: Registra SW normalmente
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20250911')
-            .then((registration) => {
-              console.log('Service Worker registrato con successo:', registration.scope);
-            })
-            .catch((error) => {
-              console.error('Registrazione Service Worker fallita:', error);
-            });
-        });
-      }
-    }
-  </script>
 </body>
 </html>

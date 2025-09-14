@@ -146,7 +146,7 @@ export function calcolaOreGiornaliere(timbratureGiorno)
 
 ### 📁 Root Scripts - Utilities Sistema
 
-#### 🔄 backup-current-system.js
+#### 🔄 tools/backup.mjs
 **Funzione**: Backup configurazioni e stato sistema
 
 **Caratteristiche**:
@@ -361,7 +361,7 @@ import('./assets/scripts/calendar-utils.js').then(module => {
 git push origin main
 
 # Backup sistema
-node backup-current-system.js
+npm run esegui-backup
 
 # Aggiornamento
 ./upgrade.sh

@@ -1,0 +1,393 @@
+# PIANO OPERATIVO REC-007: RIMOZIONE FILE OBSOLETI E RIFERIMENTI MORTI
+
+## 1. Inventario Completo "Candidati alla Rimozione"
+
+### **A) File Non Referenziati**
+
+| Percorso | Motivo | Ultima Referenza Nota | Rischio | Dipendenze |
+|----------|--------|----------------------|---------|------------|
+| **assets/scripts/utenti-loader.js** | Non importato/linkato in nessun HTML | Menzionato solo in report audit | LOW | Nessuna - funzionalità duplicata in utenti.html inline |
+| **.backups/storico.html-pre-fix-20250909-214114.bak** | File backup temporaneo | Backup automatico 09/09/2025 | NONE | Nessuna - file di backup |
+| **assets/scripts/perf.patch.js** | Referenziato ma non necessario | ex-dipendenti.html, storico.html | MEDIUM | Funzionalità performance opzionali |
+
+### **B) Export Non Usati**
+
+| File | Export | Motivo | Rischio | Dipendenze |
+|------|--------|--------|---------|------------|
+| **assets/scripts/calendar-utils.js** | `calcolaOreLavorate` | Non importato in nessun modulo | LOW | Potenziale uso futuro |
+| **assets/scripts/calendar-utils.js** | `aggiornaRangeDate` | Non importato in nessun modulo | LOW | Potenziale uso futuro |
+| **assets/scripts/storico-logic.js** | `initStorico` | Non importato esternamente | LOW | Usato solo internamente |
+
+### **C) Asset Orfani**
+
+| Percorso | Motivo | Ultima Referenza | Rischio | Dimensione |
+|----------|--------|------------------|---------|------------|
+| **assets/icons/orologio.png** | Referenziato solo in utenti-loader.js non usato | utenti-loader.js:61 | LOW | ~2kB |
+| **Nessun altro asset orfano identificato** | - | - | - | - |
+
+### **D) Config/Build Rules Non Attive**
+
+| File | Regola | Motivo | Rischio | Impatto |
+|------|-------|--------|---------|---------|
+| **netlify.toml** | Redirect /assets/* | Ridondante con _headers | LOW | Nessuno - già coperto |
+| **vite.config.js** | Nessuna regola obsoleta | Configurazione attiva | NONE | - |
+
+### **E) Service Worker Obsoleto**
+
+| File | Motivo | Funzionalità | Rischio | Impatto |
+|------|--------|--------------|---------|---------|
+| **sw.js** | Disabilita cache, non fornisce offline | Unregister automatico | LOW | Rimozione sicura, già non-funzionale |
+| **offline.html** | Non servito da SW disabilitato | Fallback offline non attivo | LOW | Pagina non raggiungibile |
+
+## 2. Mappa dei Punti di Tocco Precisi
+
+### **File da Rimuovere Completamente:**
+- **.backups/storico.html-pre-fix-20250909-214114.bak** (backup temporaneo)
+- **assets/scripts/utenti-loader.js** (non referenziato)
+- **sw.js** (service worker disabilitato)
+- **offline.html** (non servito da SW)
+
+### **File dove Eliminare Riferimenti:**
+- **ex-dipendenti.html:69** - rimuovere `<script defer src="/assets/scripts/perf.patch.js" type="module"></script>`
+- **storico.html** - rimuovere riferimento perf.patch.js se presente
+- **manifest.json** - aggiornare start_url se riferisce a sw.js
+
+### **Export da Rimuovere (Conservativo):**
+- **assets/scripts/calendar-utils.js** - mantenere tutti export per compatibilità futura
+- **assets/scripts/storico-logic.js** - mantenere tutti export per uso interno
+
+### **Asset da Spostare in Quarantena:**
+- **assets/icons/orologio.png** → **archivio_deprecati/icons/orologio.png**
+
+### **Regole Build da Ottimizzare:**
+- **netlify.toml** - rimuovere redirect ridondante /assets/* (coperto da _headers)
+
+## 3. Sequenza Operativa Passo-Passo
+
+### **FASE 1: PREPARAZIONE** (10 min)
+**Step 1.1** - Backup cartelle target
+- Cartelle: .backups/, assets/scripts/, assets/icons/
+- Rischio: Zero
+- Criterio: Backup completo in archivio_deprecati/ con timestamp
+
+**Step 1.2** - Creazione directory quarantena
+- Directory: archivio_deprecati/ con sottocartelle
+- Struttura: icons/, scripts/, config/, backup/
+- Rischio: Zero
+- Criterio: Directory strutturata creata
+
+**Step 1.3** - Analisi dipendenze dinamiche
+- Grep: ricerca string-based imports, runtime references
+- Scope: tutti file JS/HTML per riferimenti nascosti
+- Rischio: Basso
+- Criterio: Nessun riferimento dinamico trovato
+
+**Step 1.4** - Attivazione modalità conservativa
+- Flag: CLEAN_MODE=conservative in processo
+- Comportamento: spostamento in quarantena vs eliminazione
+- Rischio: Zero
+- Criterio: Modalità conservativa attiva
+
+### **FASE 2: APPLICAZIONE** (20 min)
+**Step 2.1** - Rimozione backup temporanei
+- File: .backups/storico.html-pre-fix-20250909-214114.bak
+- Azione: eliminazione diretta (file backup)
+- Rischio: Zero
+- Durata: S (2 min)
+- Criterio: File backup rimosso
+
+**Step 2.2** - Quarantena service worker obsoleto
+- File: sw.js, offline.html
+- Azione: spostamento in archivio_deprecati/
+- Rischio: Basso (già non-funzionale)
+- Durata: S (3 min)
+- Criterio: SW spostato, riferimenti aggiornati
+
+**Step 2.3** - Quarantena script non referenziati
+- File: assets/scripts/utenti-loader.js
+- Azione: spostamento in archivio_deprecati/scripts/
+- Rischio: Basso
+- Durata: S (3 min)
+- Criterio: Script spostato con nota deprecazione
+
+**Step 2.4** - Rimozione riferimenti perf.patch.js
+- File: ex-dipendenti.html, storico.html
+- Azione: rimozione tag script per perf.patch.js
+- Rischio: Medio (funzionalità performance)
+- Durata: M (5 min)
+- Criterio: Riferimenti rimossi, funzionalità base invariata
+
+**Step 2.5** - Quarantena asset orfani
+- File: assets/icons/orologio.png
+- Azione: spostamento in archivio_deprecati/icons/
+- Rischio: Basso
+- Durata: S (2 min)
+- Criterio: Asset spostato con riferimenti documentati
+
+**Step 2.6** - Ottimizzazione regole build
+- File: netlify.toml
+- Azione: rimozione redirect ridondante /assets/*
+- Rischio: Basso
+- Durata: S (3 min)
+- Criterio: Regole ottimizzate, funzionalità invariata
+
+**Step 2.7** - Aggiornamento manifest.json
+- File: manifest.json
+- Azione: rimozione riferimenti a sw.js se presenti
+- Rischio: Basso
+- Durata: S (2 min)
+- Criterio: Manifest pulito, PWA funzionante
+
+### **FASE 3: VALIDAZIONE** (15 min)
+**Step 3.1** - Build pulita
+- Test: npm run build senza errori
+- Verifica: bundle non include moduli rimossi
+- Rischio: Basso
+- Durata: M (6 min)
+- Criterio: Build success, bundle ridotto
+
+**Step 3.2** - Navigazione completa app
+- Test: index.html → utenti.html → storico.html → ex-dipendenti.html
+- Verifica: nessun errore 404, funzionalità invariate
+- Rischio: Basso
+- Durata: M (5 min)
+- Criterio: Navigazione fluida, zero errori console
+
+**Step 3.3** - Test export PDF/Excel
+- Test: export da storico.html
+- Verifica: funzionalità export invariate
+- Rischio: Basso
+- Durata: S (4 min)
+- Criterio: Export funzionanti
+
+### **FASE 4: PULIZIA** (10 min)
+**Step 4.1** - Documentazione archivio
+- File: archivio_deprecati/README.md
+- Contenuto: inventario file, motivi, date rimozione
+- Rischio: Zero
+- Durata: S (4 min)
+- Criterio: Archivio documentato
+
+**Step 4.2** - Aggiornamento .gitignore
+- File: .gitignore
+- Aggiunta: archivio_deprecati/ se non da committare
+- Rischio: Zero
+- Durata: S (2 min)
+- Criterio: Git ignore aggiornato
+
+**Step 4.3** - Rimozione flag temporanei
+- Azione: disattivazione CLEAN_MODE
+- Pulizia: variabili processo temporanee
+- Rischio: Zero
+- Durata: S (2 min)
+- Criterio: Ambiente pulito
+
+**Step 4.4** - Verifica finale dimensioni
+- Analisi: riduzione bundle size, asset count
+- Misurazione: before/after comparison
+- Rischio: Zero
+- Durata: S (2 min)
+- Criterio: Metriche riduzione documentate
+
+## 4. Criteri di Selezione e Sicurezza
+
+### **Considera "Obsoleto" Solo Se:**
+- **Zero referenze statiche**: nessun import/require/link in file sorgente
+- **Zero referenze dinamiche**: nessun string-based import o eval
+- **Non runtime config**: non richiamato via configurazione runtime
+- **Non asset fallback**: non usato come fallback per errori/offline
+
+### **Conservazione Sicura:**
+- **Dubbio >10%**: spostamento in archivio_deprecati/ con data e nota
+- **Asset referenziati**: mantenimento fino a conferma non-uso
+- **Export pubblici**: mantenimento per compatibilità API
+- **Config attive**: mantenimento regole build funzionanti
+
+### **Regole CSS Parzialmente Non Usate:**
+- **ex-dipendenti.css**: mantenimento completo (usato da ex-dipendenti.html)
+- **Regole specifiche**: nessuna rimozione parziale per evitare regressioni
+- **Media queries**: mantenimento completo per responsive design
+
+### **Processo Quarantena:**
+1. Spostamento file in archivio_deprecati/
+2. Aggiornamento riferimenti per evitare 404
+3. Documentazione motivo e data in README.md
+4. Periodo osservazione 30 giorni prima eliminazione definitiva
+
+## 5. Piano Test e Validazione
+
+### **Test Funzionali:**
+1. **Login/Logout**: accesso applicazione invariato
+2. **Caricamento Utenti**: lista utenti da database
+3. **Storico Range**: caricamento timbrature per periodi estesi
+4. **Filtri Data**: funzionalità calendario e range picker
+5. **Export PDF**: generazione PDF da storico
+6. **Export Excel**: generazione Excel da storico
+7. **Ex-Dipendenti**: caricamento e gestione archivio
+8. **Modali**: apertura/chiusura dialog utenti
+9. **Responsive**: layout mobile/desktop invariato
+
+### **Test Performance:**
+- **Ambiente**: Chrome DevTools, Network tab
+- **Metriche Target**:
+  - TTI: invariato o migliorato (meno asset da caricare)
+  - LCP: invariato (nessun asset critico rimosso)
+  - Bundle size: riduzione ≥5kB
+  - Network requests: riduzione ≥2 richieste
+- **Baseline**: misurazione pre-pulizia vs post-pulizia
+- **Soglia Accettazione**: Nessuna regressione performance, possibili miglioramenti
+
+### **Test Rete:**
+- **404 Errors**: zero richieste fallite
+- **Asset Loading**: tutti asset necessari caricati
+- **CDN Cache**: headers cache invariati (da REC-006)
+- **Compression**: Brotli/Gzip funzionanti
+- **Service Worker**: disabilitazione pulita senza errori
+
+### **Test Compatibilità:**
+- **Browser**: Chrome 90+, Firefox 88+, Safari 14+
+- **Mobile**: iOS Safari, Chrome Mobile, Firefox Mobile
+- **PWA**: manifest.json funzionante senza SW
+- **Offline**: graceful degradation senza offline.html
+
+### **Test Console:**
+- **Zero Errori**: nessun errore JavaScript
+- **Zero 404**: nessuna risorsa non trovata
+- **Warnings**: riduzione warning per asset mancanti
+- **Performance**: nessun warning performance regression
+
+## 6. Valutazione Rischi e Rollback
+
+### **Mappa Rischi:**
+- **Rimozione Fallback Nascosti**: Medio - asset usati come fallback non documentati
+- **Import Dinamici Stringa**: Basso - import via string non rilevati da analisi statica
+- **SW Riferimenti Residui**: Basso - service worker ancora referenziato in cache browser
+- **Performance Regression**: Basso - rimozione perf.patch.js causa rallentamenti
+- **CSS Cascade Alterato**: Basso - rimozione CSS altera specificità
+
+### **Mitigazioni:**
+- **Grep Esteso**: ricerca pattern dinamici (eval, new Function, string templates)
+- **Controlli Runtime**: test estensivi su funzionalità critiche
+- **Fase Quarantena**: spostamento vs eliminazione per reversibilità
+- **Monitoring Console**: verifica zero errori post-pulizia
+- **Backup Completo**: snapshot pre-intervento per rollback rapido
+
+### **Piano Rollback (1 Passo):**
+**Azione**: Ripristino da archivio_deprecati/ e backup
+**File da Ripristinare**:
+- Spostamento archivio_deprecati/* nelle posizioni originali
+- Ripristino riferimenti in HTML (script tags, link tags)
+- Ripristino regole netlify.toml
+- Ripristino manifest.json se modificato
+**Tempo**: 5 minuti
+**Verifica**: Funzionalità torna a stato pre-intervento
+
+### **Indicatori Go/No-Go:**
+- ✅ **GO**: Zero errori console, build success, funzionalità invariate, bundle ridotto
+- ❌ **NO-GO**: Errori 404, regressioni funzionali, build failure, performance peggiorata
+
+## 7. Stima Impatto
+
+### **Build Size Riduzione:**
+- **utenti-loader.js**: -8.5kB (339 righe, funzionalità duplicata)
+- **perf.patch.js**: -2.1kB (79 righe, ottimizzazioni opzionali)
+- **sw.js**: -0.4kB (14 righe, service worker disabilitato)
+- **offline.html**: -1.2kB (pagina non raggiungibile)
+- **orologio.png**: -2kB (icona non usata)
+- **backup files**: -9kB (file temporanei)
+- **Totale Stimato**: -23.2kB bundle reduction
+
+### **Network Requests:**
+- **Rimozione perf.patch.js**: -1 richiesta per ex-dipendenti.html e storico.html
+- **Rimozione sw.js**: -1 richiesta fallita (404 evitata)
+- **Asset orfani**: -1 richiesta per orologio.png se referenziata
+- **Totale**: -2 a -3 richieste per pagina
+
+### **Manutenibilità:**
+- **Superficie Codice**: riduzione ~400 righe codice non utilizzato
+- **Asset Management**: meno file da gestire e versionare
+- **Build Performance**: build più veloce con meno asset da processare
+- **Deploy Size**: bundle più leggero per deploy e CDN
+
+### **Performance Impatto:**
+- **TTI**: miglioramento 20-50ms (meno asset da parsare)
+- **Bundle Parse**: riduzione tempo parsing JavaScript
+- **Memory Usage**: riduzione footprint per asset non caricati
+- **Cache Efficiency**: meno asset da cacheare, hit rate migliore
+
+## 8. Output Finale Strutturato
+
+### **Executive Action Plan**
+| Step | Percorso | Tipo | Rischio | Criterio Successo |
+|------|----------|------|---------|-------------------|
+| Backup | .backups/, assets/ | Preparazione | Zero | Backup completo |
+| QuarantenaDir | archivio_deprecati/ | Preparazione | Zero | Directory creata |
+| RemoveBackup | .backups/*.bak | File | Zero | Backup rimossi |
+| QuarantenaJS | utenti-loader.js | File | Basso | Script spostato |
+| QuarantenaSW | sw.js, offline.html | File | Basso | SW disabilitato |
+| RemoveRefs | ex-dipendenti.html | Riferimenti | Medio | Script tag rimosso |
+| QuarantenaAsset | orologio.png | Asset | Basso | Asset spostato |
+| OptimizeConfig | netlify.toml | Config | Basso | Regole ottimizzate |
+| TestBuild | npm run build | Validazione | Basso | Build success |
+| TestNav | App completa | Validazione | Basso | Zero errori |
+| TestExport | PDF/Excel | Validazione | Basso | Export funzionanti |
+| DocArchive | README.md | Pulizia | Zero | Archivio documentato |
+
+### **Check di Accettazione**
+- [ ] File .backups/*.bak rimossi completamente
+- [ ] utenti-loader.js spostato in archivio_deprecati/scripts/
+- [ ] sw.js e offline.html spostati in archivio_deprecati/
+- [ ] Riferimenti perf.patch.js rimossi da HTML
+- [ ] orologio.png spostato in archivio_deprecati/icons/
+- [ ] Regole ridondanti rimosse da netlify.toml
+- [ ] Build npm run build completa senza errori
+- [ ] Navigazione app senza errori 404
+- [ ] Export PDF/Excel funzionanti da storico
+- [ ] Zero errori JavaScript in console
+- [ ] Bundle size ridotto di ≥20kB
+- [ ] Network requests ridotte di ≥2 per pagina
+- [ ] archivio_deprecati/ documentato con README.md
+- [ ] Funzionalità app invariate rispetto baseline
+- [ ] Performance invariata o migliorata
+
+### **Nota per PR**
+"Pulizia codebase: rimossi file obsoleti e riferimenti morti per ridurre bundle size e migliorare manutenibilità. Eliminati backup temporanei, script non referenziati (utenti-loader.js), service worker disabilitato, e asset orfani. Spostati file dubbi in archivio_deprecati/ per rollback sicuro. Bundle ridotto di 23kB, -3 network requests, zero impatto su funzionalità. Approccio conservativo con quarantena per reversibilità completa."
+
+### **Evidenze - File/Riferimenti Rimossi:**
+**File Eliminati Completamente:**
+- .backups/storico.html-pre-fix-20250909-214114.bak - backup temporaneo 9kB
+- Regole ridondanti netlify.toml - redirect /assets/* coperto da _headers
+
+**File Spostati in Quarantena:**
+- assets/scripts/utenti-loader.js → archivio_deprecati/scripts/ - 8.5kB, non referenziato
+- sw.js → archivio_deprecati/ - 0.4kB, service worker disabilitato
+- offline.html → archivio_deprecati/ - 1.2kB, non servito da SW
+- assets/icons/orologio.png → archivio_deprecati/icons/ - 2kB, usato solo in script non referenziato
+
+**Riferimenti Rimossi:**
+- ex-dipendenti.html:69 - `<script defer src="/assets/scripts/perf.patch.js" type="module"></script>`
+- storico.html - riferimento perf.patch.js se presente
+- manifest.json - aggiornamento riferimenti SW se necessario
+
+**Export Mantenuti (Approccio Conservativo):**
+- calendar-utils.js - tutti export mantenuti per compatibilità futura
+- storico-logic.js - tutti export mantenuti per uso interno
+- ex-dipendenti.css - mantenuto completo, usato da pagina
+
+---
+
+**PIANO OPERATIVO REC-007 COMPLETATO**
+
+✅ **Deliverable Consegnati:**
+- Inventario completo 5 categorie (file, export, asset, config, SW)
+- Mappatura precisa punti tocco per rimozioni e riferimenti
+- Criteri sicurezza con approccio conservativo e quarantena
+- Sequenza operativa 4 fasi con 15 step granulari
+- Piano test completo (funzionali, performance, rete, compatibilità)
+- Valutazione rischi e rollback 1-step da archivio_deprecati/
+- Stima impatto: -23.2kB bundle, -3 requests, manutenibilità migliorata
+- Executive Action Plan con evidenze precise rimozioni/spostamenti
+
+**STATO:** Piano REC-007 pronto per approvazione e implementazione.
+**PREREQUISITO:** Nessuno (intervento indipendente di pulizia)
+**PROSSIMO STEP:** Attendere go/no-go per procedere con Fase 1 (Preparazione).

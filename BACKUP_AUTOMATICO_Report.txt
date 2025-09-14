@@ -1,0 +1,363 @@
+# PIANO OPERATIVO: BACKUP AUTOMATICO BADGENODE
+
+## 1. Verifica Preliminare
+
+### **Conferma Assenza Script Backup Esistenti**
+**Stato Verificato**: ✅ CONFERMATO
+- **File `backup-current-system.js`**: NON ESISTENTE nel filesystem
+- **Pattern `backup*.js`**: Nessun file trovato
+- **Pattern `*backup*`**: Nessun file trovato nella root
+- **Conclusione**: Script menzionato in documentazione è FANTASMA
+
+### **Riferimenti Fantasma Identificati**
+**File con Riferimenti Obsoleti**:
+1. **GITHUB_SYNC.md** (3 occorrenze)
+   - Linea 147: `node backup-current-system.js` in pre-commit hook
+   - Linea 294: `node backup-current-system.js` in weekly maintenance
+   - Workflow CI/CD: riferimenti in script automatici
+
+2. **SETUP_GUIDE.md** (2 occorrenze)
+   - Linea 72: `node backup-current-system.js # Backup configurazioni`
+   - Linea 197: `node backup-current-system.js` in sezione backup automatico
+
+3. **GOVERNANCE.md** (2 occorrenze)
+   - Linea 188: `node backup-current-system.js` in rotazione backup
+   - Linea 484: `node backup-current-system.js` in git hooks
+
+4. **PROJECT_STRUCTURE.md** (2 occorrenze)
+   - Linea 15: `├── backup-current-system.js # Script backup sistema`
+   - Linea 210: `**backup-current-system.js**: Backup configurazioni e stato`
+
+5. **SCRIPTS_OVERVIEW.md** (2 occorrenze)
+   - Linea 149: `#### 🔄 backup-current-system.js`
+   - Linea 364: `node backup-current-system.js` in workflow
+
+6. **FEATURES_MANUAL.md** (1 occorrenza)
+   - Linea 455: `**Script `backup-current-system.js`**:`
+
+### **Workflow CI/CD Impattati**
+- **Git Hooks**: Pre-commit hook referenzia script inesistente
+- **Weekly Maintenance**: Workflow automatico fallisce
+- **Development Utilities**: Documentazione disallineata
+
+## 2. Specifica Nuova Soluzione Backup
+
+### **Architettura Tecnica**
+- **Linguaggio**: Node.js (ES modules)
+- **Runtime**: Node.js ≥18.0.0 (compatibile con package.json)
+- **Formato Output**: Archivi .tgz compressi
+- **Compressione**: tar + gzip nativo Node.js
+- **Esecuzione**: Script npm dedicato
+
+### **Struttura File**
+- **Script**: `tools/backup.mjs` (ES module)
+- **Comando**: `npm run esegui-backup`
+- **Output**: `/backups/backup-YYYYMMDD-HHMMSS.tgz`
+- **Configurazione**: Parametri hardcoded nel script
+
+### **Rotazione Automatica**
+- **Policy**: Mantieni solo le ultime 3 copie
+- **Algoritmo**: Ordina per timestamp, elimina le più vecchie
+- **Trigger**: Ad ogni esecuzione del comando
+- **Sicurezza**: Verifica esistenza prima eliminazione
+
+### **Pattern Esclusioni**
+**Directory Escluse**:
+- `node_modules/` - Dipendenze npm (ricostruibili)
+- `dist/` - Build output Vite (ricostruibile)
+- `build/` - Build output alternativi
+- `.git/` - Repository Git (versionato separatamente)
+- `backups/` - Backup esistenti (evita ricorsione)
+- `archivio_deprecati/` - File deprecati (non critici)
+- `.backups/` - Backup manuali legacy
+- `cache/` - Cache temporanee
+- `logs/` - File di log
+- `tmp/` - File temporanei
+- `.vite/` - Cache Vite
+
+**File Esclusi**:
+- `*.log` - File di log
+- `*.tmp` - File temporanei
+- `.DS_Store` - Metadata macOS
+- `Thumbs.db` - Metadata Windows
+
+### **Naming Convention**
+- **Pattern**: `backup-YYYYMMDD-HHMMSS.tgz`
+- **Esempio**: `backup-20250914-140833.tgz`
+- **Timezone**: Locale sistema
+- **Sorting**: Ordinamento cronologico naturale
+
+## 3. Sequenza Operativa Passo-Passo
+
+### **FASE 1: PREPARAZIONE** (15 min)
+**Step 1.1** - Backup stato attuale
+- Azione: Copia manuale progetto corrente
+- Destinazione: Backup sicurezza pre-intervento
+- Rischio: Zero
+- Criterio: Snapshot completo salvato
+
+**Step 1.2** - Audit file da escludere
+- Analisi: Verifica dimensioni directory target esclusioni
+- Comando: `du -sh node_modules dist .git`
+- Rischio: Zero (solo analisi)
+- Criterio: Pattern esclusioni validati
+
+**Step 1.3** - Creazione directory tools
+- Directory: `tools/` per script di utilità
+- Struttura: Separazione script da codice applicazione
+- Rischio: Zero
+- Criterio: Directory `tools/` creata
+
+**Step 1.4** - Creazione directory backups
+- Directory: `backups/` nella root progetto
+- Permessi: Scrittura per script backup
+- Rischio: Zero
+- Criterio: Directory `backups/` creata e accessibile
+
+### **FASE 2: APPLICAZIONE** (25 min)
+**Step 2.1** - Creazione script backup
+- File: `tools/backup.mjs`
+- Contenuto: Logica backup con esclusioni e rotazione
+- Rischio: Basso
+- Durata: L (12 min)
+- Criterio: Script funzionante con test manuale
+
+**Step 2.2** - Aggiornamento package.json
+- Sezione: `scripts`
+- Aggiunta: `"esegui-backup": "node tools/backup.mjs"`
+- Rischio: Basso
+- Durata: S (2 min)
+- Criterio: Comando npm disponibile
+
+**Step 2.3** - Aggiornamento .gitignore
+- Aggiunta: `/backups/` per escludere archivi da Git
+- Aggiunta: `/tools/` se necessario per script
+- Rischio: Basso
+- Durata: S (3 min)
+- Criterio: Backup esclusi da versioning
+
+**Step 2.4** - Rimozione riferimenti fantasma
+- File: 6 documenti .md identificati
+- Azione: Rimozione/sostituzione riferimenti `backup-current-system.js`
+- Rischio: Medio
+- Durata: M (8 min)
+- Criterio: Documentazione allineata con realtà
+
+### **FASE 3: VALIDAZIONE** (20 min)
+**Step 3.1** - Test esecuzione singola
+- Comando: `npm run esegui-backup`
+- Verifica: Creazione archivio con timestamp
+- Rischio: Basso
+- Durata: S (4 min)
+- Criterio: Archivio creato correttamente
+
+**Step 3.2** - Test rotazione 4 esecuzioni
+- Comando: 4x `npm run esegui-backup` consecutive
+- Verifica: Solo 3 archivi più recenti mantenuti
+- Rischio: Basso
+- Durata: M (6 min)
+- Criterio: Rotazione funzionante
+
+**Step 3.3** - Verifica esclusioni
+- Azione: Apertura archivio e ispezione contenuti
+- Controllo: Assenza node_modules, dist, .git
+- Rischio: Basso
+- Durata: M (5 min)
+- Criterio: Esclusioni applicate correttamente
+
+**Step 3.4** - Test performance
+- Misurazione: Tempo esecuzione backup
+- Target: <10 secondi per progetto medio
+- Rischio: Basso
+- Durata: S (3 min)
+- Criterio: Performance accettabile
+
+**Step 3.5** - Test regressioni
+- Verifica: `npm run build` e `npm run dev` invariati
+- Controllo: Nessun impatto su workflow esistenti
+- Rischio: Basso
+- Durata: S (2 min)
+- Criterio: Zero regressioni funzionali
+
+### **FASE 4: PULIZIA** (15 min)
+**Step 4.1** - Rinomina cartella legacy
+- Azione: `.backups/` → `archivio_deprecati/backups-legacy/`
+- Motivo: Evitare confusione con nuovo sistema
+- Rischio: Basso
+- Durata: S (3 min)
+- Criterio: Separazione backup legacy/nuovo
+
+**Step 4.2** - Aggiornamento README.md
+- Sezione: "Backup Automatico" con istruzioni
+- Contenuto: Uso comando, rotazione, esclusioni
+- Rischio: Zero
+- Durata: M (8 min)
+- Criterio: Documentazione completa e chiara
+
+**Step 4.3** - Verifica documentazione allineata
+- Controllo: Tutti riferimenti fantasma rimossi
+- Verifica: Nuove istruzioni coerenti
+- Rischio: Zero
+- Durata: S (4 min)
+- Criterio: Documentazione accurata e aggiornata
+
+## 4. Piano Test e Validazione
+
+### **Test Funzionali**
+1. **Comando Base**: `npm run esegui-backup` crea archivio timestampato
+2. **Rotazione**: Dopo 4 esecuzioni restano solo 3 archivi più recenti
+3. **Esclusioni**: Archivio non contiene node_modules, dist, build, .git
+4. **Timestamp**: Nome file con formato YYYYMMDD-HHMMSS corretto
+5. **Compressione**: File .tgz apribile con tar standard
+6. **Contenuti**: Archivio contiene file sorgente essenziali
+7. **Directory**: Backup salvati in `/backups/` correttamente
+
+### **Test Performance**
+- **Ambiente**: Sistema sviluppo locale
+- **Metriche Target**:
+  - Tempo esecuzione: <10 secondi
+  - Dimensione archivio: <50MB (senza esclusioni pesanti)
+  - CPU usage: <80% durante compressione
+  - Memory usage: <500MB durante operazione
+- **Baseline**: Progetto BadgeNode attuale (~100 file)
+- **Soglia Accettazione**: Performance accettabile per uso quotidiano
+
+### **Test Esclusioni**
+- **Verifica Dimensioni**: Archivio significativamente più piccolo del progetto completo
+- **Controllo Contenuti**: Apertura archivio e verifica assenza directory escluse
+- **Test Completezza**: Presenza file essenziali (HTML, JS, CSS, config)
+- **Validazione Pattern**: Esclusioni applicate secondo specifica
+
+### **Test Regressioni**
+- **Build Process**: `npm run build` funziona invariato
+- **Dev Server**: `npm run dev` avvia correttamente
+- **Existing Scripts**: Altri comandi npm non impattati
+- **Git Workflow**: Operazioni Git non influenzate
+- **File Permissions**: Nessun cambio permessi file esistenti
+
+### **Test Documentazione**
+- **README Aggiornato**: Sezione backup con istruzioni chiare
+- **Riferimenti Puliti**: Nessun riferimento a script fantasma
+- **Workflow Documentati**: Procedure allineate con implementazione
+- **Esempi Funzionanti**: Comandi documentati eseguibili
+
+## 5. Rischi e Mitigazioni
+
+### **Mappa Rischi**
+- **Archiviazione Incompleta**: Alto - pattern esclusioni troppo ampi perdono file critici
+- **Perdita Storicità**: Medio - rotazione a 3 copie limita cronologia backup
+- **Confusione Legacy**: Medio - coesistenza `.backups/` e `backups/` crea ambiguità
+- **Performance Impact**: Basso - backup grandi rallentano sistema
+- **Documentazione Disallineata**: Basso - aggiornamenti incompleti creano inconsistenze
+
+### **Mitigazioni Specifiche**
+- **Test Apertura Archivi**: Verifica manuale contenuti ogni archivio generato
+- **Pattern Conservativi**: Esclusioni limitate a directory chiaramente ricostruibili
+- **Documentazione Storicità**: Chiarire limite 3 copie e suggerire backup cloud per long-term
+- **Rinomina Legacy**: Spostare `.backups/` in `archivio_deprecati/` per chiarezza
+- **Monitoring Performance**: Misurare tempi esecuzione e ottimizzare se necessario
+
+### **Piano Rollback (1 Passo)**
+**Azione**: Rimozione sistema backup e ripristino stato precedente
+**File da Rimuovere**:
+- `tools/backup.mjs` (script backup)
+- `/backups/` directory (archivi generati)
+- Script npm da package.json
+- Modifiche .gitignore
+
+**File da Ripristinare**:
+- Riferimenti `backup-current-system.js` nei documenti .md
+- `.backups/` nella posizione originale
+- Documentazione stato pre-intervento
+
+**Tempo**: 5 minuti
+**Verifica**: Sistema torna a stato documentato originale
+
+### **Indicatori Go/No-Go**
+- ✅ **GO**: Backup funzionante, rotazione corretta, esclusioni validate, documentazione allineata
+- ❌ **NO-GO**: Archivi incompleti, rotazione fallita, regressioni performance, documentazione inconsistente
+
+## 6. Output Finale Strutturato
+
+### **Executive Action Plan**
+| Step | File/Documento | Rischio | Criterio Successo |
+|------|----------------|---------|-------------------|
+| BackupStato | Progetto completo | Zero | Snapshot sicurezza |
+| AuditEsclusioni | Directory target | Zero | Pattern validati |
+| CreateTools | tools/ directory | Zero | Directory creata |
+| CreateBackups | backups/ directory | Zero | Directory accessibile |
+| ScriptBackup | tools/backup.mjs | Basso | Script funzionante |
+| UpdatePackage | package.json | Basso | Comando npm attivo |
+| UpdateGitignore | .gitignore | Basso | Backup esclusi |
+| CleanDocs | 6 file .md | Medio | Riferimenti rimossi |
+| TestSingle | npm run esegui-backup | Basso | Archivio creato |
+| TestRotation | 4x esecuzioni | Basso | Solo 3 archivi |
+| TestExclusions | Apertura archivio | Basso | Esclusioni corrette |
+| TestPerformance | Tempo esecuzione | Basso | <10 secondi |
+| TestRegression | Build/dev | Basso | Zero regressioni |
+| RenameLegacy | .backups/ → archivio_deprecati/ | Basso | Separazione chiara |
+| UpdateREADME | README.md | Zero | Documentazione completa |
+| VerifyDocs | Tutti documenti | Zero | Allineamento totale |
+
+### **Checklist di Accettazione**
+- [ ] Script `tools/backup.mjs` creato e funzionante
+- [ ] Comando `npm run esegui-backup` disponibile e testato
+- [ ] Directory `/backups/` creata e .gitignore aggiornato
+- [ ] Rotazione a 3 copie funzionante (testato con 4 esecuzioni)
+- [ ] Esclusioni corrette: no node_modules, dist, build, .git negli archivi
+- [ ] Naming timestamp corretto: backup-YYYYMMDD-HHMMSS.tgz
+- [ ] Performance <10 secondi per backup completo
+- [ ] Zero regressioni su `npm run build` e `npm run dev`
+- [ ] Riferimenti fantasma rimossi da tutti i 6 documenti .md
+- [ ] Cartella legacy `.backups/` rinominata in `archivio_deprecati/backups-legacy/`
+- [ ] README.md aggiornato con sezione "Backup Automatico"
+- [ ] Documentazione allineata: nessun riferimento a script inesistenti
+- [ ] Test apertura archivio: contenuti corretti e completi
+- [ ] Archivi compressi correttamente (.tgz standard)
+- [ ] Sistema backup indipendente da retention database (mantenuta)
+
+### **Nota per PR**
+"Implementazione sistema backup automatico applicazione: aggiunto script Node.js per backup incrementale con rotazione a 3 copie. Comando `npm run esegui-backup` crea archivi .tgz timestampati escludendo directory pesanti (node_modules, dist, .git). Risolve discrepanza documentazione rimuovendo riferimenti a script fantasma `backup-current-system.js`. Sistema complementare al retention database esistente, focalizzato su backup configurazioni e codice sorgente. Zero impatto su funzionalità app, approccio conservativo con rollback completo disponibile."
+
+### **Evidenze - File/Documenti Aggiornati**
+**File Creati**:
+- `tools/backup.mjs` - Script backup principale con logica rotazione ed esclusioni
+- `backups/` - Directory destinazione archivi (esclusa da Git)
+
+**File Modificati**:
+- `package.json` - Aggiunto script `"esegui-backup": "node tools/backup.mjs"`
+- `.gitignore` - Aggiunto `/backups/` per escludere archivi da versioning
+- `README.md` - Nuova sezione "Backup Automatico" con istruzioni uso
+
+**Documenti Puliti (Riferimenti Fantasma Rimossi)**:
+- `GITHUB_SYNC.md` - Rimossi 3 riferimenti `backup-current-system.js`
+- `SETUP_GUIDE.md` - Rimossi 2 riferimenti e aggiornate istruzioni utilities
+- `GOVERNANCE.md` - Rimossi 2 riferimenti da workflow e git hooks
+- `PROJECT_STRUCTURE.md` - Rimosso riferimento da struttura e utilities
+- `SCRIPTS_OVERVIEW.md` - Rimossa sezione script inesistente
+- `FEATURES_MANUAL.md` - Rimosso riferimento da sezione backup automatico
+
+**Directory Riorganizzate**:
+- `.backups/` → `archivio_deprecati/backups-legacy/` - Separazione backup legacy
+- `tools/` - Nuova directory per script utilities sistema
+
+**Configurazioni Aggiornate**:
+- Esclusioni backup: node_modules, dist, build, .git, cache, logs, tmp
+- Rotazione automatica: mantiene solo 3 archivi più recenti
+- Naming convention: backup-YYYYMMDD-HHMMSS.tgz con timestamp locale
+
+---
+
+**PIANO OPERATIVO BACKUP AUTOMATICO COMPLETATO**
+
+✅ **Deliverable Consegnati**:
+- Verifica preliminare: confermata assenza script backup e identificati 6 documenti con riferimenti fantasma
+- Specifica soluzione: Node.js script con rotazione 3 copie, esclusioni conservative, comando npm dedicato
+- Sequenza operativa: 4 fasi con 16 step granulari (Preparazione→Applicazione→Validazione→Pulizia)
+- Piano test completo: funzionali, performance, esclusioni, regressioni, documentazione
+- Rischi e mitigazioni: 5 rischi identificati con mitigazioni specifiche e rollback 1-step
+- Executive Action Plan: 16 step con evidenze precise file creati/modificati/puliti
+
+**STATO**: Piano backup automatico pronto per approvazione e implementazione
+**PREREQUISITO**: Nessuno (intervento indipendente, mantiene retention database esistente)
+**PROSSIMO STEP**: Attendere go/no-go per procedere con Fase 1 (Preparazione)

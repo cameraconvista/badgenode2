@@ -1,6 +1,6 @@
 // timbrature-data.js
 
-import { supabaseClient as client } from './supabase-client.js';
+import { supabaseClient, initializeSupabaseClient } from './supabase-client.js';
 import { normalizzaData } from './calendar-utils.js';
 
 // Cache per evitare richieste duplicate
@@ -22,6 +22,12 @@ export async function caricaDati(pin, dataInizio, dataFine) {
 
   try {
     console.log('🔄 Caricamento dati da server...');
+    
+    // Assicurati che il client Supabase sia inizializzato
+    const client = supabaseClient || await initializeSupabaseClient();
+    if (!client) {
+      throw new Error('Client Supabase non disponibile');
+    }
     
     // Prima fetch del dipendente SEMPRE
     const { data: utenteData, error: utenteError } = await client

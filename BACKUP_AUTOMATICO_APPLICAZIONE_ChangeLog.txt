@@ -1,0 +1,66 @@
+BACKUP_AUTOMATICO_APPLICAZIONE_ChangeLog.txt
+==============================================
+
+## Summary modifiche applicate
+
+• Creato script backup automatico tools/backup.mjs con rotazione 3 copie
+• Aggiunto comando npm run esegui-backup in package.json
+• Aggiornato .gitignore per escludere directory /backups/
+• Rinominata directory legacy .backups/ → archivio_deprecati/backups-legacy/
+• Rimossi riferimenti fantasma backup-current-system.js da 6 documenti
+• Aggiunta sezione Backup Automatico in README.md
+
+## File toccati
+
+tools/backup.mjs                    → CREATO: Script ESM backup con compressione tar.gz e rotazione
+package.json                        → MODIFICATO: Aggiunto script "esegui-backup"
+.gitignore                          → MODIFICATO: Aggiunta esclusione /backups/
+archivio_deprecati/backups-legacy/  → RINOMINATO: Da .backups/ per evitare ambiguità
+GITHUB_SYNC.md                      → MODIFICATO: Sostituiti riferimenti backup-current-system.js
+SETUP_GUIDE.md                      → MODIFICATO: Sostituiti riferimenti backup-current-system.js
+GOVERNANCE.md                       → MODIFICATO: Sostituiti riferimenti backup-current-system.js
+PROJECT_STRUCTURE.md                → MODIFICATO: Sostituiti riferimenti backup-current-system.js
+SCRIPTS_OVERVIEW.md                 → MODIFICATO: Sostituiti riferimenti backup-current-system.js
+FEATURES_MANUAL.md                  → MODIFICATO: Sostituiti riferimenti backup-current-system.js
+README.md                           → MODIFICATO: Aggiunta sezione Backup Automatico
+
+## Esiti test
+
+✅ PASS: Rotazione backup - 4 esecuzioni → mantiene solo 3 copie più recenti
+✅ PASS: Esclusioni - archivio NON contiene node_modules, dist, .git, cache
+✅ PASS: Build invariato - npm run build completa senza errori (326ms)
+✅ PASS: Dev server invariato - npm run dev avvia correttamente porta 5173
+✅ PASS: Nessun riferimento residuo backup-current-system.js trovato
+
+Backup finali attivi:
+1. backup-20250914-121541.tgz
+2. backup-20250914-121536.tgz  
+3. backup-20250914-121531.tgz
+
+## Istruzioni rollback
+
+Per annullare tutte le modifiche:
+
+1. Elimina tools/backup.mjs
+2. In package.json rimuovi riga: "esegui-backup": "node tools/backup.mjs"
+3. In .gitignore rimuovi righe 15-16: "# Backups" e "/backups/"
+4. Rinomina archivio_deprecati/backups-legacy/ → .backups/
+5. Ripristina nei 6 file documentazione i riferimenti originali:
+   - GITHUB_SYNC.md: linee 147, 294
+   - SETUP_GUIDE.md: linee 72, 197
+   - GOVERNANCE.md: linee 188, 484
+   - PROJECT_STRUCTURE.md: linee 15, 210
+   - SCRIPTS_OVERVIEW.md: linee 149, 364
+   - FEATURES_MANUAL.md: linea 455
+6. In README.md rimuovi righe 10-24 (sezione Backup Automatico)
+7. Elimina directory backups/ se presente
+
+Tempo rollback stimato: 2 minuti
+
+## REC-002 — HOTFIX Env & Singleton & ex-dip (2025-09-14)
+- main.js: guard __IS_PROD__ per import.meta.env.PROD
+- supabase-client.js: memoization globale __supabaseSingleton, warn->info su fallback
+- ripulite invocazioni initializeSupabaseClient(), uniformati import
+- ex-dipendenti.html: rimosso reload loop, uso singleton, guard caricamento
+- Validazione: nessun TypeError; nessun warning Supabase; ex-dipendenti stabile
+- Rollback: ripristinare .backups/REC002_HOTFIX_20250914-145718/*

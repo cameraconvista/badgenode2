@@ -69,7 +69,7 @@ npm run dev          # Dev server porta 5173 con HMR
 
 #### Utilities
 ```bash
-node backup-current-system.js    # Backup configurazioni
+npm run esegui-backup             # Backup configurazioni
 node create-zip.js               # Crea archivio progetto
 ./upgrade.sh                     # Aggiornamento sistema
 ```
@@ -194,7 +194,7 @@ ORDER BY ore DESC;
 #### Backup Automatico
 ```bash
 # Backup configurazioni sistema
-node backup-current-system.js
+npm run esegui-backup
 
 # Backup database Supabase
 # Dashboard → Settings → Database → Backup

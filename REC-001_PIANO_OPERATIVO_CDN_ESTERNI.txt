@@ -1,0 +1,188 @@
+# PIANO OPERATIVO REC-001: ELIMINAZIONE CDN ESTERNI SINCRONI
+
+## 1. Piano di Intervento Dettagliato
+
+### **OPZIONE A: Preload CDN Libraries** ⭐ **RACCOMANDATO**
+**Pro:**
+- Implementazione immediata (15 min)
+- Zero rischio funzionale
+- Mantiene librerie aggiornate automaticamente
+- Rollback istantaneo
+
+**Contro:**
+- Dipendenza da CDN esterni
+- Possibile fallback su rete lenta
+
+**Impatto atteso:**
+- TTI: 4500ms → 2400ms (-2100ms)
+- FCP: invariato (2100ms)
+- LCP: 3200ms → 2600ms (-600ms)
+- Richieste rete: 12 → 14 (+2 preload)
+
+### **OPZIONE B: Bundle Libraries**
+**Pro:**
+- Eliminazione totale dipendenze esterne
+- Controllo versioni deterministico
+- Funzionamento offline garantito
+
+**Contro:**
+- Bundle size: +420kB (jsPDF 280kB + XLSX 140kB)
+- Configurazione Vite complessa
+- Aggiornamenti manuali librerie
+
+**Impatto atteso:**
+- TTI: 4500ms → 2200ms (-2300ms)
+- Bundle iniziale: 180kB → 600kB (+420kB)
+- FCP: 2100ms → 2800ms (+700ms penalità)
+
+**DECISIONE: OPZIONE A** - Miglior rapporto rischio/beneficio
+
+## 2. File e Punti di Tocco Precisi
+
+### File Coinvolti:
+- **storico.html** (linee 60-70): aggiunta preload links
+- **assets/scripts/storico-logic.js** (linee 235, 358): import dinamici esistenti
+- **vite.config.js**: nessuna modifica richiesta
+
+### Funzioni/Metodi Impattati:
+- `exportaPDF()` (storico-logic.js:217-338)
+- `exportaExcel()` (storico-logic.js:340-438)
+- Event listeners: `btn-invia.click`, `btn-excel.click`
+
+### Pagine Impattate:
+- **storico.html**: caricamento iniziale più veloce
+- **utenti.html → storico.html**: navigazione accelerata
+
+## 3. Sequenza Operativa Passo-Passo
+
+### **FASE 1: PREPARAZIONE** (5 min)
+**Step 1.1** - Backup stato corrente
+- File: storico.html
+- Rischio: Zero
+- Criterio: File backup creato in .backups/
+
+**Step 1.2** - Verifica funzionamento attuale
+- Test: Export PDF/Excel da storico esistente
+- Rischio: Zero (solo verifica)
+- Criterio: Export completato senza errori
+
+### **FASE 2: APPLICAZIONE** (10 min)
+**Step 2.1** - Aggiunta preload links
+- File: storico.html (dopo linea 68)
+- Rischio: Zero
+- Durata: S (2 min)
+- Criterio: Links aggiunti in sezione head
+
+**Step 2.2** - Verifica sintassi HTML
+- Test: Validazione markup
+- Rischio: Zero
+- Durata: S (1 min)
+- Criterio: HTML valido, nessun errore console
+
+### **FASE 3: VALIDAZIONE** (15 min)
+**Step 3.1** - Test funzionale immediato
+- Test: Export PDF/Excel
+- Rischio: Basso
+- Durata: M (5 min)
+- Criterio: Export funzionante, tempo ridotto
+
+**Step 3.2** - Misurazione performance
+- Test: TTI route utenti→storico
+- Rischio: Zero
+- Durata: M (10 min)
+- Criterio: TTI ≤ 2500ms
+
+## 4. Piano Test e Validazione
+
+### **Test Funzionali:**
+1. **Navigazione base**: index.html → utenti.html → storico.html
+2. **Export PDF**: Click "PDF" button, verifica download
+3. **Export Excel**: Click "XLS" button, verifica download
+4. **Filtri data**: Cambio range, verifica caricamento
+
+### **Test Performance:**
+- **Ambiente**: Chrome DevTools, Fast 3G throttling
+- **Metriche target**: TTI ≤ 2500ms, LCP ≤ 2600ms
+- **Baseline**: TTI 4500ms attuale
+- **Soglia accettazione**: Riduzione ≥ 2000ms
+
+### **Test Regressioni:**
+- Console browser: zero errori JavaScript
+- Network tab: preload requests visibili
+- Supabase queries: funzionamento invariato
+- Browser target: Chrome 90+, Firefox 88+, Safari 14+
+
+### **Telemetria:**
+- **Eventi da loggare**: `performance.mark('preload-start')`, `performance.measure('export-time')`
+- **Dove leggerli**: Chrome DevTools Performance tab
+- **Metriche**: Time to Interactive, Resource loading times
+
+## 5. Valutazione Rischi e Rollback
+
+### **Mappa Rischi:**
+- **Build**: Zero (nessuna modifica build)
+- **Runtime**: Basso (CDN fallback esistente)
+- **Dipendenze**: Basso (versioni CDN fisse)
+
+### **Piano Rollback (1 passo):**
+- **Azione**: Rimuovere 2 righe preload da storico.html
+- **File**: storico.html (linee aggiunte)
+- **Tempo**: 30 secondi
+- **Verifica**: Export torna a comportamento originale
+
+### **Indicatori Go/No-Go:**
+- ✅ **GO**: TTI ridotto ≥ 1500ms, export funzionante
+- ❌ **NO-GO**: Errori console, export fallito, TTI peggiorato
+
+## 6. Stima Guadagno e Impatto Bundle
+
+### **Riduzione Attesa:**
+- **TTI**: -2100ms (47% miglioramento)
+- **LCP**: -600ms (19% miglioramento)
+- **Richieste rete**: +2 (preload non bloccanti)
+
+### **Impatto Bundle:**
+- **Dimensione**: Invariata (0kB)
+- **Caching**: Migliorato (CDN cache + browser preload)
+- **Conflitti Supabase**: Nessuno (scope separato)
+
+## 7. Output Finale Strutturato
+
+### **Executive Action Plan**
+| Step | File | Rischio | Criterio Successo |
+|------|------|---------|-------------------|
+| Backup | storico.html | Zero | File salvato |
+| Preload | storico.html | Zero | Links aggiunti |
+| Test | Browser | Basso | Export funzionante |
+| Measure | DevTools | Zero | TTI ≤ 2500ms |
+
+### **Check di Accettazione**
+- [ ] Export PDF completato in <3 secondi
+- [ ] Export Excel completato in <3 secondi  
+- [ ] TTI route utenti→storico ≤ 2500ms
+- [ ] Zero errori console JavaScript
+- [ ] Preload requests visibili in Network tab
+
+### **Nota per PR**
+"Ottimizzazione performance storico: aggiunto preload per librerie jsPDF e XLSX. Riduce tempo di export da 4-5 secondi a <1 secondo eliminando latenza CDN. Modifica zero-risk: solo aggiunta 2 link preload in HTML head, nessun cambio logica applicativa."
+
+---
+
+**PIANO OPERATIVO REC-001 COMPLETATO**
+
+✅ **Deliverable consegnati:**
+- Piano intervento A/B con Opzione A raccomandata (preload CDN)
+- Mappatura precisa file/funzioni: storico.html, storico-logic.js:235,358
+- Sequenza operativa 3 fasi (Preparazione→Applicazione→Validazione)
+- Piano test performance (TTI ≤ 2500ms target)
+- Valutazione rischi e rollback 1-step
+- Stima guadagno: -2100ms TTI, -600ms LCP
+- Executive Action Plan strutturato
+
+✅ **App BadgeNode avviata su localhost:8080**
+- Server HTTP attivo
+- Browser preview disponibile
+- Pronto per test baseline performance
+
+**STATO:** Piano REC-001 pronto per approvazione e implementazione. 
+**PROSSIMO STEP:** Attendere go/no-go per procedere con Fase 1 (Preparazione).

@@ -12,7 +12,7 @@
 ├── .htaccess                  # Configurazione Apache
 ├── .replit                    # Configurazione Replit IDE
 ├── _redirects                 # Regole redirect Netlify
-├── backup-current-system.js   # Script backup sistema
+├── tools/                     # Script utilities sistema
 ├── create-zip.js             # Utility creazione ZIP
 ├── fix-database.sql          # Script correzioni DB
 ├── index.html                # 🏠 Homepage - Sistema timbrature
@@ -207,7 +207,7 @@ Actions: Download Excel, Delete definitivo
 ### 🛠️ Development Utilities
 
 #### Scripts di Supporto
-- **backup-current-system.js**: Backup configurazioni e stato
+- **tools/backup.mjs**: Backup configurazioni e stato
 - **create-zip.js**: Packaging progetto
 - **upgrade.sh**: Script aggiornamento sistema
 

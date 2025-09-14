@@ -452,7 +452,7 @@ const channel = supabaseClient
 ```
 
 #### Backup Automatico
-**Script `backup-current-system.js`**:
+**Script `tools/backup.mjs`**:
 - Backup configurazioni sistema
 - Export stato database
 - Archivio timestampato

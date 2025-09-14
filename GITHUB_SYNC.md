@@ -144,7 +144,7 @@ Crea **`.git/hooks/pre-commit`**:
 echo "🔍 Esecuzione checks pre-commit..."
 
 # Backup automatico pre-commit
-node backup-current-system.js
+npm run esegui-backup
 
 # Verifica sintassi JavaScript
 echo "📋 Verifica sintassi..."
@@ -291,7 +291,7 @@ git push origin feature/nome-feature
 #### Weekly Maintenance
 ```bash
 # Backup completo
-node backup-current-system.js
+npm run esegui-backup
 
 # Merge branch sviluppo
 git checkout main

@@ -10,7 +10,8 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 4173",
     "serve": "serve dist -s -l 3000",
-    "clean": "rm -rf dist node_modules/.vite"
+    "clean": "rm -rf dist node_modules/.vite",
+    "esegui-backup": "node tools/backup.mjs"
   },
   "devDependencies": {
     "serve": "^14.2.5",
