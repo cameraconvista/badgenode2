@@ -1,0 +1,24 @@
+# ===== BADGENODE REC-004 PINFIX REPORT =====
+# Data: 20250914-214028
+# RUN_ID: REC004-PINFIX-20250914-214028-5132
+# Obiettivo: impedire 'pin = NaN' nella JOIN e usare il wrapper sicuro.
+
+## FILE MODIFICATI
+- assets/scripts/rec004_join_adapter.js
+  * Aggiunto: fetchStoricoJoinSafe(), __rec004_coercePin(), __rec004_toISO()
+  * Esposto su window.__REC004__ { fetchStoricoJoinSafe, coercePin, diag }
+- assets/scripts/timbrature-data.js
+  * Call-site modificato per preferire fetchStoricoJoinSafe
+
+## COME VALIDARE
+1) Apri "storico" e osserva la console:
+   - Atteso (JOIN ok): "[REC004] JOIN view attiva: N righe (fallback disabilitato)"
+   - In caso di errori di input: non più 400 per 'NaN' (il wrapper blocca o corregge).
+2) Debug rapido:
+   - window.__REC004__.diag  → mostra { pin, inizioISO, fineISO } usati per la JOIN.
+3) Export PDF/XLSX e CRUD devono restare invariati.
+
+## ROLLBACK
+cp -r .backups/REC004_PINFIX_20250914-214028/* ./
+
+# ===== FINE REPORT =====

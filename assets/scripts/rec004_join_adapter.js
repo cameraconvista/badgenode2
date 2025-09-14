@@ -61,3 +61,47 @@ async function fetchUtente(pinNum) {
   if (error && error.code !== 'PGRST116') throw error;
   return data || { pin: pinNum, nome: '', cognome: '', ore_contrattuali: null };
 }
+
+/* ==== REC004-SAFE WRAPPER (idempotente) ==== 
+   Normalizza i parametri e richiama la JOIN esistente.
+   Non cambia l'implementazione interna: la protegge da PIN non numerici e date non ISO. */
+export function __rec004_coercePin(v){
+  const n = Number.parseInt(String(v ?? '').trim(), 10);
+  if (!Number.isFinite(n)) throw new Error('PIN_NAN');
+  return n;
+}
+export function __rec004_toISO(v){
+  try { return new Date(v).toISOString(); } catch { return null; }
+}
+
+/** Wrapper sicuro: usa l'implementazione esistente se presente */
+export async function fetchStoricoJoinSafe(params){
+  const pin = __rec004_coercePin(params?.pin);
+  const inizioISO = __rec004_toISO(params?.inizio);
+  const fineISO   = __rec004_toISO(params?.fine);
+  if (!inizioISO || !fineISO) throw new Error('RANGE_INVALID');
+
+  // Diag a supporto
+  if (typeof window !== 'undefined') {
+    window.__REC004__ = window.__REC004__ || {};
+    window.__REC004__.diag = { pin, inizioISO, fineISO };
+  }
+
+  // Se l'implementazione base esiste, riusala con parametri sani
+  try{
+    if (typeof fetchStoricoJoin === 'function') {
+      return await fetchStoricoJoin({ pin, inizio: inizioISO, fine: fineISO });
+    }
+  }catch(e){
+    // Propaga l'errore: il call-site farà fallback
+    throw e;
+  }
+  throw new Error('BASE_JOIN_MISSING');
+}
+
+// Esporta helper su window per debug (non richiesto dal runtime)
+if (typeof window !== 'undefined') {
+  window.__REC004__ = window.__REC004__ || {};
+  window.__REC004__.fetchStoricoJoinSafe = fetchStoricoJoinSafe;
+  window.__REC004__.coercePin = __rec004_coercePin;
+}

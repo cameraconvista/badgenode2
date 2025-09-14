@@ -32,8 +32,9 @@ export async function caricaDati(pin, dataInizio, dataFine) {
       const rangeFine   = (typeof dataFine   !== "undefined" ? dataFine   : (window.__RANGE__?.fine));
       // Import dinamico dell'adapter (espone fetchStoricoJoin)
       const mod = await import("./rec004_join_adapter.js");
-      if (mod?.fetchStoricoJoin && pinParam && rangeInizio && rangeFine) {
-        const res = await mod.fetchStoricoJoin({ pin: pinParam, inizio: rangeInizio, fine: rangeFine });
+      if ((mod?.fetchStoricoJoinSafe || mod?.fetchStoricoJoin) && pinParam && rangeInizio && rangeFine) {
+        const __fn = (mod?.fetchStoricoJoinSafe || mod?.fetchStoricoJoin);
+        const res = await __fn({ pin: pinParam, inizio: rangeInizio, fine: rangeFine });
         if (Array.isArray(res?.rows) && res.rows.length >= 0) {
           // Espone stato diagnostico e dati grezzi (per audit/console)
           window.__REC004__ = window.__REC004__ || {}; window.__REC004__.lastJoin = res;
