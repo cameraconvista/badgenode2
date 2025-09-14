@@ -324,22 +324,61 @@ async function exportaPDF() {
 
     doc.setFont("helvetica", "normal");
     let y = 120;
+    
+    // Genera tutti i giorni del range usando gli helper locali
+    const [annoInizio, meseInizio, giornoInizio] = range.inizio.split('-').map(Number);
+    const [annoFine, meseFine, giornoFine] = range.fine.split('-').map(Number);
+    const start = new Date(annoInizio, meseInizio - 1, giornoInizio);
+    const end = new Date(annoFine, meseFine - 1, giornoFine);
+    start.setHours(12, 0, 0, 0);
+    end.setHours(12, 0, 0, 0);
+    
+    // Genera tutti i giorni nel range
+    const tuttiGiorni = [];
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      tuttiGiorni.push(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
+    }
+    
+    // Mappa timbrature dalla tabella per data
+    const timbratureMap = new Map();
     const righe = document.querySelectorAll('#storico-body tr');
-
     righe.forEach(riga => {
       const celle = riga.querySelectorAll('td');
-      if (celle.length >= 6 && y < 270) {
-        const data = celle[0].textContent.trim();
+      if (celle.length >= 6) {
+        const dataText = celle[0].textContent.trim();
         const entrata = celle[2].textContent.trim();
         const uscita = celle[3].textContent.trim();
         const ore = celle[4].textContent.trim();
-
-        doc.text(data, 20, y);
-        doc.text(entrata, 70, y);
-        doc.text(uscita, 120, y);
-        doc.text(ore, 160, y);
-        y += 8;
+        
+        // Estrai solo il numero del giorno dalla prima colonna
+        const giornoMatch = dataText.match(/^(\d{1,2})/);
+        if (giornoMatch) {
+          const giorno = parseInt(giornoMatch[1]);
+          timbratureMap.set(giorno, { entrata, uscita, ore });
+        }
       }
+    });
+    
+    // Calcola spazio disponibile e dimensioni ottimizzate per A4
+    const maxRighe = Math.min(tuttiGiorni.length, 20); // Max 20 righe per pagina A4
+    const altezzaRiga = Math.min(8, (270 - 120) / maxRighe); // Altezza dinamica
+    
+    // Stampa tutti i giorni del range
+    tuttiGiorni.forEach((giorno, index) => {
+      if (y > 270) return; // Stop se supera la pagina
+      
+      const giornoNum = giorno.getDate();
+      const giornoSettimana = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][giorno.getDay()];
+      const dataFormattata = `${giornoNum.toString().padStart(2, '0')} ${giornoSettimana}`;
+      
+      // Recupera dati dalla mappa o usa valori di default
+      const datiGiorno = timbratureMap.get(giornoNum) || { entrata: '—', uscita: '—', ore: '0.00' };
+      
+      doc.text(dataFormattata, 20, y);
+      doc.text(datiGiorno.entrata, 70, y);
+      doc.text(datiGiorno.uscita, 120, y);
+      doc.text(datiGiorno.ore, 160, y);
+      y += altezzaRiga;
     });
 
     doc.setFontSize(8);
@@ -400,18 +439,50 @@ async function exportaExcel() {
                       [''], 
                       ['Data', 'Entrata', 'Uscita', 'Ore']);
 
+    // Genera tutti i giorni del range usando gli helper locali
+    const [annoInizio, meseInizio, giornoInizio] = range.inizio.split('-').map(Number);
+    const [annoFine, meseFine, giornoFine] = range.fine.split('-').map(Number);
+    const start = new Date(annoInizio, meseInizio - 1, giornoInizio);
+    const end = new Date(annoFine, meseFine - 1, giornoFine);
+    start.setHours(12, 0, 0, 0);
+    end.setHours(12, 0, 0, 0);
+    
+    // Genera tutti i giorni nel range
+    const tuttiGiorni = [];
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      tuttiGiorni.push(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
+    }
+    
+    // Mappa timbrature dalla tabella per data
+    const timbratureMap = new Map();
     const righe = document.querySelectorAll('#storico-body tr');
-
     righe.forEach(riga => {
       const celle = riga.querySelectorAll('td');
       if (celle.length >= 6) {
-        const data = celle[0].textContent.trim();
+        const dataText = celle[0].textContent.trim();
         const entrata = celle[2].textContent.trim();
         const uscita = celle[3].textContent.trim();
         const ore = celle[4].textContent.trim();
-
-        worksheetData.push([data, entrata, uscita, ore]);
+        
+        // Estrai solo il numero del giorno dalla prima colonna
+        const giornoMatch = dataText.match(/^(\d{1,2})/);
+        if (giornoMatch) {
+          const giorno = parseInt(giornoMatch[1]);
+          timbratureMap.set(giorno, { entrata, uscita, ore });
+        }
       }
+    });
+    
+    // Aggiungi tutti i giorni del range al worksheet
+    tuttiGiorni.forEach(giorno => {
+      const giornoNum = giorno.getDate();
+      const giornoSettimana = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][giorno.getDay()];
+      const dataFormattata = `${giornoNum.toString().padStart(2, '0')} ${giornoSettimana}`;
+      
+      // Recupera dati dalla mappa o usa valori di default
+      const datiGiorno = timbratureMap.get(giornoNum) || { entrata: '—', uscita: '—', ore: '0.00' };
+      
+      worksheetData.push([dataFormattata, datiGiorno.entrata, datiGiorno.uscita, datiGiorno.ore]);
     });
 
     worksheetData.push([''], [`Generato il: ${new Date().toLocaleString('it-IT')}`]);
