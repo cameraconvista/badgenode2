@@ -16,10 +16,28 @@ export function apriModaleModifica(data, timbratureEntrata, timbratureUscita, pi
     return;
   }
 
+  // Rimuovi listener esistenti per evitare duplicazioni
+  const btnSalva = document.getElementById('btnSalva');
+  const btnElimina = document.getElementById('btnElimina');
+  const btnChiudi = document.getElementById('btnChiudi');
+
+  // Clona e sostituisci i bottoni per rimuovere tutti i listener esistenti
+  if (btnSalva) {
+    const newBtnSalva = btnSalva.cloneNode(true);
+    btnSalva.parentNode.replaceChild(newBtnSalva, btnSalva);
+  }
+  if (btnElimina) {
+    const newBtnElimina = btnElimina.cloneNode(true);
+    btnElimina.parentNode.replaceChild(newBtnElimina, btnElimina);
+  }
+  if (btnChiudi) {
+    const newBtnChiudi = btnChiudi.cloneNode(true);
+    btnChiudi.parentNode.replaceChild(newBtnChiudi, btnChiudi);
+  }
+
   // Precompilazione valori modale
   if (timbratureEntrata?.length > 0) {
     modaleDataEntrata.value = timbratureEntrata[0].data || data;
-
     modaleEntrata.value = timbratureEntrata[0].ore.slice(0, 5);
   } else {
     modaleDataEntrata.value = data;
@@ -36,32 +54,44 @@ export function apriModaleModifica(data, timbratureEntrata, timbratureUscita, pi
 
   modal.style.display = 'flex';
 
-  const btnSalva = document.getElementById('btnSalva');
-  const btnElimina = document.getElementById('btnElimina');
-  const btnChiudi = document.getElementById('btnChiudi');
+  // Riottieni i riferimenti ai bottoni sostituiti
+  const newBtnSalva = document.getElementById('btnSalva');
+  const newBtnElimina = document.getElementById('btnElimina');
+  const newBtnChiudi = document.getElementById('btnChiudi');
 
-  btnSalva.onclick = async () => {
-    await salvaModifiche(
-      modaleDataEntrata.value, 
-      modaleEntrata.value, 
-      modaleDataUscita.value, 
-      modaleUscita.value, 
-      pin, 
-      timbraturaId,
-      data
-    );
-    chiudiModale();
-  };
-
-  btnElimina.onclick = async () => {
-    if (confirm('Sei sicuro di voler eliminare le timbrature di questo giorno?')) {
-      await eliminaTimbrature(data, pin);
+  // Aggiungi nuovi listener (ora garantiti unici)
+  if (newBtnSalva) {
+    newBtnSalva.onclick = async () => {
+      await salvaModifiche(
+        modaleDataEntrata.value, 
+        modaleEntrata.value, 
+        modaleDataUscita.value, 
+        modaleUscita.value, 
+        pin, 
+        timbraturaId,
+        data
+      );
       chiudiModale();
-    }
-  };
+    };
+  }
 
-  btnChiudi.onclick = chiudiModale;
-  modal.onclick = (e) => { if (e.target === modal) chiudiModale(); };
+  if (newBtnElimina) {
+    newBtnElimina.onclick = async () => {
+      if (confirm('Sei sicuro di voler eliminare le timbrature di questo giorno?')) {
+        await eliminaTimbrature(data, pin);
+        chiudiModale();
+      }
+    };
+  }
+
+  if (newBtnChiudi) {
+    newBtnChiudi.onclick = chiudiModale;
+  }
+
+  // Rimuovi listener esistente dal modal overlay prima di aggiungerne uno nuovo
+  modal.replaceWith(modal.cloneNode(true));
+  const freshModal = document.getElementById('modalOverlay');
+  freshModal.onclick = (e) => { if (e.target === freshModal) chiudiModale(); };
 }
 
 function chiudiModale() {
