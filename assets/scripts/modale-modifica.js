@@ -16,23 +16,20 @@ export function apriModaleModifica(data, timbratureEntrata, timbratureUscita, pi
     return;
   }
 
-  // Rimuovi listener esistenti per evitare duplicazioni
+  // Rimuovi listener esistenti senza clonazione
   const btnSalva = document.getElementById('btnSalva');
   const btnElimina = document.getElementById('btnElimina');
   const btnChiudi = document.getElementById('btnChiudi');
 
-  // Clona e sostituisci i bottoni per rimuovere tutti i listener esistenti
+  // Rimuovi listener esistenti usando removeEventListener
   if (btnSalva) {
-    const newBtnSalva = btnSalva.cloneNode(true);
-    btnSalva.parentNode.replaceChild(newBtnSalva, btnSalva);
+    btnSalva.onclick = null;
   }
   if (btnElimina) {
-    const newBtnElimina = btnElimina.cloneNode(true);
-    btnElimina.parentNode.replaceChild(newBtnElimina, btnElimina);
+    btnElimina.onclick = null;
   }
   if (btnChiudi) {
-    const newBtnChiudi = btnChiudi.cloneNode(true);
-    btnChiudi.parentNode.replaceChild(newBtnChiudi, btnChiudi);
+    btnChiudi.onclick = null;
   }
 
   // Precompilazione valori modale
@@ -54,29 +51,33 @@ export function apriModaleModifica(data, timbratureEntrata, timbratureUscita, pi
 
   modal.style.display = 'flex';
 
-  // Riottieni i riferimenti ai bottoni sostituiti
-  const newBtnSalva = document.getElementById('btnSalva');
-  const newBtnElimina = document.getElementById('btnElimina');
-  const newBtnChiudi = document.getElementById('btnChiudi');
-
-  // Aggiungi nuovi listener (ora garantiti unici)
-  if (newBtnSalva) {
-    newBtnSalva.onclick = async () => {
-      await salvaModifiche(
-        modaleDataEntrata.value, 
-        modaleEntrata.value, 
-        modaleDataUscita.value, 
-        modaleUscita.value, 
-        pin, 
-        timbraturaId,
-        data
-      );
-      chiudiModale();
+  // Aggiungi listener direttamente ai bottoni esistenti
+  if (btnSalva) {
+    btnSalva.onclick = async (e) => {
+      e.preventDefault();
+      console.log('🔄 Click su Salva rilevato');
+      
+      try {
+        await salvaModifiche(
+          modaleDataEntrata.value, 
+          modaleEntrata.value, 
+          modaleDataUscita.value, 
+          modaleUscita.value, 
+          pin, 
+          timbraturaId,
+          data
+        );
+        console.log('✅ Salvataggio completato, chiusura modale');
+      } catch (error) {
+        console.error('❌ Errore durante salvataggio:', error);
+        // Non chiudere il modale se c'è un errore
+        return;
+      }
     };
   }
 
-  if (newBtnElimina) {
-    newBtnElimina.onclick = async () => {
+  if (btnElimina) {
+    btnElimina.onclick = async () => {
       if (confirm('Sei sicuro di voler eliminare le timbrature di questo giorno?')) {
         await eliminaTimbrature(data, pin);
         chiudiModale();
@@ -84,14 +85,12 @@ export function apriModaleModifica(data, timbratureEntrata, timbratureUscita, pi
     };
   }
 
-  if (newBtnChiudi) {
-    newBtnChiudi.onclick = chiudiModale;
+  if (btnChiudi) {
+    btnChiudi.onclick = chiudiModale;
   }
 
-  // Rimuovi listener esistente dal modal overlay prima di aggiungerne uno nuovo
-  modal.replaceWith(modal.cloneNode(true));
-  const freshModal = document.getElementById('modalOverlay');
-  freshModal.onclick = (e) => { if (e.target === freshModal) chiudiModale(); };
+  // Rimuovi listener esistente dal modal overlay e aggiungi nuovo
+  modal.onclick = (e) => { if (e.target === modal) chiudiModale(); };
 }
 
 function chiudiModale() {
