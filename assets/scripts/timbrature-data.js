@@ -23,6 +23,27 @@ export async function caricaDati(pin, dataInizio, dataFine) {
   try {
     console.log('🔄 Caricamento dati da server...');
     
+    // [REC004-P2 JOIN attempt] prova ad usare la view unica prima del flusso classico
+    try {
+      // Parametri range e pin recuperati come già fa il codice esistente
+      const usp = new URLSearchParams(location.search);
+      const pinParam = usp.get("pin") || window.__PIN__ || pin;
+      const rangeInizio = (typeof dataInizio !== "undefined" ? dataInizio : (window.__RANGE__?.inizio));
+      const rangeFine   = (typeof dataFine   !== "undefined" ? dataFine   : (window.__RANGE__?.fine));
+      // Import dinamico dell'adapter (espone fetchStoricoJoin)
+      const mod = await import("./rec004_join_adapter.js");
+      if (mod?.fetchStoricoJoin && pinParam && rangeInizio && rangeFine) {
+        const res = await mod.fetchStoricoJoin({ pin: pinParam, inizio: rangeInizio, fine: rangeFine });
+        if (Array.isArray(res?.rows) && res.rows.length >= 0) {
+          // Espone stato diagnostico e dati grezzi (per audit/console)
+          window.__REC004__ = window.__REC004__ || {}; window.__REC004__.lastJoin = res;
+          console.info("[REC004] JOIN view attiva: ", res.rows.length, "righe (fallback disabilitato)");
+          // *** EARLY RETURN ***
+          return { dipendente: res.dipendente || null, timbrature: res.rows }; // la funzione corrente deve restituire oggetto compatibile
+        }
+      }
+    } catch (e) { console.info("[REC004] join non disponibile, uso fallback:", e?.message||e); }
+    
     // Prima fetch del dipendente SEMPRE
     const { data: utenteData, error: utenteError } = await client
       .from('utenti')

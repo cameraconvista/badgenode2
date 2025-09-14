@@ -233,6 +233,26 @@
 })();
 </script>
 <!-- removed extra </body> -->
+<script type="module">
+/* REC003-FORCE — trigger manuale per attivare la VirtualTable a prescindere dal numero di righe */
+try{
+  window.__REC003__ = window.__REC003__ || {};
+  window.__REC003__.force = ()=>{
+    try{
+      const tb = document.querySelector('#storico-body');
+      if(!tb){ console.warn('[REC003] force: tbody #storico-body non trovato'); return; }
+      const trs = tb.querySelectorAll('tr');
+      const rowsHTML = Array.from(trs, tr => tr.outerHTML);
+      if(window.__REC003__?.mount){
+        window.__REC003__.mount(rowsHTML);
+        console.info('[REC003] VirtualTable attiva (force)', rowsHTML.length, 'righe');
+      } else {
+        console.warn('[REC003] force: mount non disponibile');
+      }
+    }catch(e){ console.warn('[REC003] force errore:', e?.message||e); }
+  };
+}catch(e){ console.warn('[REC003] force non definito:', e?.message||e); }
+</script>
 <script type="module">import { VirtualTable } from './assets/scripts/virtual-table.js'; window.__REC003__ = window.__REC003__ || {}; window.__REC003__.mount = (rowsHTML)=>{   try{     const tb = document.querySelector('#storico-body');     if(!tb) return console.warn('[REC003] tbody non trovato');     const vt = new VirtualTable(tb,{ rowHeight: 44, buffer: 12 });     vt.setRows(rowsHTML);     console.info('[REC003] virtual table attiva:', rowsHTML?.length||0, 'righe');   }catch(e){ console.warn('[REC003] fallback renderer:', e?.message||e); } };</script>
 <script type="module">
 /* REC003-AUTOWIRE — attiva VirtualTable in automatico, nessun cambio layout */
@@ -245,7 +265,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const run = ()=>{
       if(armed) return;
       const trs = tb.querySelectorAll('tr');
-      if(trs.length > 150){
+      if(trs.length > 20){
         const rowsHTML = Array.from(trs, tr => tr.outerHTML);
         if(window.__REC003__?.mount){
           window.__REC003__.mount(rowsHTML);

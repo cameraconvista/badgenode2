@@ -1,0 +1,25 @@
+# ===== BADGENODE REC-003 TUNING REPORT =====
+# Data: 20250914-212118
+# RUN_ID: REC003-TUNING-20250914-212118-26086
+# Intervento: abbassata soglia autowire a 20 righe + aggiunto trigger manuale
+
+## FILE MODIFICATI
+- storico.html
+  * Soglia autowire: 20 (prima 150)
+  * Nuovo helper: window.__REC003__.force()
+
+## COME TESTARE
+1) Apri la pagina "storico" con 21+ righe:
+   - Dovresti vedere in console: "[REC003] VirtualTable attiva (autowire)".
+2) In qualsiasi momento puoi forzare manualmente:
+   - Esegui in console: window.__REC003__.force()
+3) Verifica che export PDF/XLSX e CRUD siano invariati.
+
+## NOTE
+- Nessun cambio di layout/CSS.
+- Fallback invariato: se VirtualTable non è disponibile, la tabella resta tradizionale.
+
+## ROLLBACK
+cp -r .backups/REC003_TUNING_20250914-212118/* ./
+
+# ===== FINE REPORT =====
