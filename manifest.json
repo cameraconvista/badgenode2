@@ -14,7 +14,7 @@
   "theme_color": "#0c1a2a",
   "icons": [
     {
-      "src": "assets/badgenode-192-UNkmzwHW.png",
+      "src": "/assets/icons/badgenode-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
