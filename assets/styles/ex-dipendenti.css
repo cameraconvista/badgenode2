@@ -1,0 +1,483 @@
+    body {
+      background-color: #0c1a2a;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 36px;
+      font-weight: bold;
+      color: #fbbf24;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .back-button:hover {
+      background-color: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #1e293b;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid #374151;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    th {
+      background-color: #1f3a56;
+      font-weight: 600;
+      font-size: 18px;
+      color: #fbbf24;
+      height: 56px;
+    }
+
+    td {
+      font-size: 16px;
+      background-color: #1e293b;
+      height: 50px;
+      vertical-align: middle;
+    }
+
+    /* Larghezze colonne ottimizzate */
+    table {
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    th:nth-child(1), td:nth-child(1) { 
+      width: 20%; 
+      min-width: 100px;
+      text-align: left;
+      padding-left: 12px;
+    }
+    th:nth-child(2), td:nth-child(2) { 
+      width: 20%; 
+      min-width: 100px;
+      text-align: left;
+      padding-left: 12px;
+    }
+    th:nth-child(3), td:nth-child(3) { 
+      width: 35%; 
+      min-width: 120px;
+      text-align: center;
+    }
+    th:nth-child(4), td:nth-child(4) { 
+      width: 25%; 
+      min-width: 120px;
+      text-align: center;
+    }
+
+    /* Azioni container */
+    td:nth-child(4) {
+      padding: 4px 8px;
+      overflow: visible;
+      height: 50px;
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    td:nth-child(4) .actions-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      height: 40px;
+      flex-wrap: nowrap;
+      flex-direction: row;
+    }
+
+    /* Pulsanti azioni */
+    .download-btn, .delete-btn {
+      background: none;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      min-width: 36px;
+      min-height: 36px;
+      max-width: 36px;
+      max-height: 36px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+
+    .download-btn:hover, .download-btn:active {
+      transform: scale(0.95);
+    }
+
+    .delete-btn:hover, .delete-btn:active {
+      transform: scale(0.95);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background-color: #2563eb;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 40px 20px;
+      color: #94a3b8;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* PWA Safe Area */
+    @media (display-mode: standalone) {
+      body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+
+      .container {
+        margin-top: env(safe-area-inset-top);
+      }
+
+      .back-button {
+        top: calc(20px + env(safe-area-inset-top));
+        left: calc(20px + env(safe-area-inset-left));
+      }
+    }
+
+    /* Touch Optimization */
+    @media (pointer: coarse) {
+      .download-btn, .delete-btn {
+        min-width: 48px;
+        min-height: 48px;
+        padding: 10px;
+        border-radius: 10px;
+      }
+
+      .back-button {
+        min-height: 48px;
+        padding: 12px 20px;
+      }
+
+      td:nth-child(4) {
+        padding: 12px 8px;
+      }
+
+      td:nth-child(4) .actions-container {
+        gap: 8px;
+      }
+    }
+
+    /* Ottimizzazioni specifiche per mobile verticale */
+    @media (max-width: 480px) and (orientation: portrait) {
+      body {
+        overflow-x: hidden;
+        -webkit-text-size-adjust: none;
+      }
+
+      .container { 
+        padding: 8px; 
+        max-width: 100vw;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      h1 { 
+        font-size: 20px; 
+        margin-top: 60px; 
+        margin-bottom: 16px;
+        line-height: 1.2;
+        padding: 0 8px;
+      }
+
+      .back-button { 
+        top: 8px; 
+        left: 8px; 
+        padding: 8px 12px; 
+        font-size: 13px; 
+        min-height: 40px; 
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+      }
+
+      table { 
+        font-size: 10px; 
+        border-radius: 8px;
+        width: 100%;
+        table-layout: fixed;
+        margin: 0;
+      }
+
+      th, td { 
+        padding: 4px 2px; 
+        font-size: 10px; 
+        line-height: 1.1;
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      th { 
+        font-size: 11px; 
+        height: 44px; 
+        font-weight: 700;
+        background-color: #1f3a56;
+        color: #fbbf24;
+        vertical-align: middle;
+      }
+
+      td { 
+        height: 52px; 
+        vertical-align: middle;
+        background-color: #1e293b;
+      }
+
+      /* Ottimizza distribuzione colonne per mobile verticale */
+      th:nth-child(1), td:nth-child(1) { 
+        width: 18%; 
+        text-align: left;
+        padding-left: 4px;
+        font-size: 9px;
+      }
+      th:nth-child(2), td:nth-child(2) { 
+        width: 18%; 
+        text-align: left;
+        padding-left: 4px;
+        font-size: 9px;
+      }
+      th:nth-child(3), td:nth-child(3) { 
+        width: 32%; 
+        font-size: 9px;
+        text-align: center;
+      }
+      th:nth-child(4), td:nth-child(4) { 
+        width: 32%; 
+        text-align: center;
+      }
+
+      /* Ottimizza container azioni per mobile */
+      td:nth-child(4) {
+        padding: 2px;
+        overflow: visible;
+      }
+
+      td:nth-child(4) .actions-container { 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2px; 
+        flex-wrap: nowrap;
+        width: 100%;
+        height: 48px;
+      }
+
+      /* Pulsanti azioni ottimizzati per touch */
+      .download-btn, .delete-btn { 
+        min-width: 32px; 
+        min-height: 32px;
+        max-width: 32px;
+        max-height: 32px;
+        padding: 4px; 
+        margin: 0;
+        font-size: 14px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        flex-shrink: 0;
+      }
+
+      .download-btn img {
+        width: 18px !important;
+        height: 18px !important;
+      }
+
+      /* Migliora visibilità del testo */
+      td {
+        color: #ffffff;
+        font-weight: 500;
+      }
+
+      tr:hover {
+        background-color: #2563eb;
+      }
+
+      tr:hover td {
+        background-color: #2563eb;
+      }
+
+      /* Messaggi vuoti ottimizzati */
+      .empty-message {
+        padding: 20px 12px;
+        font-size: 14px;
+        line-height: 1.4;
+        text-align: center;
+      }
+
+      .empty-message small {
+        font-size: 11px;
+        margin-top: 8px;
+        display: block;
+      }
+
+      /* Pulsante torna ottimizzato */
+      .container > div:last-child {
+        margin-top: 16px;
+        padding: 0 8px;
+      }
+
+      .container > div:last-child .back-button {
+        position: static;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        padding: 12px 20px;
+        font-size: 14px;
+        min-height: 44px;
+      }
+    }
+
+    /* Fallback per schermi molto piccoli */
+    @media (max-width: 360px) and (orientation: portrait) {
+      .container {
+        padding: 4px;
+      }
+
+      h1 {
+        font-size: 18px;
+        margin-top: 55px;
+        margin-bottom: 12px;
+      }
+
+      .back-button {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-height: 36px;
+      }
+
+      table {
+        font-size: 9px;
+      }
+
+      th, td {
+        padding: 2px 1px;
+        font-size: 9px;
+      }
+
+      th {
+        font-size: 10px;
+        height: 40px;
+      }
+
+      td {
+        height: 48px;
+      }
+
+      .download-btn, .delete-btn {
+        min-width: 28px;
+        min-height: 28px;
+        max-width: 28px;
+        max-height: 28px;
+        font-size: 12px;
+        padding: 2px;
+      }
+
+      .download-btn img {
+        width: 16px !important;
+        height: 16px !important;
+      }
+
+      td:nth-child(4) .actions-container {
+        height: 44px;
+        gap: 1px;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .container { padding: 15px; }
+      h1 { font-size: 26px; margin-top: 65px; }
+      .back-button { padding: 12px 18px; font-size: 15px; min-height: 44px; }
+      th, td { padding: 8px 6px; font-size: 13px; }
+      th { font-size: 15px; height: 55px; }
+      td { height: 55px; }
+      .download-btn, .delete-btn { font-size: 18px; }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .container { padding: 25px; max-width: 95%; }
+      h1 { font-size: 32px; margin-bottom: 30px; }
+      .back-button { padding: 14px 22px; font-size: 16px; min-height: 48px; }
+      table { border-radius: 16px; }
+      th, td { padding: 10px 8px; font-size: 15px; }
+      th { font-size: 18px; height: 60px; }
+      td { height: 50px; }
+      .download-btn, .delete-btn { font-size: 20px; }
+    }
+
+    @media (min-width: 1025px) {
+      .container { max-width: 1200px; padding: 40px; }
+      h1 { font-size: 42px; margin-bottom: 40px; }
+      table { border-radius: 20px; }
+      th, td { padding: 12px; }
+      td { height: 55px; }
+      th { font-size: 20px; height: 64px; }
+      td { font-size: 18px; }
+      .download-btn, .delete-btn { font-size: 22px; }
+    }
+
+    @media (orientation: landscape) and (max-height: 600px) {
+      .container { padding: 15px; }
+      h1 { font-size: 24px; margin-top: 50px; margin-bottom: 20px; }
+      .back-button { top: 8px; left: 8px; padding: 8px 12px; font-size: 13px; }
+      table { font-size: 12px; }
+      th { height: 45px; font-size: 14px; }
+      td { height: 40px; font-size: 12px; }
+      .download-btn, .delete-btn { font-size: 14px; }
+    }

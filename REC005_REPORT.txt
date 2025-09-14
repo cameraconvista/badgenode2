@@ -1,0 +1,14 @@
+# ===== BADGENODE REC-005 REPORT =====
+# Data: 20250914-215814
+# RUN_ID: REC005-20250914-215814-22746
+# Obiettivo: estrazione CSS inline in file dedicati
+
+- utenti.html → CSS estratto in assets/styles/utenti.css
+- storico.html → Nessun CSS inline trovato (skip)
+- index.html → Nessun CSS inline trovato (skip)
+- ex-dipendenti.html → CSS estratto in assets/styles/ex-dipendenti.css
+
+## Backup creato in .backups/REC005_20250914-215814/
+## Rollback: cp -r .backups/REC005_20250914-215814/* ./
+
+# ===== FINE REPORT =====
