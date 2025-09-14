@@ -781,63 +781,40 @@
       window.supabaseClient = supabaseClient; // Make it globally available for the script
       caricaUtenti();
     });
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('lista-dipendenti').innerHTML = `
-          <tr><td colspan="5" style="color: #ef4444; text-align: center; padding: 20px;">
-            Errore di connessione al database. Riprova più tardi.
-          </td></tr>
-        `;
-      });
-  </script>
+    /* [UTENTI] false error on DOMContentLoaded removed */
+</script>
 
   <!-- PWA Service Worker -->
   <script>
-    // Kill-switch per DEV: ?no-sw=1 disabilita e rimuove SW
+// Guard SW: disattiva su dev, :8080 e domini *.onrender.com. Registra solo se sw.js esiste.
+(function(){
+  try{
     const urlParams = new URLSearchParams(window.location.search);
     const noSW = urlParams.get('no-sw') === '1';
+    const host = location.hostname;
+    const port = location.port;
+    const isDev = host === 'localhost' || host.includes('replit.dev') || port === '5000' || port === '5173';
+    const isStatic8080 = port === '8080';
+    const isRender = /\.onrender\.com$/.test(host);
 
-    // Rileva ambiente DEV (Vite dev server)
-    const isDev = window.location.hostname === 'localhost' || 
-                  window.location.hostname.includes('replit.dev') ||
-                  window.location.port === '5000' ||
-                  window.location.port === '5173';
-
-    if (noSW || isDev) {
-      // KILL-SWITCH: Unregister tutti i SW e pulisci cache
+    if (noSW || isDev || isStatic8080 || isRender) {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          registrations.forEach(registration => {
-            registration.unregister();
-            console.log('[SW] Unregistered (DEV mode):', registration.scope);
-          });
-        });
-
-        // Pulisci Cache Storage
-        if ('caches' in window) {
-          caches.keys().then(names => {
-            names.forEach(name => {
-              caches.delete(name);
-              console.log('[SW] Cache deleted (DEV mode):', name);
-            });
-          });
-        }
+        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister().catch(()=>{})));
+        if ('caches' in window) { caches.keys().then(names => names.forEach(n => caches.delete(n).catch(()=>{}))); }
+        console.info('[SW] Unregistered (env guard)');
       }
-      console.log('[SW] Service Worker DISABILITATO in ambiente DEV');
     } else {
-      // PRODUZIONE: Registra SW normalmente
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20250911')
-            .then((registration) => {
-              console.log('Service Worker registrato:', registration.scope);
-            })
-            .catch((error) => {
-              console.error('Errore registrazione Service Worker:', error);
-            });
-        });
+        const swPath = '/sw.js';
+        fetch(swPath, { method:'HEAD' }).then(r=>{
+          if (r && r.ok) navigator.serviceWorker.register(swPath).catch(()=>{});
+          else console.info('[SW] Not found, skip');
+        }).catch(()=>console.info('[SW] Skip'));
       }
     }
-  </script>
+  }catch(e){ console.info('[SW] Guard error:', e?.message||e); }
+})();
+</script>
 <!-- REC004-SINGLETON-HOOK -->
 <script type="module">
   import { supabaseClient as supabase } from './assets/scripts/supabase-client.js';
