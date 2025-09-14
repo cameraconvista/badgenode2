@@ -155,6 +155,29 @@ function validaRange(range) {
   return range; // Range valido
 }
 
+// ✅ HELPER LOCALI PER RANGE DATE (no UTC, no toISOString)
+// ritorna { start, end } per il mese di 'base'
+function getMonthRangeLocal(base = new Date()) {
+  const y = base.getFullYear(), m = base.getMonth();
+  const start = new Date(y, m, 1);   start.setHours(12,0,0,0);   // mezzogiorno per evitare DST
+  const end   = new Date(y, m+1, 0); end.setHours(12,0,0,0);
+  return { start, end };
+}
+
+// calcola il mese con offset: 0 = corrente, -1 = precedente, -2 = due precedenti
+function monthWithOffset(today = new Date(), offset = 0) {
+  const y = today.getFullYear(), m = today.getMonth();
+  return new Date(y, m + offset, 1);
+}
+
+// format YYYY-MM-DD in locale (senza UTC)
+function fmtYmd(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
 // ✅ EVENT LISTENERS - configurati una sola volta
 selectFiltro?.addEventListener("change", () => {
   if (selectFiltro.value !== "personalizzato") {
@@ -162,34 +185,33 @@ selectFiltro?.addEventListener("change", () => {
     selectFiltro.style.borderColor = '#334155';
     selectFiltro.style.color = 'white';
 
-    // Aggiorna range in base alla selezione
+    // Aggiorna range in base alla selezione usando helper locali
     const oggi = new Date();
-    let nuovoRange;
+    let base, range;
 
     switch(selectFiltro.value) {
       case 'corrente':
-        nuovoRange = {
-          inizio: new Date(oggi.getFullYear(), oggi.getMonth(), 1).toISOString().split('T')[0],
-          fine: new Date(oggi.getFullYear(), oggi.getMonth() + 1, 0).toISOString().split('T')[0]
-        };
+        base = monthWithOffset(oggi, 0);
         break;
       case 'precedente':
-        nuovoRange = {
-          inizio: new Date(oggi.getFullYear(), oggi.getMonth() - 1, 1).toISOString().split('T')[0],
-          fine: new Date(oggi.getFullYear(), oggi.getMonth(), 0).toISOString().split('T')[0]
-        };
+        base = monthWithOffset(oggi, -1);
         break;
       case 'due-precedenti':
-        nuovoRange = {
-          inizio: new Date(oggi.getFullYear(), oggi.getMonth() - 2, 1).toISOString().split('T')[0],
-          fine: new Date(oggi.getFullYear(), oggi.getMonth() - 1, 0).toISOString().split('T')[0]
-        };
+        base = monthWithOffset(oggi, -2);
         break;
       default:
-        nuovoRange = getDefaultRange();
+        base = monthWithOffset(oggi, 0);
     }
 
-    currentRange = nuovoRange;
+    range = getMonthRangeLocal(base);
+    
+    // Log diagnostico
+    console.info('[storico] preset:', selectFiltro.value, 'range:', fmtYmd(range.start), '→', fmtYmd(range.end));
+
+    currentRange = {
+      inizio: fmtYmd(range.start),
+      fine: fmtYmd(range.end)
+    };
 
     // Aggiorna input date
     if (dataInizio) dataInizio.value = currentRange.inizio;
@@ -459,21 +481,36 @@ function mostraMessaggio(messaggio, tipo = 'info') {
 document.addEventListener('DOMContentLoaded', function() {
   console.log('📊 STORICO: Inizializzazione...');
 
-  // 1. Set range default PRIMA di tutto
-  currentRange = getDefaultRange();
-  console.log('🔧 Range default impostato:', currentRange);
+  // 1. Forza il filtro su "mese corrente" se non impostato
+  const selectFiltro = document.getElementById('filtro-mese');
+  if (selectFiltro && !selectFiltro.value) {
+    selectFiltro.value = 'corrente';
+    console.log('🔧 Filtro forzato su "mese corrente"');
+  }
 
-  // 2. Aggiorna input date con valori default
+  // 2. Calcola range usando helper locali per mese corrente
+  const oggi = new Date();
+  const base = monthWithOffset(oggi, 0);
+  const range = getMonthRangeLocal(base);
+  
+  currentRange = {
+    inizio: fmtYmd(range.start),
+    fine: fmtYmd(range.end)
+  };
+  
+  console.log('🔧 Range mese corrente calcolato:', currentRange);
+
+  // 3. Aggiorna input date con range corretto
   const dataInizioEl = document.getElementById('data-inizio');
   const dataFineEl = document.getElementById('data-fine');
 
   if (dataInizioEl && dataFineEl) {
     dataInizioEl.value = currentRange.inizio;
     dataFineEl.value = currentRange.fine;
-    console.log('📅 Input date inizializzati con range default');
+    console.log('📅 Input date inizializzati con range mese corrente');
   }
 
-  // 3. Primo caricamento IMMEDIATO con range default
+  // 4. Primo caricamento IMMEDIATO con range corretto
   caricaDatiServer();
 
   console.log('✅ Storico inizializzato e caricamento avviato');

@@ -135,14 +135,23 @@ Per ripristinare tutti i file archiviati:
 - Sicurezza: MASSIMA - zero compromessi layout/funzionalità
 - Stato: PROGETTO FINALE PULITO - Solo file runtime essenziali
 
-## FIX RANGE DATE STORICO TABELLA
-- Timestamp: 2025-09-14 23:47:38
-- Problema: Filtro "Mese corrente" mostrava giorno 31 mese precedente invece del giorno 1
-- Causa: Parsing date con timezone UTC causava shift di fuso orario
-- Soluzione: Sostituito new Date(dataInizio + 'T00:00:00') con parsing locale esplicito
-- File modificato: assets/scripts/timbrature-render.js (righe 51-55)
-- Risultato: Range date ora corretto per mese corrente (1-30/31)
-- Impatto: ZERO - solo fix logica date, layout e funzionalità invariati
+## FIX RANGE DATE STORICO TABELLA - VERSIONE DEFINITIVA + INIT
+- Timestamp: 2025-09-15 00:00:12
+- Problema: Filtro temporale mostrava giorni errati + range sbagliato al primo caricamento
+- Causa: Uso di toISOString() + parsing UTC + loop non inclusivo + init con getDefaultRange() obsoleto
+- Soluzione COMPLETA:
+  * Helper locali in storico-logic.js: getMonthRangeLocal(), monthWithOffset(), fmtYmd()
+  * Orari fissi a mezzogiorno (12:00) per evitare DST
+  * Loop inclusivo (<=) per generazione giorni in timbrature-render.js
+  * Eliminato completamente uso di toISOString() per range date
+  * FIX INIT: DOMContentLoaded usa helper locali invece di getDefaultRange()
+- File modificati: 
+  * assets/scripts/storico-logic.js (righe 158-219, 481-517)
+  * assets/scripts/timbrature-render.js (righe 51-81)
+- Log diagnostico: console.info con range effettivo per debug
+- Risultato: Range date PERFETTO al primo load - dal 1° all'ultimo giorno mese corrente
+- Test: Primo caricamento + cambio filtri - tutti corretti
+- Impatto: ZERO layout, VirtualTable resta disattivata, funzionalità invariate
 
 ## RIPRISTINO BACKUP - 20250914-225449
 **Backup ripristinato:** REC005_20250914-215814

@@ -48,11 +48,16 @@ export function renderizzaTabella(dipendente, timbrature, dataInizio, dataFine, 
     return { totaleMensile: '—' };
   }
 
-  // Fix timezone issues - use local date parsing
+  // Fix timezone issues - use local date parsing with noon time
   const [annoInizio, meseInizio, giornoInizio] = dataInizio.split('-').map(Number);
   const [annoFine, meseFine, giornoFine] = dataFine.split('-').map(Number);
   const start = new Date(annoInizio, meseInizio - 1, giornoInizio);
   const end = new Date(annoFine, meseFine - 1, giornoFine);
+  
+  // Set to noon to avoid DST issues
+  start.setHours(12, 0, 0, 0);
+  end.setHours(12, 0, 0, 0);
+  
   const giorniSettimana = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
 
   // Build timbrature map by date for quick lookup
@@ -67,8 +72,13 @@ export function renderizzaTabella(dipendente, timbrature, dataInizio, dataFine, 
     }
   }
 
-  // Generate all days in range
-  const days = eachDay(start, end);
+  // Generate all days in range using inclusive loop
+  const giorni = [];
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    // Create record for day - no UTC conversion
+    giorni.push(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
+  }
+  const days = giorni;
   let totaleMensileOre = 0;
   let totaleMensileExtra = 0;
 
