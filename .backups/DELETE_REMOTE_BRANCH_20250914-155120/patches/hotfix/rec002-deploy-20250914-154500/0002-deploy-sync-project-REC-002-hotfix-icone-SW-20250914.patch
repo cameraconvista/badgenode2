@@ -1,0 +1,74 @@
+From 6a8e4ed90ff2b549ff0f4be795ffa1adbd1af021 Mon Sep 17 00:00:00 2001
+From: Liam <liam@192.168.1.61>
+Date: Sun, 14 Sep 2025 15:47:23 +0200
+Subject: [PATCH 2/2] deploy: sync project (REC-002 + hotfix icone/SW) @
+ 20250914-154723
+
+---
+ push-direct.sh | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+ create mode 100755 push-direct.sh
+
+diff --git a/push-direct.sh b/push-direct.sh
+new file mode 100755
+index 0000000..e0e1d2f
+--- /dev/null
++++ b/push-direct.sh
+@@ -0,0 +1,54 @@
++#!/bin/bash
++# 🚀 CASCADE | PUSH DIRETTO SU GITHUB (senza branch) + ROLLBACK SEMPLICE
++# Scopo: caricare *subito* lo stato attuale del progetto sul ramo corrente (es. main) senza creare branch.
++# Include: punto di ripristino (tag) per rollback 1-step.
++# Non modifica layout/DOM/CSS; esegue solo operazioni git.
++
++set -euo pipefail
++ts=$(date +%Y%m%d-%H%M%S)
++
++echo "== PRECHECK REPO =="
++git rev-parse --is-inside-work-tree >/dev/null
++current_branch=$(git rev-parse --abbrev-ref HEAD)
++if ! git remote get-url origin >/dev/null 2>&1; then
++  echo "[ERRORE] Nessun 'origin' impostato. Configura il remote prima di procedere."; exit 1
++fi
++echo "[INFO] Branch corrente: $current_branch"
++echo "[INFO] Remote origin: $(git remote get-url origin)"
++
++echo "== CREA PUNTO DI ROLLBACK (TAG PRE-PUSH) =="
++rollback_tag="prepush-${current_branch}-${ts}"
++git tag -a "$rollback_tag" -m "Rollback point before direct push ($current_branch @ $ts)"
++echo "[OK] Creato tag: $rollback_tag  (rollback:  git reset --hard $rollback_tag )"
++
++echo "== PREPARE COMMIT =="
++# Se ci sono file non tracciati/cambiati, li includiamo.
++changes=$(git status --porcelain)
++if [ -n "$changes" ]; then
++  git add -A
++  git commit -m "deploy: sync project (REC-002 + hotfix icone/SW) @ $ts"
++  echo "[OK] Commit creato."
++else
++  echo "[INFO] Nessuna modifica da committare. Procedo con push."
++fi
++
++echo "== PUSH DIRETTO SUL RAMO CORRENTE =="
++git push origin "$current_branch" --follow-tags
++echo "[DONE] Push completato su $current_branch (tag incluso)."
++
++cat <<NOTE
++
++────────────────────────────────────────────────────────────────────
++POST-AZIONI (manuali):
++1) Se Render/hosting è configurato su push → deploy, attendi la build e poi testa:
++   - /utenti.html: nessun loop; icona "occhio" ok.
++   - /storico.html: icona "matita" ok; export PDF/XLS < 500ms.
++   - /ex-dipendenti.html: icone azioni ok; nessun errore SW.
++2) Se serve ROLLBACK immediato:
++   git fetch --tags
++   git reset --hard $rollback_tag      # es: git reset --hard $rollback_tag
++   git push origin $current_branch --force
++
++Nota: questo script NON crea branch. Aggiorna direttamente il ramo corrente.
++────────────────────────────────────────────────────────────────────
++NOTE
+-- 
+2.39.5 (Apple Git-154)
+
