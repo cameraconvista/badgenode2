@@ -48,8 +48,11 @@ export function renderizzaTabella(dipendente, timbrature, dataInizio, dataFine, 
     return { totaleMensile: '—' };
   }
 
-  const start = new Date(dataInizio + 'T00:00:00');
-  const end = new Date(dataFine + 'T00:00:00');
+  // Fix timezone issues - use local date parsing
+  const [annoInizio, meseInizio, giornoInizio] = dataInizio.split('-').map(Number);
+  const [annoFine, meseFine, giornoFine] = dataFine.split('-').map(Number);
+  const start = new Date(annoInizio, meseInizio - 1, giornoInizio);
+  const end = new Date(annoFine, meseFine - 1, giornoFine);
   const giorniSettimana = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
 
   // Build timbrature map by date for quick lookup

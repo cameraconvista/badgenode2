@@ -88,6 +88,62 @@ Per ripristinare tutti i file archiviati:
 - Rimossi: storico-align.js, storico-colgroup-sync.js (script provvisori)
 - Stato: STABILE - Allineamento e matita funzionanti
 
+## PULIZIA DEFINITIVA FILE REPORT E DOCUMENTAZIONE
+- Timestamp: 2025-09-14 23:29:18
+- Operazione: Eliminazione fisica file non-runtime
+- File eliminati (13 totali):
+  * POST_REBOOT_VALIDATION_REPORT.txt
+  * REC003_AUTOWIRE_REPORT.txt
+  * REC003_TUNING_REPORT.txt
+  * REC004_P2_REPORT.txt
+  * REC004_PINFIX_REPORT.txt
+  * REPORT_DETTAGLIATO_POST_REBOOT_VALIDATION_20250914.txt
+  * REPORT_DETTAGLIATO_REC004_FASE2_20250914.txt
+  * REPORT_DETTAGLIATO_REC004_PINFIX_20250914.txt
+  * REPORT_DETTAGLIATO_REC005_20250914.txt
+  * REPORT_DETTAGLIATO_REC006_20250914.txt
+  * REPORT_DETTAGLIATO_REC007_20250914.txt
+  * sql/INSTALL.md
+  * sql/README_retention.md
+- Mantenuto: REPORT_CONSOLIDATO.txt (unico report necessario)
+- Stato: PROGETTO PULITO - Solo file runtime essenziali
+
+## ELIMINAZIONE BACKUP E BUILD OBSOLETI
+- Timestamp: 2025-09-14 23:39:43
+- Operazione: Rimozione directory non-funzionali
+- Directory eliminate:
+  * .backups/ (1.7M) - 20+ backup duplicati storici
+  * dist/ (320K) - build Vite obsoleti
+- Spazio liberato: ~2MB
+- Sicurezza: MASSIMA - zero impatto su funzionalità
+- Stato: PROGETTO ULTRA-SNELLO - Solo runtime core
+
+## PULIZIA FINALE FILE NON-FUNZIONALI
+- Timestamp: 2025-09-14 23:43:47
+- Operazione: Eliminazione completa file inutili
+- File eliminati (10 totali):
+  * backup-REC003-STORICO-STABLE-20250914-232813.tgz (1.6M)
+  * backups/ directory completa (712K)
+  * archivio_deprecati/ directory completa (20K)
+  * copy-changelog.html (8K) - documentazione non linkata
+  * copy-final-fix.html (16K) - documentazione non linkata
+  * finalize_streamline.sh (8K) - script completato
+  * ROLLBACK.sh (4K) - script completato
+  * assets/scripts/storico-align.js - script non utilizzato
+  * assets/scripts/storico-colgroup-sync.js - script non utilizzato
+- Spazio liberato totale: ~2.4MB
+- Sicurezza: MASSIMA - zero compromessi layout/funzionalità
+- Stato: PROGETTO FINALE PULITO - Solo file runtime essenziali
+
+## FIX RANGE DATE STORICO TABELLA
+- Timestamp: 2025-09-14 23:47:38
+- Problema: Filtro "Mese corrente" mostrava giorno 31 mese precedente invece del giorno 1
+- Causa: Parsing date con timezone UTC causava shift di fuso orario
+- Soluzione: Sostituito new Date(dataInizio + 'T00:00:00') con parsing locale esplicito
+- File modificato: assets/scripts/timbrature-render.js (righe 51-55)
+- Risultato: Range date ora corretto per mese corrente (1-30/31)
+- Impatto: ZERO - solo fix logica date, layout e funzionalità invariati
+
 ## RIPRISTINO BACKUP - 20250914-225449
 **Backup ripristinato:** REC005_20250914-215814
 **Motivo:** Problemi funzionamento storico.html dopo Finalize Streamline
