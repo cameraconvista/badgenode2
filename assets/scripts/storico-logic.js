@@ -359,13 +359,11 @@ async function exportaPDF() {
       }
     });
     
-    // Calcola spazio disponibile e dimensioni ottimizzate per A4
-    const maxRighe = Math.min(tuttiGiorni.length, 20); // Max 20 righe per pagina A4
-    const altezzaRiga = Math.min(8, (270 - 120) / maxRighe); // Altezza dinamica
+    // Calcola spazio disponibile per tutti i giorni del mese
+    const altezzaRiga = Math.max(4, (270 - 120) / tuttiGiorni.length); // Altezza dinamica minima 4
     
     // Stampa tutti i giorni del range
     tuttiGiorni.forEach((giorno, index) => {
-      if (y > 270) return; // Stop se supera la pagina
       
       const giornoNum = giorno.getDate();
       const giornoSettimana = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][giorno.getDay()];
