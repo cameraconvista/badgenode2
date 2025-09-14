@@ -1,0 +1,13 @@
+BADGENODE — Note Deploy REC-006
+Data: 20250914-220258
+Cosa è stato fatto:
+- Creato/aggiornato public/_headers per abilitare caching asset statici.
+
+Cosa fare su Render:
+1) Esegui un deploy con "Clear build cache".
+2) Apri la app, verifica nella rete (DevTools) che gli asset /assets/* abbiano Cache-Control come da _headers.
+3) Verifica che l'HTML (/, /index.html, ecc.) abbia max-age=0; must-revalidate.
+
+Note:
+- Se il tuo ambiente Render non legge public/_headers, configura le policy header dalla dashboard.
+- Nessuna modifica a HTML/JS/CSS dell'app.

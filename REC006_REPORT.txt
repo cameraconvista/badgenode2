@@ -1,0 +1,29 @@
+# ===== BADGENODE REC-006 REPORT =====
+# Data: 20250914-220258
+# RUN_ID: REC006-20250914-220258-21897
+# Obiettivo: caching asset statici via public/_headers
+
+## FILE CREATI/MODIFICATI
+- public/_headers
+- REC006_DEPLOY_NOTES.txt (solo note operative)
+
+## POLICY INSERITE
+- HTML (/*): Cache-Control: public, max-age=0, must-revalidate
+- /assets/*: Cache-Control: public, max-age=604800, immutable
+- /assets/styles/*: max-age=604800, immutable
+- /assets/scripts/*: max-age=604800, immutable
+- /assets/icons/*: max-age=31536000, immutable
+- /*.map: max-age=86400
+
+## VALIDAZIONI SUGGERITE (post-deploy con Clear build cache)
+1) Apri DevTools → Network → ricarica la pagina.
+2) Seleziona un file sotto /assets/scripts/ o /assets/styles/:
+   - Intestazione attesa: Cache-Control: public, max-age=604800, immutable
+3) Seleziona il documento (Doc/HTML):
+   - Intestazione attesa: Cache-Control: public, max-age=0, must-revalidate
+
+## BACKUP
+- Cartella: .backups/REC006_20250914-220258/
+- Rollback: cp -r .backups/REC006_20250914-220258/* ./
+
+# ===== FINE REPORT =====

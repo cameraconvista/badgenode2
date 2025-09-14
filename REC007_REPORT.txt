@@ -1,0 +1,13 @@
+# ===== BADGENODE REC-007 REPORT =====
+# Data: 20250914-220624
+# RUN_ID: REC007-20250914-220624-10588
+# Obiettivo: pulizia file obsoleti
+
+- sw.js → spostato in backup
+- offline.html → spostato in backup
+- assets/scripts/utenti-loader.js → spostato in backup
+
+## Backup creato in .backups/REC007_20250914-220624/
+## Rollback: cp -r .backups/REC007_20250914-220624/* ./
+
+# ===== FINE REPORT =====

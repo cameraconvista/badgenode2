@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <script>
+  (function () {
+    if (location.protocol !== 'https:') return;  // only on https
+    var HMR = /:\/\/(0\.0\.0\.0|127\.0\.0\.1|localhost):517\d/;
+
+    // Patch WebSocket (block only Vite HMR)
+    var OldWS = window.WebSocket;
+    window.WebSocket = function (url, protocols) {
+      try { if (typeof url === 'string' && HMR.test(url)) throw new Error('HMR disabled on HTTPS'); }
+      catch (e) { console.debug('[HMR muted]', e.message); return { close(){}, readyState: 3, addEventListener(){}, removeEventListener(){}, send(){} }; }
+      var ws = new OldWS(url, protocols);
+      return ws;
+    };
+    if (OldWS) window.WebSocket.prototype = OldWS.prototype;
+
+    // Patch EventSource (some setups use it for HMR)
+    var OldES = window.EventSource;
+    if (OldES) {
+      window.EventSource = function (url, conf) {
+        if (typeof url === 'string' && HMR.test(url)) {
+          console.debug('[HMR muted] EventSource blocked');
+          return { close(){}, readyState: 2, onopen:null, onmessage:null, onerror:null, addEventListener(){}, removeEventListener(){} };
+        }
+        return new OldES(url, conf);
+      };
+      window.EventSource.prototype = OldES.prototype;
+    }
+  })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+  
+  <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lbHFnaXFocGNqd3R6dHRmaHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQzNjA0NzIsImV4cCI6MjA0OTkzNjQ3Mn0.4r3y8F1eAJXyPOyFb0sHpfkkSTgqMUjJSgEvDBGcX30">
+  <title>Ex Dipendenti - BADGEBOX</title>
+  <meta name="theme-color" content="#0d1b2b" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BADGEBOX" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/badgenode-192.png" />
+  <meta name="msapplication-TileImage" content="assets/icons/badgenode-192.png" />
+  <meta name="msapplication-TileColor" content="#0d1b2b" />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Performance optimizations -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://txmjqrnitfsiytbytxlc.supabase.co" crossorigin>
+  <link rel="dns-prefetch" href="https://txmjqrnitfsiytbytxlc.supabase.co">
+
+  <!-- Preload risorse critiche -->
+  <link rel="preload" href="utenti.html" as="document">
+  <link rel="preload" href="style.css" as="style">
+
+  
+  <link rel="stylesheet" href="/assets/css/ex-dipendenti.css">
+  
+</head>
+<body>
+  <div class="container">
+    <div style="position: relative; text-align: center; margin-bottom: 10px;">
+      <img src="assets/icons/BNLOGO.png" alt="BADGENODE Logo" style="width: 120px; height: auto; margin-bottom: 15px;" />
+      <h1 style="margin: 0 0 4px 0;">Archivio Ex Dipendenti</h1>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Cognome</th>
+          <th>Archiviazione</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody id="lista-ex-dipendenti">
+        <tr>
+          <td colspan="4" class="empty-message">
+            <div>📂 Nessun dipendente archiviato</div>
+            <small style="display: block; margin-top: 10px; color: #6b7280;">
+              I dipendenti archiviati appariranno qui con la possibilità di scaricare il file Excel completo
+            </small>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+      <a href="utenti.html" class="back-button" style="position: static; top: auto; left: auto; margin: 0;">← Torna ai Dipendenti</a>
+    </div>
+  </div>
+
+  <script type="module">
+    // Supabase Client Centralizzato
+    import { supabaseClient } from './assets/scripts/supabase-client.js';
+    // Compatibilità retro: espone client come variabile globale
+    window.supabase = supabaseClient;
+
+    const tbody = document.getElementById("lista-ex-dipendenti");
+
+    async function caricaExDipendenti() {
+      try {
+        const { data, error } = await window.supabase
+          .from("dipendenti_archiviati")
+          .select("*")
+          .order("data_archiviazione", { ascending: false });
+
+        if (error) {
+          console.error("Errore caricamento ex dipendenti:", error);
+          alert("Errore durante il caricamento: " + error.message);
+          return;
+        }
+
+        tbody.innerHTML = "";
+
+        if (!data || data.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="4" class="empty-message">
+                <div>📂 Nessun dipendente archiviato</div>
+                <small style="display: block; margin-top: 10px; color: #6b7280;">
+                  I dipendenti archiviati appariranno qui con la possibilità di scaricare il file Excel completo
+                </small>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        data.forEach(exDipendente => {
+          const dataArchiviazione = new Date(exDipendente.data_archiviazione).toLocaleDateString('it-IT');
+          const riga = document.createElement('tr');
+          riga.innerHTML = `
+            <td title="${exDipendente.nome}">${exDipendente.nome}</td>
+            <td title="${exDipendente.cognome}">${exDipendente.cognome}</td>
+            <td title="${dataArchiviazione}">${dataArchiviazione}</td>
+            <td>
+              <div class="actions-container">
+                <button class="download-btn" onclick="scaricaExcel('${exDipendente.id}', '${exDipendente.nome}', '${exDipendente.cognome}')" title="Scarica Excel">
+                  <img src="assets/icons/esporta.png" alt="Esporta Excel" style="width: 24px; height: 24px;" loading="lazy" />
+                </button>
+                <button class="delete-btn" onclick="eliminaExDipendente('${exDipendente.id}', '${exDipendente.nome}', '${exDipendente.cognome}')" title="Elimina Definitivamente">
+                  ❌
+                </button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(riga);
+        });
+
+      } catch (error) {
+        console.error("Errore imprevisto:", error);
+        alert("Errore durante il caricamento ex dipendenti");
+      }
+    }
+
+    window.scaricaExcel = async (id, nome, cognome) => {
+      try {
+        const { data, error } = await window.supabase
+          .from("dipendenti_archiviati")
+          .select("file_excel_path, file_excel_name")
+          .eq("id", id)
+          .single();
+
+        if (error) {
+          console.error("Errore recupero file:", error);
+          alert("Errore durante il recupero del file: " + error.message);
+          return;
+        }
+
+        if (!data.file_excel_path) {
+          alert("File Excel non disponibile per questo dipendente");
+          return;
+        }
+
+        const excelData = JSON.parse(data.file_excel_path);
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        csvContent += "INFORMAZIONI DIPENDENTE\n";
+        csvContent += "Nome,Cognome,PIN,Email,Telefono,Ore Contrattuali\n";
+        csvContent += `"${excelData.dipendente.nome}","${excelData.dipendente.cognome}",${excelData.dipendente.pin},"${excelData.dipendente.email}","${excelData.dipendente.telefono || 'N/A'}",${excelData.dipendente.ore_contrattuali}\n\n`;
+
+        csvContent += "STORICO TIMBRATURE\n";
+        csvContent += "Data,Ora,Tipo,PIN,Nome,Cognome\n";
+
+        if (excelData.timbrature && excelData.timbrature.length > 0) {
+          excelData.timbrature.forEach(timbratura => {
+            csvContent += `"${timbratura.data}","${timbratura.ore}","${timbratura.tipo}",${timbratura.pin},"${timbratura.nome}","${timbratura.cognome}"\n`;
+          });
+        }
+
+        csvContent += `\nTOTALE TIMBRATURE: ${excelData.totaleTimbrature || 0}\n`;
+        csvContent += `GENERATO IL: ${new Date(excelData.dataGenerazione).toLocaleString('it-IT')}\n`;
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `${nome}_${cognome}_timbrature_completo.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+      } catch (error) {
+        console.error("Errore scaricamento file:", error);
+        alert("Errore durante lo scaricamento del file");
+      }
+    };
+
+
+
+    window.eliminaExDipendente = async (id, nome, cognome) => {
+      if (!confirm(`⚠️ ATTENZIONE! Stai per eliminare DEFINITIVAMENTE l'ex dipendente:\n\n${nome} ${cognome}\n\nQuesta azione eliminerà:\n• L'ex dipendente dall'archivio\n• Tutti i suoi dati archiviati\n• Il file Excel associato\n\nQuesta operazione NON può essere annullata!\n\nSei sicuro di voler procedere?`)) return;
+
+      if (!confirm(`⚠️ ULTIMA CONFERMA!\n\nStai per eliminare definitivamente ${nome} ${cognome}.\n\nDigita "ELIMINA" per confermare:`)) return;
+
+      try {
+        const { error: deleteError } = await window.supabase
+          .from("dipendenti_archiviati")
+          .delete()
+          .eq("id", id);
+
+        if (deleteError) {
+          console.error("Errore eliminazione ex dipendente:", deleteError);
+          alert("Errore durante l'eliminazione: " + deleteError.message);
+          return;
+        }
+
+        alert(`✅ Ex dipendente ${nome} ${cognome} eliminato definitivamente dall'archivio!`);
+        caricaExDipendenti();
+
+      } catch (error) {
+        console.error("Errore imprevisto:", error);
+        alert("Errore durante l'eliminazione definitiva");
+      }
+    };
+
+    caricaExDipendenti();
+  </script>
+
+<script type="module">
+  import { supabaseClient as supabase } from './assets/scripts/supabase-client.js';
+  globalThis.supabase = supabase;
+  globalThis.loadExDip = globalThis.loadExDip || async function(){
+    try {
+      const { data, error } = await supabase.from('dipendenti_archiviati').select('*').order('cognome',{ascending:true});
+      if (error) throw error;
+      console.info('[EXDIP] Caricati', data?.length ?? 0, 'record');
+      // lasciare invariato: funzione che popola la tabella esistente, se definita
+      if (typeof renderExDipendenti === 'function') renderExDipendenti(data);
+    } catch (e) {
+      console.error('[EXDIP] Errore caricamento:', e?.message || e);
+      // UI fallback: mostra messaggio non bloccante se esiste container #exdip-msg
+      const c = document.querySelector('#exdip-msg'); if (c) c.textContent = 'Errore caricamento ex-dipendenti';
+    }
+  };
+  // avvio lazy senza reload
+  try { globalThis.loadExDip(); } catch(_) {}
+</script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    // Service Worker registration per PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        /* SW register stripped */.then((registration) => {
+            console.log('[SW] Registered:', registration.scope);
+          })
+          .catch((error) => {
+            console.error('[SW] Registration failed:', error);
+          });
+      });
+    }
+  
+<script>
+/* REC-SW-GUARD-ALL */
+(function(){
+  try{
+    const host = location.hostname, port = location.port;
+    const isDev = host==='localhost' || host.includes('replit.dev') || port==='5000' || port==='5173';
+    const is8080 = port==='8080';
+    const isRender = /\.onrender\.com$/.test(host);
+    if ('serviceWorker' in navigator) {
+      if (isDev || is8080 || isRender || (new URLSearchParams(location.search)).get('no-sw')==='1') {
+        navigator.serviceWorker.getRegistrations?.().then(rs=>rs.forEach(r=>r.unregister().catch(()=>{})));
+        if ('caches' in window) caches.keys().then(ns=>ns.forEach(n=>caches.delete(n).catch(()=>{})));
+        console.info('[SW] Unregistered (env guard)');
+      } else {
+        const swPath='/sw.js';
+        fetch(swPath,{method:'HEAD'}).then(r=>{
+          if(r&&r.ok) navigator.serviceWorker.register(swPath).catch(()=>{});
+          else console.info('[SW] Not found, skip');
+        }).catch(()=>console.info('[SW] Skip'));
+      }
+    }
+  }catch(e){ console.info('[SW] guard error', e?.message||e); }
+})();
+</script>
+</body>
+</html>
