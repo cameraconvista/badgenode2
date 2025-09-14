@@ -234,6 +234,34 @@
 </script>
 <!-- removed extra </body> -->
 <script type="module">import { VirtualTable } from './assets/scripts/virtual-table.js'; window.__REC003__ = window.__REC003__ || {}; window.__REC003__.mount = (rowsHTML)=>{   try{     const tb = document.querySelector('#storico-body');     if(!tb) return console.warn('[REC003] tbody non trovato');     const vt = new VirtualTable(tb,{ rowHeight: 44, buffer: 12 });     vt.setRows(rowsHTML);     console.info('[REC003] virtual table attiva:', rowsHTML?.length||0, 'righe');   }catch(e){ console.warn('[REC003] fallback renderer:', e?.message||e); } };</script>
+<script type="module">
+/* REC003-AUTOWIRE — attiva VirtualTable in automatico, nessun cambio layout */
+document.addEventListener('DOMContentLoaded',()=>{
+  try{
+    const tb = document.querySelector('#storico-body');
+    if(!tb) return;
+    if(tb.hasAttribute('data-rec003-off')) { console.info('[REC003] autowire disattivato via data-rec003-off'); return; }
+    let armed = false;
+    const run = ()=>{
+      if(armed) return;
+      const trs = tb.querySelectorAll('tr');
+      if(trs.length > 150){
+        const rowsHTML = Array.from(trs, tr => tr.outerHTML);
+        if(window.__REC003__?.mount){
+          window.__REC003__.mount(rowsHTML);
+          console.info('[REC003] VirtualTable attiva (autowire)', rowsHTML.length, 'righe');
+          armed = true;
+          obs.disconnect();
+        }
+      }
+    };
+    const obs = new MutationObserver(()=>{ try{ run(); }catch(e){ console.warn('[REC003] autowire fallback:', e?.message||e); } });
+    obs.observe(tb, { childList:true });
+    /* tentativo anche se la tabella è già pronta */
+    setTimeout(()=>{ try{ run(); }catch{} }, 0);
+  }catch(e){ console.warn('[REC003] autowire non attivo:', e?.message||e); }
+});
+</script>
 <script type="module">import { fetchStoricoJoin } from './assets/scripts/rec004_join_adapter.js'; window.__REC004__ = { fetchStoricoJoin };</script>
 
   <script>

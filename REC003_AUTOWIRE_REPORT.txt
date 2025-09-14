@@ -1,0 +1,24 @@
+# ===== BADGENODE REC-003 AUTOWIRE REPORT =====
+# Data: 20250914-210943
+# RUN_ID: REC003-AUTOWIRE-20250914-210943-5476
+# Tipo: Attivazione automatica VirtualTable con MutationObserver
+
+## OPERAZIONI
+- Backup: .backups/REC003_AUTOWIRE_20250914-210943/
+- File modificato: storico.html (solo script REC-003 interno)
+- Aggiunto blocco: /* REC003-AUTOWIRE */
+- Comportamento:
+  * Osserva #storico-body; quando ci sono >150 <tr> → monta VirtualTable
+  * Disattivabile aggiungendo l'attributo data-rec003-off su #storico-body
+  * Fallback: se mount non disponibile, nessun errore e tabella resta tradizionale
+
+## VALIDAZIONI SUGGERITE
+1) Apri "storico" con dataset ampio → lo scroll deve essere fluido.
+2) Console: deve comparire "[REC003] VirtualTable attiva (autowire)".
+3) Export PDF/XLSX e azioni CRUD invariati.
+4) Nessun errore rosso in console; SW sempre unregistered.
+
+## ROLLBACK
+cp -r .backups/REC003_AUTOWIRE_20250914-210943/* ./
+
+# ===== FINE REPORT =====

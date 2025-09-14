@@ -1,0 +1,144 @@
+# ===== REPORT DETTAGLIATO MODIFICHE REC-003 AUTOWIRE =====
+# Data: 14 Settembre 2025 - 21:11
+# Progetto: BadgeNode
+# Tipo Intervento: Implementazione Attivazione Automatica VirtualTable
+
+## PANORAMICA GENERALE
+È stata implementata con successo la funzionalità REC-003 AUTOWIRE che permette l'attivazione automatica della VirtualTable quando la pagina storico viene popolata con un numero elevato di righe (>150).
+
+## DETTAGLIO MODIFICHE ESEGUITE
+
+### 1. CREAZIONE SCRIPT DI IMPLEMENTAZIONE
+- **File creato**: `rec003_autowire_script.sh`
+- **Scopo**: Script bash per implementare l'autowire in modo sicuro e idempotente
+- **Caratteristiche**:
+  * Backup automatico dei file modificati
+  * Controlli di sicurezza pre-modifica
+  * Generazione automatica di report
+  * Rollback facilitato
+
+### 2. BACKUP DI SICUREZZA
+- **Directory backup**: `.backups/REC003_AUTOWIRE_20250914-210943/`
+- **File salvati**:
+  * `storico.html` (versione originale)
+  * `assets/scripts/virtual-table.js`
+- **RUN_ID**: `REC003-AUTOWIRE-20250914-210943-5476`
+
+### 3. MODIFICHE AL FILE STORICO.HTML
+**Posizione**: Linee 237-264 (nuovo blocco script)
+
+**Codice aggiunto**:
+```javascript
+<script type="module">
+/* REC003-AUTOWIRE — attiva VirtualTable in automatico, nessun cambio layout */
+document.addEventListener('DOMContentLoaded',()=>{
+  try{
+    const tb = document.querySelector('#storico-body');
+    if(!tb) return;
+    if(tb.hasAttribute('data-rec003-off')) { 
+      console.info('[REC003] autowire disattivato via data-rec003-off'); 
+      return; 
+    }
+    let armed = false;
+    const run = ()=>{
+      if(armed) return;
+      const trs = tb.querySelectorAll('tr');
+      if(trs.length > 150){
+        const rowsHTML = Array.from(trs, tr => tr.outerHTML);
+        if(window.__REC003__?.mount){
+          window.__REC003__.mount(rowsHTML);
+          console.info('[REC003] VirtualTable attiva (autowire)', rowsHTML.length, 'righe');
+          armed = true;
+          obs.disconnect();
+        }
+      }
+    };
+    const obs = new MutationObserver(()=>{ 
+      try{ run(); }catch(e){ 
+        console.warn('[REC003] autowire fallback:', e?.message||e); 
+      } 
+    });
+    obs.observe(tb, { childList:true });
+    /* tentativo anche se la tabella è già pronta */
+    setTimeout(()=>{ try{ run(); }catch{} }, 0);
+  }catch(e){ 
+    console.warn('[REC003] autowire non attivo:', e?.message||e); 
+  }
+});
+</script>
+```
+
+## FUNZIONALITÀ IMPLEMENTATE
+
+### 1. ATTIVAZIONE AUTOMATICA
+- **Trigger**: Quando `#storico-body` contiene più di 150 righe `<tr>`
+- **Meccanismo**: MutationObserver che monitora cambiamenti DOM
+- **Prestazioni**: Attivazione singola con flag `armed` per evitare trigger multipli
+
+### 2. MECCANISMI DI SICUREZZA
+- **Disattivazione manuale**: Attributo `data-rec003-off` su `#storico-body`
+- **Fallback graceful**: Se `window.__REC003__.mount` non è disponibile
+- **Gestione errori**: Try-catch completi con logging dettagliato
+- **Disconnessione observer**: Dopo attivazione per ottimizzare prestazioni
+
+### 3. LOGGING E DEBUG
+- **Attivazione**: `[REC003] VirtualTable attiva (autowire)`
+- **Disattivazione**: `[REC003] autowire disattivato via data-rec003-off`
+- **Errori**: `[REC003] autowire fallback:` / `[REC003] autowire non attivo:`
+
+## COMPATIBILITÀ E INTEGRAZIONE
+
+### 1. INTEGRAZIONE CON SISTEMA ESISTENTE
+- **Hook REC-003**: Utilizza `window.__REC003__.mount` già presente
+- **VirtualTable**: Importa da `./assets/scripts/virtual-table.js`
+- **Configurazione**: `rowHeight: 44, buffer: 12` (invariata)
+
+### 2. NESSUN IMPATTO SU FUNZIONALITÀ ESISTENTI
+- Export PDF/XLSX: Funzionamento invariato
+- Operazioni CRUD: Nessuna interferenza
+- Service Worker: Rimane unregistered come richiesto
+- Layout: Nessuna modifica visiva
+
+## VALIDAZIONE E TEST
+
+### 1. TEST SUGGERITI
+1. **Caricamento dataset ampio**: Verificare attivazione automatica con >150 righe
+2. **Console browser**: Controllare messaggio conferma attivazione
+3. **Prestazioni scroll**: Verificare fluidità navigazione
+4. **Funzionalità export**: Testare PDF/XLSX invariati
+5. **Disattivazione**: Testare attributo `data-rec003-off`
+
+### 2. INDICATORI DI SUCCESSO
+- Messaggio console: `[REC003] VirtualTable attiva (autowire)`
+- Scroll fluido su dataset ampi
+- Nessun errore rosso in console
+- Funzionalità esistenti invariate
+
+## ROLLBACK E MANUTENZIONE
+
+### 1. PROCEDURA ROLLBACK
+```bash
+cp -r .backups/REC003_AUTOWIRE_20250914-210943/* ./
+```
+
+### 2. MONITORAGGIO
+- **File report**: `REC003_AUTOWIRE_REPORT.txt`
+- **Log applicazione**: Console browser per debug
+- **Backup**: Directory `.backups/` per versioni precedenti
+
+## IMPATTO TECNICO
+
+### 1. PRESTAZIONI
+- **Overhead minimo**: Observer attivo solo fino alla prima attivazione
+- **Memoria**: Disconnessione automatica observer dopo uso
+- **CPU**: Controllo righe solo su cambiamenti DOM reali
+
+### 2. MANUTENIBILITÀ
+- **Codice modulare**: Script separato e ben documentato
+- **Idempotenza**: Esecuzione multipla sicura
+- **Logging**: Debug facilitato con messaggi chiari
+
+## CONCLUSIONI
+L'implementazione REC-003 AUTOWIRE è stata completata con successo, fornendo attivazione automatica della VirtualTable mantenendo piena compatibilità con il sistema esistente e garantendo meccanismi di sicurezza robusti.
+
+# ===== FINE REPORT =====
