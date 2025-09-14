@@ -58,8 +58,15 @@
   <!-- 🚀 Entry Point Unico - ES Module -->
   <script type="module" src="main.js?v=20250112"></script>
 
-  <script>
-    // ⚠️ SCRIPT INLINE: Solo logica timbrature (non duplicabile in ES modules)
+  
+<script type="module">
+/* REC-INDEX-SINGLETON-HOOK */
+import { supabaseClient as supabase } from './assets/scripts/supabase-client.js';
+if (!window.supabase) window.supabase = supabase;
+</script>
+<script>
+const pinInput = document.getElementById('pinInput');
+// ⚠️ SCRIPT INLINE: Solo logica timbrature (non duplicabile in ES modules)
 
     let timbraturaInCorso = false; // Flag per prevenire doppi invii
     
@@ -189,6 +196,7 @@
     });
 
     // Inizializzazione gestita da main.js
+</script>
   
 <script>
 /* REC-SW-GUARD-ALL */
