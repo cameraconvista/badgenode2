@@ -835,6 +835,12 @@
       }
     }
   </script>
-<script type="module">import { installUsersStabilizer } from './assets/scripts/users-stabilizer.js'; installUsersStabilizer();</script>
+<!-- REC004-SINGLETON-HOOK -->
+<script type="module">
+  import { supabaseClient as supabase } from './assets/scripts/supabase-client.js';
+  window.supabase = supabase;
+  console.info('[UTENTI] Singleton Supabase attivo');
+</script>
+<script type="module">import { installUsersStable } from './assets/scripts/users-stable.mjs'; installUsersStable();</script>
 </body>
 </html>
