@@ -64,3 +64,23 @@ Tempo rollback stimato: 2 minuti
 - ex-dipendenti.html: rimosso reload loop, uso singleton, guard caricamento
 - Validazione: nessun TypeError; nessun warning Supabase; ex-dipendenti stabile
 - Rollback: ripristinare .backups/REC002_HOTFIX_20250914-145718/*
+
+## FIX-ICONS-SW (20250914-151119)
+- Normalizzati path icone (rimossi /assets/assets, corretti /icons → /assets/icons); manifest allineati
+- Sistemato <link rel="preload"> con as= corretto (image/script/style)
+- Aggiunta SW guard: niente registrazione su 8080 o se sw.js manca
+- Nessun impatto su layout/DOM/CSS; solo path e bootstrap
+- Rollback: ripristinare ".backups/REC_FIX_ICONS_SW_20250914-151119"
+
+## HOTFIX-POST-REC002 (20250914-152215)
+- ex-dipendenti: rimosso testo debug; fix preload 'as'
+- icone: normalizzati path e fallback automatico; manifest riallineato
+- SW: guard + unregister su 8080 e *.onrender.com (stop errori/loop)
+- utenti: anti-reload-loop con debounce 10s
+- Rollback: ripristinare .backups/HOTFIX_POST_REC002_20250914-152215/*
+
+## HOTFIX — Icone critiche + SW HTML (20250914-153325)
+- Canonicalizzati riferimenti icone in pagine -> /assets/icons/{occhio,matita-colorata,orologio,esporta,badgenode-192}.png
+- Creati file icone mancanti copiando da candidati esistenti (nessun impatto su funzioni/eventi)
+- Rimosse registrazioni SW dirette negli HTML (errori SW eliminati su 8080)
+- Rollback: ripristinare .backups/HOTFIX_ICONS_SW_20250914-153325/*

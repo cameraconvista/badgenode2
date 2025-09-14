@@ -41,19 +41,19 @@
   <meta name="apple-mobile-web-app-title" content="BADGEBOX" />
 
   <!-- Icone PWA -->
-  <link rel="icon" type="image/png" sizes="16x16" href="/icons/badgenode-192.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/icons/badgenode-192.png" />
-  <link rel="icon" type="image/png" sizes="96x96" href="/icons/badgenode-192.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="57x57" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="60x60" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="76x76" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="114x114" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="120x120" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="144x144" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="152x152" href="/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/badgenode-192.png" />
   <meta name="msapplication-TileImage" content="/icons/badgenode-192.png" />
   <meta name="msapplication-TileColor" content="#0d1b2b" />
   <link rel="manifest" href="manifest.json" />
@@ -252,8 +252,7 @@
       // PRODUZIONE: Registra SW normalmente
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20250911')
-            .then((registration) => {
+          /* SW register stripped by guard */.then((registration) => {
               console.log('[SW] Registered (PROD):', registration.scope);
             })
             .catch((error) => {

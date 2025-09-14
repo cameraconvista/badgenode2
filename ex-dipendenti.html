@@ -39,7 +39,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="BADGEBOX" />
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/badgenode-192.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/badgenode-192.png" />
   <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/badgenode-192.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/badgenode-192.png" />
@@ -198,31 +198,40 @@
     .download-btn, .delete-btn {
       background: none;
       border: none;
-      font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 0 4px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
-      min-width: 36px;
-      min-height: 36px;
-      max-width: 36px;
-      max-height: 36px;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      flex-shrink: 0;
-      font-size: 20px;
+      min-width: 40px;
+      min-height: 40px;
+    }
+
+    .download-btn img {
+      filter: hue-rotate(120deg) saturate(1.2) brightness(1.1);
+    }
+
+    .delete-btn img {
+      filter: hue-rotate(0deg) saturate(1.5) brightness(1.1);
     }
 
     .download-btn:hover, .download-btn:active {
       transform: scale(0.95);
     }
 
+    .download-btn:hover img {
+      filter: hue-rotate(120deg) saturate(1.4) brightness(1.3);
+    }
+
     .delete-btn:hover, .delete-btn:active {
       transform: scale(0.95);
+    }
+
+    .delete-btn:hover img {
+      filter: hue-rotate(0deg) saturate(1.7) brightness(1.3);
     }
 
     tr:last-child td {
@@ -634,10 +643,10 @@
             <td>
               <div class="actions-container">
                 <button class="download-btn" onclick="scaricaExcel('${exDipendente.id}', '${exDipendente.nome}', '${exDipendente.cognome}')" title="Scarica Excel">
-                  <img src="assets/icons/esporta.png" alt="Esporta Excel" style="width: 24px; height: 24px;" loading="lazy" />
+                  <img src="/assets/icons/esporta.png" alt="Esporta Excel" style="width: 24px; height: 24px;" loading="lazy" />
                 </button>
                 <button class="delete-btn" onclick="eliminaExDipendente('${exDipendente.id}', '${exDipendente.nome}', '${exDipendente.cognome}')" title="Elimina Definitivamente">
-                  ❌
+                  <img src="/assets/icons/cancella.png" alt="Elimina" style="width: 24px; height: 24px;" loading="lazy" />
                 </button>
               </div>
             </td>
@@ -734,7 +743,7 @@
     caricaExDipendenti();
   </script>
 
-/* REC002-HOTFIX:exdip-error-guard */ 
+ 
 <script type="module">
   import { supabaseClient as supabase } from './assets/scripts/supabase-client.js';
   globalThis.supabase = supabase;
@@ -756,19 +765,6 @@
 </script>
 
   <!-- PWA Service Worker Registration -->
-  <script>
-    // Service Worker registration per PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=20250911')
-          .then((registration) => {
-            console.log('[SW] Registered:', registration.scope);
-          })
-          .catch((error) => {
-            console.error('[SW] Registration failed:', error);
-          });
-      });
-    }
-  </script>
+  <!-- SW register stripped by guard -->
 </body>
 </html>

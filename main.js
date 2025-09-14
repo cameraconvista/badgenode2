@@ -200,3 +200,47 @@ if ('serviceWorker' in navigator) {
   }
   // In DEV: nessuna azione (evita cleanup loop)
 }
+
+/* REC-SW-GUARD */
+(function(){
+  try{
+    const isDevStatic = (location.port === '8080'); // build statica
+    const swPath = (globalThis.__SW_PATH__ || '/sw.js?v='+ (globalThis.__BUILD_ID__||''));
+    if ('serviceWorker' in navigator) {
+      if (isDevStatic) {
+        console.info('[SW] Disabled in static dev (8080)');
+      } else {
+        // registra solo se il file esiste
+        fetch(swPath, {method:'HEAD'}).then(r=>{
+          if (r && r.ok) navigator.serviceWorker.register(swPath).catch(e=>console.info('[SW] register skipped:', e?.message||e));
+          else console.info('[SW] Not found, skip');
+        }).catch(()=>console.info('[SW] Skip (no sw.js)'));
+      }
+    }
+  }catch(e){ console.info('[SW] Guard active:', e?.message||e); }
+})();
+
+
+/* REC-SW-FULL-GUARD */
+(function(){
+  try{
+    const host = location.hostname;
+    const isStatic8080 = (location.port === '8080');
+    const isRender = /.onrender.com$/.test(host);
+    const SW_DISABLED = isStatic8080 || isRender || globalThis.__DISABLE_SW__ === true;
+    if ('serviceWorker' in navigator){
+      if (SW_DISABLED){
+        navigator.serviceWorker.getRegistrations?.().then(regs=>{
+          regs.forEach(r=>r.unregister().catch(()=>{}));
+          console.info('[SW] Unregistered (env guard)');
+        }).catch(()=>{});
+      } else {
+        const swPath = (globalThis.__SW_PATH__ || '/sw.js');
+        fetch(swPath,{method:'HEAD'}).then(r=>{
+          if (r && r.ok) navigator.serviceWorker.register(swPath).catch(()=>{});
+          else console.info('[SW] Not found, skip');
+        }).catch(()=>console.info('[SW] Skip'));
+      }
+    }
+  }catch(e){ console.info('[SW] Guard error:', e?.message||e); }
+})();

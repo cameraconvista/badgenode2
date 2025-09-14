@@ -26,5 +26,8 @@
     "supabase",
     "pwa",
     "vite"
-  ]
+  ],
+  "dependencies": {
+    "glob": "^11.0.3"
+  }
 }

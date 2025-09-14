@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="BADGEBOX" />
 
   <!-- Icone PWA -->
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/badgenode-192.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/badgenode-192.png" />
   <link rel="manifest" href="manifest.json" />
 
@@ -557,7 +557,7 @@
         <tr>
           <td>
             <a href="storico.html?pin=${utente.pin}" style="color: #60a5fa; text-decoration: none;">
-              <img src="assets/icons/orologio.png" alt="Storico" style="width: 20px; height: 20px;" />
+              <img src="/assets/icons/orologio.png" alt="Storico" style="width: 20px; height: 20px;" />
             </a>
           </td>
           <td>${utente.pin}</td>
@@ -824,8 +824,7 @@
       // PRODUZIONE: Registra SW normalmente
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20250911')
-            .then((registration) => {
+          /* SW register stripped by guard */.then((registration) => {
               console.log('Service Worker registrato:', registration.scope);
             })
             .catch((error) => {
@@ -835,5 +834,17 @@
       }
     }
   </script>
+
+<script>
+/* REC-USERS-RELOAD-GUARD */
+(function(){
+  try{
+    const k='__users_reload_ts__';
+    const now=Date.now(); const last=+localStorage.getItem(k)||0;
+    if (now-last<10000){ console.info('[USERS] reload suppressed'); } 
+    localStorage.setItem(k, String(now));
+  }catch(_){}
+})();
+</script>
 </body>
 </html>
