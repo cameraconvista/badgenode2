@@ -1,0 +1,780 @@
+# ===== ANALISI DUPLICATI (sha1) =====
+sha1=03353c56f423e75f660dd04bb753cb998e0e36e2
+  - node_modules/ajv/dist/refs/json-schema-2020-12/meta/meta-data.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/meta/meta-data.json
+
+sha1=0b84cdb9fc6263ec17d8991d9109922b840d4f30
+  - node_modules/bytes/LICENSE
+  - node_modules/serve-handler/node_modules/bytes/LICENSE
+
+sha1=0b84f962c4367e1fb1de2a9f6c2039b6087539ab
+  - ._SISTEMA_PROBLEMI_REPORT.txt
+  - ._style.css
+  - ._copy-changelog.html
+  - public/._favicon.ico
+  - ._sw.js
+  - ._offline.html
+  - assets/styles/._app-corner-brand.css
+  - assets/icons/._freccia.png
+  - assets/icons/._cancella.png
+  - assets/icons/._invia.png
+  - assets/icons/._badgenode-192.png
+  - assets/icons/._pdf.png
+  - assets/icons/._calendario.png
+  - assets/icons/._esporta.png
+  - assets/icons/._badgenode-512.png
+  - assets/icons/._matita-colorata.png
+  - assets/icons/._BNLOGO.png
+  - assets/icons/._orologio.png
+  - assets/icons/._BADGENODE.png
+  - assets/scripts/._modale-modifica.js
+  - assets/scripts/._perf.patch.js
+  - assets/scripts/._timbrature-render.js
+  - assets/scripts/._utenti-loader.js
+  - assets/scripts/._calendario-popup.js
+  - assets/scripts/._calendar-utils.js
+  - ._copy-final-fix.html
+
+sha1=0c94f137f6e0536db8cb2622a9dc84253b91b90c
+  - node_modules/strip-json-comments/license
+  - node_modules/registry-url/license
+
+sha1=1989e758c984506b101f53556f40982da8e3bfb8
+  - node_modules/@jridgewell/source-map/types/source-map.d.mts
+  - node_modules/@jridgewell/source-map/types/source-map.d.cts
+
+sha1=1b1996f976998ff5006e5dbbfeb2154900030a91
+  - node_modules/ajv/dist/refs/json-schema-2020-12/meta/content.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/meta/content.json
+
+sha1=1ccc0df39904097b82cfadd8e46c20c2e15d834a
+  - node_modules/@zeit/schemas/.yarnrc
+  - node_modules/update-check/.yarnrc
+
+sha1=1dbe173c072725777319124faf6ed064aa7d3a78
+  - node_modules/ajv/dist/refs/json-schema-2019-09/meta/meta-data.json
+  - node_modules/ajv/lib/refs/json-schema-2019-09/meta/meta-data.json
+
+sha1=20470bf44dcb65ae162a133b83b68764159b71d5
+  - node_modules/ajv/dist/refs/json-schema-2019-09/meta/core.json
+  - node_modules/ajv/lib/refs/json-schema-2019-09/meta/core.json
+
+sha1=24e189e5af33180fb0add107adb9612bdbeee011
+  - node_modules/fast-deep-equal/react.d.ts
+  - node_modules/fast-deep-equal/es6/react.d.ts
+  - node_modules/fast-deep-equal/es6/index.d.ts
+
+sha1=26389a3d611a4bc1074ff3fc40ee672874bad756
+  - node_modules/serve-handler/LICENSE
+  - node_modules/update-check/LICENSE
+
+sha1=269e8e4dcb82db12f6e2a6187e7be46bee604ab0
+  - node_modules/source-map/lib/base64.js
+  - node_modules/source-map-js/lib/base64.js
+
+sha1=29e8c8f5ab07712dde09cad85cefa0a748921343
+  - node_modules/@jridgewell/sourcemap-codec/types/strings.d.cts
+  - node_modules/@jridgewell/sourcemap-codec/types/strings.d.mts
+
+sha1=31c28ce0274a2613f59ebcbe3c1ee296df01f41c
+  - dist/config.js
+  - public/config.js
+
+sha1=3413e96e6cdbdf0cb6450f4d6d433522834605e0
+  - node_modules/@jridgewell/sourcemap-codec/LICENSE
+  - node_modules/@jridgewell/trace-mapping/LICENSE
+  - node_modules/@jridgewell/gen-mapping/LICENSE
+  - node_modules/@jridgewell/source-map/LICENSE
+
+sha1=36199a2d9ec7dd87955fa090b15a1247debaa321
+  - node_modules/nanoid/non-secure/package.json
+  - node_modules/nanoid/url-alphabet/package.json
+
+sha1=380a1badcbfc18aa40dc5b9ea4cee52dc33ab29c
+  - node_modules/source-map/lib/source-node.js
+  - node_modules/source-map-js/lib/source-node.js
+
+sha1=3a863a827681503c5beff112cb9fcdb1e8e223a1
+  - node_modules/@jridgewell/trace-mapping/types/binary-search.d.mts.map
+  - node_modules/@jridgewell/trace-mapping/types/binary-search.d.cts.map
+
+sha1=3e1aa7055fe929029e662ec21462ab6e2a740958
+  - node_modules/ajv/dist/refs/data.json
+  - node_modules/ajv/lib/refs/data.json
+
+sha1=40c653c57234b1695daaa16005460060f1069c7c
+  - node_modules/ajv/dist/refs/json-schema-2019-09/schema.json
+  - node_modules/ajv/lib/refs/json-schema-2019-09/schema.json
+
+sha1=42a3b2546a53dfafa42e71af6765a3e3d9a8176a
+  - node_modules/@jridgewell/gen-mapping/types/set-array.d.cts
+  - node_modules/@jridgewell/gen-mapping/types/set-array.d.mts
+
+sha1=434509fafa64733f0ed88a8bc3a3f11e70f93f8d
+  - node_modules/ajv/dist/refs/json-schema-draft-07.json
+  - node_modules/ajv/lib/refs/json-schema-draft-07.json
+
+sha1=44bdc0699c385cdf423dbadea7355ff72e5adc36
+  - node_modules/json-schema-traverse/LICENSE
+  - node_modules/fast-deep-equal/LICENSE
+
+sha1=475b52f39318fbf95ead04ff4e1d8813d853699d
+  - node_modules/ajv/dist/refs/json-schema-2019-09/meta/applicator.json
+  - node_modules/ajv/lib/refs/json-schema-2019-09/meta/applicator.json
+
+sha1=48b9f9fe03f37da0019110022632fd2f0de9344b
+  - node_modules/uri-js/dist/esnext/schemes/http.d.ts
+  - node_modules/uri-js/dist/esnext/schemes/https.d.ts
+  - node_modules/uri-js/dist/esnext/schemes/wss.d.ts
+
+sha1=493d3d895198dfaefe88d2b066c272552ea35889
+  - node_modules/source-map/lib/base64-vlq.js
+  - node_modules/source-map-js/lib/base64-vlq.js
+
+sha1=4aae0cda1d0a20c3cc9bc035b53db7e032d2e6be
+  - node_modules/@jridgewell/sourcemap-codec/types/vlq.d.mts.map
+  - node_modules/@jridgewell/sourcemap-codec/types/vlq.d.cts.map
+
+sha1=5414a0b12b545f8fc6761dc8e73798e9d2df0bef
+  - node_modules/ajv/dist/refs/json-schema-2019-09/meta/content.json
+  - node_modules/ajv/lib/refs/json-schema-2019-09/meta/content.json
+
+sha1=54dd50c132e3a298bcad252861389300ac0ce265
+  - node_modules/source-map/source-map.js
+  - node_modules/source-map-js/source-map.js
+
+sha1=5aaf48196ddd4d007a3067aa7f30303ca8e4b29c
+  - node_modules/shebang-regex/license
+  - node_modules/is-wsl/license
+  - node_modules/mimic-fn/license
+  - node_modules/strip-final-newline/license
+  - node_modules/npm-run-path/license
+  - node_modules/is-fullwidth-code-point/license
+  - node_modules/has-flag/license
+  - node_modules/supports-color/license
+  - node_modules/path-key/license
+  - node_modules/ansi-align/node_modules/strip-ansi/license
+  - node_modules/ansi-align/node_modules/ansi-regex/license
+  - node_modules/ansi-align/node_modules/string-width/license
+  - node_modules/chalk-template/node_modules/chalk/license
+  - node_modules/chalk-template/node_modules/ansi-styles/license
+
+sha1=5cc84a679ddb33920860dfa19175897c9560c710
+  - node_modules/@jridgewell/gen-mapping/types/sourcemap-segment.d.mts.map
+  - node_modules/@jridgewell/gen-mapping/types/sourcemap-segment.d.cts.map
+
+sha1=5e6ffaf132b3a200b7698962215aa83533a711a4
+  - dist/version.txt
+  - public/version.txt
+
+sha1=618ed455ae38e727f40847654be9fe0154d10a06
+  - node_modules/@jridgewell/trace-mapping/types/flatten-map.d.cts.map
+  - node_modules/@jridgewell/trace-mapping/types/flatten-map.d.mts.map
+
+sha1=67cc738a02cf0753807f2e16a78bdd8e6d519140
+  - node_modules/@jridgewell/trace-mapping/types/sourcemap-segment.d.mts.map
+  - node_modules/@jridgewell/trace-mapping/types/sourcemap-segment.d.cts.map
+
+sha1=683dbdc169e835137d01ed7685978609fdfb274b
+  - node_modules/ajv/dist/refs/json-schema-draft-06.json
+  - node_modules/ajv/lib/refs/json-schema-draft-06.json
+
+sha1=689ec0681815ecc32bee639c68e7740add7bd301
+  - node_modules/@types/estree/LICENSE
+  - node_modules/@types/node/LICENSE
+
+sha1=68a9ed5c0a48a384f64efaec04444a464952509d
+  - node_modules/source-map/lib/mapping-list.js
+  - node_modules/source-map-js/lib/mapping-list.js
+
+sha1=6b3b347842eacc7270856ca5d8d05368389deba6
+  - node_modules/ajv/dist/vocabularies/dynamic/recursiveRef.d.ts
+  - node_modules/ajv/dist/vocabularies/dynamic/recursiveAnchor.d.ts
+  - node_modules/ajv/dist/vocabularies/core/id.d.ts
+  - node_modules/ajv/dist/vocabularies/jtd/union.d.ts
+  - node_modules/ajv/dist/vocabularies/jtd/optionalProperties.d.ts
+  - node_modules/ajv/dist/vocabularies/applicator/thenElse.d.ts
+  - node_modules/ajv/dist/vocabularies/applicator/properties.d.ts
+  - node_modules/ajv/dist/vocabularies/applicator/dependentSchemas.d.ts
+  - node_modules/ajv/dist/vocabularies/applicator/prefixItems.d.ts
+  - node_modules/ajv/dist/vocabularies/applicator/allOf.d.ts
+  - node_modules/ajv/dist/vocabularies/applicator/patternProperties.d.ts
+  - node_modules/ajv/dist/vocabularies/validation/limitContains.d.ts
+  - node_modules/ajv/dist/vocabularies/validation/limitLength.d.ts
+  - node_modules/ajv/dist/vocabularies/validation/limitItems.d.ts
+  - node_modules/ajv/dist/vocabularies/validation/limitProperties.d.ts
+
+sha1=6b8fab1eb55db42a747c032f562f34c22c50b5f0
+  - node_modules/@jridgewell/sourcemap-codec/types/scopes.d.cts
+  - node_modules/@jridgewell/sourcemap-codec/types/scopes.d.mts
+
+sha1=6eabbf0405809a1fccacb1b08ce5cf34ad97e980
+  - node_modules/on-headers/LICENSE
+  - node_modules/content-disposition/LICENSE
+
+sha1=80674912e3033be358331910ba27d5812369c2fc
+  - node_modules/is-docker/license
+  - node_modules/strip-ansi/license
+  - node_modules/wrap-ansi/license
+  - node_modules/cli-boxes/license
+  - node_modules/is-stream/license
+  - node_modules/onetime/license
+  - node_modules/chalk/license
+  - node_modules/ansi-regex/license
+  - node_modules/is-port-reachable/license
+  - node_modules/widest-line/license
+  - node_modules/ansi-styles/license
+  - node_modules/get-stream/license
+  - node_modules/string-width/license
+  - node_modules/execa/license
+  - node_modules/camelcase/license
+  - node_modules/boxen/license
+  - node_modules/clipboardy/license
+
+sha1=854036557020ce79aa007c2bae11c81e40b65190
+  - dist/assets/manifest-Ci4Ht8o6.json
+  - manifest.json
+
+sha1=85e9df087aea42d7b5821a3911e25d44085004b1
+  - dist/sw.js
+  - public/sw.js
+
+sha1=8cd3cc400e4a627eca1d5f99fe0c445107a707b0
+  - node_modules/@jridgewell/sourcemap-codec/types/strings.d.cts.map
+  - node_modules/@jridgewell/sourcemap-codec/types/strings.d.mts.map
+
+sha1=8fbd3a2ebc051fde471a955c3508ea303a14af4e
+  - node_modules/ajv/dist/refs/json-schema-2020-12/meta/applicator.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/meta/applicator.json
+
+sha1=9070e9685a1182816bc76f6fe6c71ec2393a3075
+  - node_modules/@jridgewell/trace-mapping/types/by-source.d.cts.map
+  - node_modules/@jridgewell/trace-mapping/types/by-source.d.mts.map
+
+sha1=914d42b13ad394be4aa75b4d93fde94b1e79cbbd
+  - node_modules/source-map/LICENSE
+  - node_modules/source-map-js/LICENSE
+
+sha1=9425421812c1e710c9d59cf56c4d79b404115037
+  - node_modules/@jridgewell/trace-mapping/types/trace-mapping.d.mts.map
+  - node_modules/@jridgewell/trace-mapping/types/trace-mapping.d.cts.map
+
+sha1=97f77726b74b57af7383b27eea2bf4359a418bec
+  - node_modules/@jridgewell/gen-mapping/types/gen-mapping.d.cts.map
+  - node_modules/@jridgewell/gen-mapping/types/gen-mapping.d.mts.map
+
+sha1=9a2bad33a7e5593a01f3081c5ef3dad1f0787230
+  - node_modules/ajv/dist/refs/json-schema-2020-12/meta/core.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/meta/core.json
+
+sha1=9ea303e9fb2efd16226f2f00b5c117052e94bbed
+  - node_modules/ajv/dist/refs/json-schema-secure.json
+  - node_modules/ajv/lib/refs/json-schema-secure.json
+
+sha1=a0b238090d8e90ffa01dabbcc2a8723bc5b30a67
+  - node_modules/@jridgewell/gen-mapping/types/types.d.cts.map
+  - node_modules/@jridgewell/gen-mapping/types/types.d.mts.map
+
+sha1=a25358971aa8d2bfb92e51e43661df99d4ef44f9
+  - node_modules/@jridgewell/sourcemap-codec/types/scopes.d.mts.map
+  - node_modules/@jridgewell/sourcemap-codec/types/scopes.d.cts.map
+
+sha1=acf05a060c055850eea75993126b13921b82e2b3
+  - node_modules/@jridgewell/trace-mapping/types/sort.d.mts.map
+  - node_modules/@jridgewell/trace-mapping/types/sort.d.cts.map
+
+sha1=ad62f4ee15345ba799a00c59dd226690b4d1d1d2
+  - node_modules/source-map/lib/array-set.js
+  - node_modules/source-map-js/lib/array-set.js
+
+sha1=adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+  - dist/favicon.ico
+  - public/favicon.ico
+
+sha1=afb6058ac62a052bca03b342345ebef87049caf4
+  - ._REC-001_APPLIED_ChangeLog.txt
+  - ._REC-006_Cache_HTTP_Report.txt
+  - ._index.html
+  - ._BACKUP_AUTOMATICO_APPLICAZIONE_ChangeLog.txt
+  - ._REC-002_Singleton_Supabase_Report.txt
+  - dist/._version.txt
+  - dist/._index.html
+  - dist/._ex-dipendenti.html
+  - dist/._config.js
+  - dist/._sw.js
+  - dist/._utenti.html
+  - dist/._favicon.ico
+  - dist/._storico.html
+  - dist/assets/._supabase-client-Ciq2puh4.css
+  - dist/assets/._exdipendenti-DUjP0Ykk.css
+  - dist/assets/._exdipendenti-DmJjtETv.js
+  - dist/assets/._main-BOFlOzxF.js
+  - dist/assets/._storico-BibyRRYF.js
+  - dist/assets/._badgenode-192-UNkmzwHW.png
+  - dist/assets/._perf.patch-DUElHh-P.js
+  - dist/assets/._utenti-D7gUG-rE.js
+  - dist/assets/._supabase-client-Dh7EII58.js
+  - dist/assets/._BNLOGO-CdebEBu_.png
+  - dist/assets/._utenti-Bsca7crT.html
+  - dist/assets/._storico-DUYdQ9fP.css
+  - ._REC-001_PIANO_OPERATIVO_CDN_ESTERNI.txt
+  - ._ex-dipendenti.html
+  - node_modules/on-headers/._index.js
+  - node_modules/shebang-regex/._index.js
+  - node_modules/is-wsl/._index.js
+  - node_modules/mimic-fn/._index.js
+  - node_modules/strip-ansi/._index.js
+  - node_modules/strip-final-newline/._index.js
+  - node_modules/content-disposition/._index.js
+  - node_modules/strip-json-comments/._index.js
+  - node_modules/commander/._index.js
+  - node_modules/punycode/._LICENSE-MIT.txt
+  - node_modules/punycode/._punycode.js
+  - node_modules/punycode/._punycode.es6.js
+  - node_modules/range-parser/._index.js
+  - node_modules/deep-extend/._index.js
+  - node_modules/deep-extend/lib/._deep-extend.js
+  - node_modules/balanced-match/._index.js
+  - node_modules/bytes/._index.js
+  - node_modules/signal-exit/._LICENSE.txt
+  - node_modules/signal-exit/._signals.js
+  - node_modules/signal-exit/._index.js
+  - node_modules/wrap-ansi/._index.js
+  - node_modules/safe-buffer/._index.js
+  - node_modules/serve-handler/node_modules/bytes/._index.js
+  - node_modules/serve-handler/src/._glob-slash.js
+  - node_modules/serve-handler/src/._error.js
+  - node_modules/npm-run-path/._index.js
+  - node_modules/source-map-support/._browser-source-map-support.js
+  - node_modules/source-map-support/._register.js
+  - node_modules/source-map-support/._source-map-support.js
+  - node_modules/source-map-support/._register-hook-require.js
+  - node_modules/is-fullwidth-code-point/._index.js
+  - node_modules/color-name/._index.js
+  - node_modules/postcss/lib/._at-rule.js
+  - node_modules/postcss/lib/._css-syntax-error.js
+  - node_modules/postcss/lib/._container.js
+  - node_modules/postcss/lib/._warning.js
+  - node_modules/postcss/lib/._lazy-result.js
+  - node_modules/postcss/lib/._document.js
+  - node_modules/postcss/lib/._postcss.js
+  - node_modules/postcss/lib/._list.js
+  - node_modules/postcss/lib/._declaration.js
+  - node_modules/postcss/lib/._comment.js
+  - node_modules/postcss/lib/._stringifier.js
+  - node_modules/postcss/lib/._tokenize.js
+  - node_modules/postcss/lib/._terminal-highlight.js
+  - node_modules/postcss/lib/._map-generator.js
+  - node_modules/postcss/lib/._rule.js
+  - node_modules/postcss/lib/._parse.js
+  - node_modules/postcss/lib/._fromJSON.js
+  - node_modules/postcss/lib/._warn-once.js
+  - node_modules/postcss/lib/._stringify.js
+  - node_modules/postcss/lib/._previous-map.js
+  - node_modules/postcss/lib/._node.js
+  - node_modules/postcss/lib/._root.js
+  - node_modules/postcss/lib/._symbols.js
+  - node_modules/postcss/lib/._parser.js
+  - node_modules/postcss/lib/._input.js
+  - node_modules/postcss/lib/._processor.js
+  - node_modules/postcss/lib/._no-work-result.js
+  - node_modules/postcss/lib/._result.js
+  - node_modules/arg/._index.js
+  - node_modules/@zeit/schemas/test/._user.js
+  - node_modules/@zeit/schemas/test/._deployment.js
+  - node_modules/@zeit/schemas/test/._deployment-env.js
+  - node_modules/@zeit/schemas/user/._index.js
+  - node_modules/@zeit/schemas/deployment/._config-env.js
+  - node_modules/@zeit/schemas/deployment/._config.js
+  - node_modules/@zeit/schemas/deployment/._service.js
+  - node_modules/@zeit/schemas/deployment/._config-static.js
+  - node_modules/path-to-regexp/._index.js
+  - node_modules/mime-types/node_modules/mime-db/._index.js
+  - node_modules/mime-types/._index.js
+  - node_modules/json-schema-traverse/spec/._index.spec.js
+  - node_modules/json-schema-traverse/spec/fixtures/._schema.js
+  - node_modules/json-schema-traverse/._index.js
+  - node_modules/minimist/test/._all_bool.js
+  - node_modules/minimist/test/._stop_early.js
+  - node_modules/minimist/test/._bool.js
+  - node_modules/minimist/test/._dash.js
+  - node_modules/minimist/test/._parse_modified.js
+  - node_modules/minimist/test/._whitespace.js
+  - node_modules/minimist/test/._short.js
+  - node_modules/minimist/test/._parse.js
+  - node_modules/minimist/test/._unknown.js
+  - node_modules/minimist/test/._kv_short.js
+  - node_modules/minimist/test/._default_bool.js
+  - node_modules/minimist/test/._proto.js
+  - node_modules/minimist/test/._long.js
+  - node_modules/minimist/test/._dotted.js
+  - node_modules/minimist/test/._num.js
+  - node_modules/minimist/example/._parse.js
+  - node_modules/minimist/._index.js
+  - node_modules/is-stream/._index.js
+  - node_modules/onetime/._index.js
+  - node_modules/path-is-inside/._LICENSE.txt
+  - node_modules/path-is-inside/lib/._path-is-inside.js
+  - node_modules/chalk/source/._index.js
+  - node_modules/chalk/source/vendor/supports-color/._index.js
+  - node_modules/chalk/source/vendor/ansi-styles/._index.js
+  - node_modules/ansi-regex/._index.js
+  - node_modules/has-flag/._index.js
+  - node_modules/supports-color/._index.js
+  - node_modules/supports-color/._browser.js
+  - node_modules/vary/._index.js
+  - node_modules/color-convert/._route.js
+  - node_modules/color-convert/._index.js
+  - node_modules/color-convert/._conversions.js
+  - node_modules/path-key/._index.js
+  - node_modules/merge-stream/._index.js
+  - node_modules/brace-expansion/._index.js
+  - node_modules/registry-auth-token/test/._registry-url.test.js
+  - node_modules/registry-auth-token/test/._auth-token.test.js
+  - node_modules/registry-auth-token/._base64.js
+  - node_modules/registry-auth-token/._registry-url.js
+  - node_modules/registry-auth-token/._index.js
+  - node_modules/picocolors/._picocolors.browser.js
+  - node_modules/picocolors/._picocolors.js
+  - node_modules/eastasianwidth/._eastasianwidth.js
+  - node_modules/is-port-reachable/._index.js
+  - node_modules/ansi-styles/._index.js
+  - node_modules/ansi-align/node_modules/strip-ansi/._index.js
+  - node_modules/ansi-align/node_modules/ansi-regex/._index.js
+  - node_modules/ansi-align/node_modules/string-width/._index.js
+  - node_modules/ansi-align/node_modules/emoji-regex/._LICENSE-MIT.txt
+  - node_modules/ansi-align/node_modules/emoji-regex/._index.js
+  - node_modules/ansi-align/node_modules/emoji-regex/._text.js
+  - node_modules/ansi-align/node_modules/emoji-regex/es2015/._text.js
+  - node_modules/ansi-align/._index.js
+  - node_modules/negotiator/._index.js
+  - node_modules/negotiator/lib/._language.js
+  - node_modules/negotiator/lib/._encoding.js
+  - node_modules/negotiator/lib/._charset.js
+  - node_modules/arch/._index.js
+  - node_modules/arch/._browser.js
+  - node_modules/concat-map/test/._map.js
+  - node_modules/concat-map/._index.js
+  - node_modules/compression/node_modules/ms/._index.js
+  - node_modules/compression/node_modules/debug/._karma.conf.js
+  - node_modules/compression/node_modules/debug/._node.js
+  - node_modules/compression/node_modules/debug/src/._inspector-log.js
+  - node_modules/compression/node_modules/debug/src/._index.js
+  - node_modules/compression/node_modules/debug/src/._node.js
+  - node_modules/compression/node_modules/debug/src/._browser.js
+  - node_modules/compression/._index.js
+  - node_modules/get-stream/._index.js
+  - node_modules/get-stream/._buffer-stream.js
+  - node_modules/registry-url/._index.js
+  - node_modules/uri-js/dist/es5/._uri.all.min.js
+  - node_modules/uri-js/dist/es5/._uri.all.js
+  - node_modules/uri-js/dist/esnext/schemes/._wss.js
+  - node_modules/uri-js/dist/esnext/schemes/._https.js
+  - node_modules/uri-js/dist/esnext/schemes/._ws.js
+  - node_modules/uri-js/dist/esnext/schemes/._mailto.js
+  - node_modules/uri-js/dist/esnext/schemes/._http.js
+  - node_modules/uri-js/dist/esnext/schemes/._urn-uuid.js
+  - node_modules/uri-js/dist/esnext/schemes/._urn.js
+  - node_modules/uri-js/dist/esnext/._regexps-uri.js
+  - node_modules/uri-js/dist/esnext/._uri.js
+  - node_modules/uri-js/dist/esnext/._util.js
+  - node_modules/uri-js/dist/esnext/._index.js
+  - node_modules/uri-js/dist/esnext/._regexps-iri.js
+  - node_modules/cross-spawn/._index.js
+  - node_modules/cross-spawn/lib/util/._escape.js
+  - node_modules/cross-spawn/lib/._parse.js
+  - node_modules/cross-spawn/lib/._enoent.js
+  - node_modules/source-map/dist/._source-map.debug.js
+  - node_modules/source-map/dist/._source-map.js
+  - node_modules/source-map/dist/._source-map.min.js
+  - node_modules/source-map/lib/._source-map-generator.js
+  - node_modules/source-map/lib/._util.js
+  - node_modules/source-map/lib/._array-set.js
+  - node_modules/source-map/lib/._source-map-consumer.js
+  - node_modules/source-map/lib/._source-node.js
+  - node_modules/source-map/lib/._base64-vlq.js
+  - node_modules/source-map/lib/._binary-search.js
+  - node_modules/source-map/lib/._mapping-list.js
+  - node_modules/source-map/lib/._quick-sort.js
+  - node_modules/string-width/._index.js
+  - node_modules/execa/._index.js
+  - node_modules/execa/lib/._stream.js
+  - node_modules/execa/lib/._command.js
+  - node_modules/execa/lib/._promise.js
+  - node_modules/execa/lib/._error.js
+  - node_modules/execa/lib/._kill.js
+  - node_modules/execa/lib/._stdio.js
+  - node_modules/@jridgewell/sourcemap-codec/dist/._sourcemap-codec.umd.js
+  - node_modules/@jridgewell/trace-mapping/dist/._trace-mapping.umd.js
+  - node_modules/@jridgewell/gen-mapping/dist/._gen-mapping.umd.js
+  - node_modules/@jridgewell/resolve-uri/dist/._resolve-uri.umd.js
+  - node_modules/@jridgewell/source-map/dist/._source-map.umd.js
+  - node_modules/camelcase/._index.js
+  - node_modules/update-check/._index.js
+  - node_modules/boxen/._index.js
+  - node_modules/clipboardy/._index.js
+  - node_modules/clipboardy/lib/._macos.js
+  - node_modules/clipboardy/lib/._linux.js
+  - node_modules/clipboardy/lib/._windows.js
+  - node_modules/clipboardy/._browser.js
+  - node_modules/buffer-from/._index.js
+  - node_modules/compressible/._index.js
+  - node_modules/ajv/dist/vocabularies/dynamic/._dynamicRef.js
+  - node_modules/ajv/dist/vocabularies/dynamic/._dynamicAnchor.js
+  - node_modules/ajv/dist/vocabularies/dynamic/._recursiveRef.js
+  - node_modules/ajv/dist/vocabularies/dynamic/._index.js
+  - node_modules/ajv/dist/vocabularies/dynamic/._recursiveAnchor.js
+  - node_modules/ajv/dist/vocabularies/core/._ref.js
+  - node_modules/ajv/dist/vocabularies/core/._id.js
+  - node_modules/ajv/dist/vocabularies/core/._index.js
+  - node_modules/ajv/dist/vocabularies/._code.js
+  - node_modules/ajv/dist/vocabularies/._draft2020.js
+  - node_modules/ajv/dist/vocabularies/unevaluated/._unevaluatedProperties.js
+  - node_modules/ajv/dist/vocabularies/unevaluated/._index.js
+  - node_modules/ajv/dist/vocabularies/unevaluated/._unevaluatedItems.js
+  - node_modules/ajv/dist/vocabularies/jtd/._ref.js
+  - node_modules/ajv/dist/vocabularies/jtd/._values.js
+  - node_modules/ajv/dist/vocabularies/jtd/._type.js
+  - node_modules/ajv/dist/vocabularies/jtd/._discriminator.js
+  - node_modules/ajv/dist/vocabularies/jtd/._index.js
+  - node_modules/ajv/dist/vocabularies/jtd/._error.js
+  - node_modules/ajv/dist/vocabularies/jtd/._optionalProperties.js
+  - node_modules/ajv/dist/vocabularies/jtd/._metadata.js
+  - node_modules/ajv/dist/vocabularies/jtd/._union.js
+  - node_modules/ajv/dist/vocabularies/jtd/._properties.js
+  - node_modules/ajv/dist/vocabularies/jtd/._nullable.js
+  - node_modules/ajv/dist/vocabularies/jtd/._elements.js
+  - node_modules/ajv/dist/vocabularies/jtd/._enum.js
+  - node_modules/ajv/dist/vocabularies/discriminator/._types.js
+  - node_modules/ajv/dist/vocabularies/discriminator/._index.js
+  - node_modules/ajv/dist/vocabularies/._draft7.js
+  - node_modules/ajv/dist/vocabularies/._metadata.js
+  - node_modules/ajv/dist/vocabularies/._errors.js
+  - node_modules/ajv/dist/vocabularies/format/._format.js
+  - node_modules/ajv/dist/vocabularies/format/._index.js
+  - node_modules/ajv/dist/vocabularies/applicator/._propertyNames.js
+  - node_modules/ajv/dist/vocabularies/applicator/._oneOf.js
+  - node_modules/ajv/dist/vocabularies/applicator/._contains.js
+  - node_modules/ajv/dist/vocabularies/applicator/._not.js
+  - node_modules/ajv/dist/vocabularies/applicator/._dependencies.js
+  - node_modules/ajv/dist/vocabularies/applicator/._additionalProperties.js
+  - node_modules/ajv/dist/vocabularies/applicator/._index.js
+  - node_modules/ajv/dist/vocabularies/applicator/._allOf.js
+  - node_modules/ajv/dist/vocabularies/applicator/._anyOf.js
+  - node_modules/ajv/dist/vocabularies/applicator/._additionalItems.js
+  - node_modules/ajv/dist/vocabularies/applicator/._prefixItems.js
+  - node_modules/ajv/dist/vocabularies/applicator/._thenElse.js
+  - node_modules/ajv/dist/vocabularies/applicator/._items.js
+  - node_modules/ajv/dist/vocabularies/applicator/._properties.js
+  - node_modules/ajv/dist/vocabularies/applicator/._dependentSchemas.js
+  - node_modules/ajv/dist/vocabularies/applicator/._if.js
+  - node_modules/ajv/dist/vocabularies/applicator/._patternProperties.js
+  - node_modules/ajv/dist/vocabularies/._next.js
+  - node_modules/ajv/dist/vocabularies/validation/._pattern.js
+  - node_modules/ajv/dist/vocabularies/validation/._limitContains.js
+  - node_modules/ajv/dist/vocabularies/validation/._limitLength.js
+  - node_modules/ajv/dist/vocabularies/validation/._index.js
+  - node_modules/ajv/dist/vocabularies/validation/._limitNumber.js
+  - node_modules/ajv/dist/vocabularies/validation/._limitProperties.js
+  - node_modules/ajv/dist/vocabularies/validation/._limitItems.js
+  - node_modules/ajv/dist/vocabularies/validation/._const.js
+  - node_modules/ajv/dist/vocabularies/validation/._uniqueItems.js
+  - node_modules/ajv/dist/vocabularies/validation/._dependentRequired.js
+  - node_modules/ajv/dist/vocabularies/validation/._required.js
+  - node_modules/ajv/dist/vocabularies/validation/._enum.js
+  - node_modules/ajv/dist/vocabularies/validation/._multipleOf.js
+  - node_modules/ajv/dist/types/._index.js
+  - node_modules/ajv/dist/types/._json-schema.js
+  - node_modules/ajv/dist/._ajv.js
+  - node_modules/ajv/dist/standalone/._index.js
+  - node_modules/ajv/dist/runtime/._ucs2length.js
+  - node_modules/ajv/dist/runtime/._quote.js
+  - node_modules/ajv/dist/runtime/._uri.js
+  - node_modules/ajv/dist/runtime/._timestamp.js
+  - node_modules/ajv/dist/runtime/._equal.js
+  - node_modules/ajv/dist/runtime/._parseJson.js
+  - node_modules/ajv/dist/runtime/._re2.js
+  - node_modules/ajv/dist/._2019.js
+  - node_modules/ajv/dist/._core.js
+  - node_modules/ajv/dist/compile/validate/._boolSchema.js
+  - node_modules/ajv/dist/compile/validate/._applicability.js
+  - node_modules/ajv/dist/compile/validate/._defaults.js
+  - node_modules/ajv/dist/compile/validate/._subschema.js
+  - node_modules/ajv/dist/compile/validate/._dataType.js
+  - node_modules/ajv/dist/compile/validate/._index.js
+  - node_modules/ajv/dist/compile/validate/._keyword.js
+  - node_modules/ajv/dist/compile/._ref_error.js
+  - node_modules/ajv/dist/compile/._rules.js
+  - node_modules/ajv/dist/compile/._util.js
+  - node_modules/ajv/dist/compile/._resolve.js
+  - node_modules/ajv/dist/compile/._index.js
+  - node_modules/ajv/dist/compile/codegen/._index.js
+  - node_modules/ajv/dist/compile/codegen/._code.js
+  - node_modules/ajv/dist/compile/codegen/._scope.js
+  - node_modules/ajv/dist/compile/jtd/._types.js
+  - node_modules/ajv/dist/compile/jtd/._parse.js
+  - node_modules/ajv/dist/compile/jtd/._serialize.js
+  - node_modules/ajv/dist/compile/._errors.js
+  - node_modules/ajv/dist/compile/._names.js
+  - node_modules/ajv/dist/refs/json-schema-2019-09/._index.js
+  - node_modules/ajv/dist/refs/._jtd-schema.js
+  - node_modules/ajv/dist/refs/json-schema-2020-12/._index.js
+  - node_modules/ajv/dist/._jtd.js
+  - node_modules/ajv/dist/._2020.js
+  - node_modules/ajv/._.runkit_example.js
+  - node_modules/emoji-regex/._LICENSE-MIT.txt
+  - node_modules/emoji-regex/._RGI_Emoji.js
+  - node_modules/emoji-regex/._index.js
+  - node_modules/emoji-regex/._text.js
+  - node_modules/emoji-regex/es2015/._RGI_Emoji.js
+  - node_modules/emoji-regex/es2015/._index.js
+  - node_modules/emoji-regex/es2015/._text.js
+  - node_modules/human-signals/build/src/._signals.js
+  - node_modules/human-signals/build/src/._core.js
+  - node_modules/human-signals/build/src/._realtime.js
+  - node_modules/human-signals/build/src/._main.js
+  - node_modules/fsevents/._fsevents.js
+  - node_modules/fast-deep-equal/._react.js
+  - node_modules/fast-deep-equal/._index.js
+  - node_modules/fast-deep-equal/es6/._react.js
+  - node_modules/fast-deep-equal/es6/._index.js
+  - node_modules/shebang-command/._index.js
+  - node_modules/chalk-template/node_modules/chalk/source/._templates.js
+  - node_modules/chalk-template/node_modules/chalk/source/._util.js
+  - node_modules/chalk-template/node_modules/ansi-styles/._index.js
+  - node_modules/chalk-template/._index.js
+  - node_modules/require-from-string/._index.js
+  - node_modules/source-map-js/._source-map.js
+  - node_modules/source-map-js/lib/._source-map-generator.js
+  - node_modules/source-map-js/lib/._util.js
+  - node_modules/source-map-js/lib/._base64.js
+  - node_modules/source-map-js/lib/._array-set.js
+  - node_modules/source-map-js/lib/._source-map-consumer.js
+  - node_modules/source-map-js/lib/._source-node.js
+  - node_modules/source-map-js/lib/._base64-vlq.js
+  - node_modules/source-map-js/lib/._binary-search.js
+  - node_modules/source-map-js/lib/._mapping-list.js
+  - node_modules/source-map-js/lib/._quick-sort.js
+  - node_modules/isexe/test/._basic.js
+  - node_modules/isexe/._index.js
+  - node_modules/isexe/._mode.js
+  - node_modules/isexe/._windows.js
+  - ._REC-007_Pulizia_Obsoleti_Report.txt
+  - ._BADGENODE_PERFORMANCE_AUDIT_REPORT.txt
+  - ._BACKUP_AUTOMATICO_Report.txt
+  - ._REC-004_Join_Query_Report.txt
+  - ._REC-005_Estrazione_CSS_Inline_Report.txt
+  - public/._version.txt
+  - public/._config.js
+  - public/._sw.js
+  - ._utenti.html
+  - ._REC-003_Virtualizzazione_Tabella_Report.txt
+  - ._REC-002_APPLIED_ChangeLog.txt
+  - ._REC-004_APPLIED_ChangeLog.txt
+  - ._main.js
+  - ._storico.html
+  - assets/scripts/._rec004_join_adapter.js
+  - assets/scripts/._supabase-client.js
+  - assets/scripts/._storico-logic.js
+  - assets/scripts/._users-stabilizer.js
+
+sha1=b2e68ce937c1f851926f7e10280cc93221d4f53c
+  - node_modules/minimist/LICENSE
+  - node_modules/concat-map/LICENSE
+
+sha1=b4333085d02fb4c091361de85d5cb368a3ce7632
+  - node_modules/source-map/lib/binary-search.js
+  - node_modules/source-map-js/lib/binary-search.js
+
+sha1=b9da3fe15d5e8b482d261b8d2e3a9a008d9a71d4
+  - node_modules/@zeit/schemas/.editorconfig
+  - node_modules/update-check/.editorconfig
+
+sha1=ba400cbcf3f19b08508cffb804d15ebdca98c126
+  - node_modules/@jridgewell/gen-mapping/types/set-array.d.mts.map
+  - node_modules/@jridgewell/gen-mapping/types/set-array.d.cts.map
+
+sha1=bb408e929caeb1731945b2ba54bc337edb87cc66
+  - node_modules/ini/LICENSE
+  - node_modules/minimatch/LICENSE
+  - node_modules/which/LICENSE
+  - node_modules/isexe/LICENSE
+
+sha1=c55cf5713af970b9934e1a016a92041826554063
+  - node_modules/acorn/dist/acorn.d.ts
+  - node_modules/acorn/dist/acorn.d.mts
+
+sha1=c6c817c167d253b816a519a24fc272505cf1d334
+  - node_modules/uri-js/dist/es5/uri.all.min.d.ts
+  - node_modules/uri-js/dist/es5/uri.all.d.ts
+  - node_modules/uri-js/dist/esnext/uri.d.ts
+
+sha1=c7eb50ca3fe2ff6f3730230f44fe612054bbfe07
+  - node_modules/ajv/dist/refs/json-schema-2019-09/meta/validation.json
+  - node_modules/ajv/lib/refs/json-schema-2019-09/meta/validation.json
+
+sha1=cf4e41059c3ed5be19c04dc0b6eddb82e48e5ae8
+  - node_modules/ajv/dist/refs/json-schema-2020-12/meta/format-annotation.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/meta/format-annotation.json
+
+sha1=d01daaea531afd890f20e128ff3781db8afe7987
+  - node_modules/@jridgewell/trace-mapping/types/sourcemap-segment.d.cts
+  - node_modules/@jridgewell/trace-mapping/types/sourcemap-segment.d.mts
+
+sha1=d1fc34aa3b5ef5b50b520d77dae64cc2b71dac4d
+  - node_modules/@jridgewell/trace-mapping/types/strip-filename.d.cts.map
+  - node_modules/@jridgewell/trace-mapping/types/strip-filename.d.mts.map
+
+sha1=d64b4ff22f83a0c02912b2a1c63992885ee85110
+  - node_modules/nanoid/index.d.cts
+  - node_modules/nanoid/index.d.ts
+
+sha1=d7384cd3ed0c9614f87dde0f86568017f369814c
+  - node_modules/punycode/LICENSE-MIT.txt
+  - node_modules/ansi-align/node_modules/emoji-regex/LICENSE-MIT.txt
+  - node_modules/emoji-regex/LICENSE-MIT.txt
+
+sha1=d9c5b5992c51b68299be365f067b6835edbedd55
+  - node_modules/ajv/dist/refs/json-schema-2020-12/schema.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/schema.json
+
+sha1=daacdc7404ed7cfa7d083300e581ba006f58ee85
+  - node_modules/ajv/dist/refs/json-schema-2020-12/meta/unevaluated.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/meta/unevaluated.json
+
+sha1=db36a18eed998265859a3aca9c11c7183ede32d6
+  - node_modules/ajv/dist/refs/json-schema-2020-12/meta/validation.json
+  - node_modules/ajv/lib/refs/json-schema-2020-12/meta/validation.json
+
+sha1=e2a714bb03b9226e5818ff678c656ddbe629125f
+  - node_modules/@jridgewell/sourcemap-codec/types/sourcemap-codec.d.cts.map
+  - node_modules/@jridgewell/sourcemap-codec/types/sourcemap-codec.d.mts.map
+
+sha1=e9b25ec0ea82117041ce4d47478fda6d6975187e
+  - dist/assets/badgenode-192-UNkmzwHW.png
+  - assets/icons/badgenode-192.png
+
+sha1=edd84150e081b4185d2a16f853af1b86ae8a9532
+  - node_modules/@jridgewell/gen-mapping/types/sourcemap-segment.d.cts
+  - node_modules/@jridgewell/gen-mapping/types/sourcemap-segment.d.mts
+
+sha1=f0cb61525be5ab6904e96e4cbedb51bd4bc62299
+  - node_modules/@jridgewell/trace-mapping/types/types.d.cts.map
+  - node_modules/@jridgewell/trace-mapping/types/types.d.mts.map
+
+sha1=f2b4a06b542eef028c98538a92c0e5496c4f9f6e
+  - node_modules/@jridgewell/trace-mapping/types/resolve.d.cts.map
+  - node_modules/@jridgewell/trace-mapping/types/resolve.d.mts.map
+
+sha1=f5aed43be359ee63fd9f6b9f4433abf0035ec0be
+  - node_modules/@jridgewell/source-map/types/source-map.d.mts.map
+  - node_modules/@jridgewell/source-map/types/source-map.d.cts.map
+
+sha1=f996784842ec83c72650b1fa89a40ffdec70f3cb
+  - dist/assets/BNLOGO-CdebEBu_.png
+  - assets/icons/BNLOGO.png
+
+sha1=fce46d49b81895cacb1b4f605f9415c03d9a8e60
+  - node_modules/ajv/dist/refs/json-schema-2019-09/meta/format.json
+  - node_modules/ajv/lib/refs/json-schema-2019-09/meta/format.json
+

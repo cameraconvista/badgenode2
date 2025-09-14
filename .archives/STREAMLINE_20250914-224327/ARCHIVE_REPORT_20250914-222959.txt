@@ -1,0 +1,39 @@
+# ===== BADGENODE MOVE-TO-ARCHIVES REPORT =====
+# Data: 20250914-222959
+
+Modalità: ESECUZIONE
+
+I seguenti elementi sono CANDIDATI all'archiviazione:
+
+DIR AUDIT: .audit_reports_20250914-221925
+DIR AUDIT: .audit_reports_20250914-221809
+DIR AUDIT: .audit_reports_20250914-221732
+KEEP (ultimi3): REPORT_DETTAGLIATO_REC006_20250914.txt
+KEEP (ultimi3): REPORT_DETTAGLIATO_POST_REBOOT_VALIDATION_20250914.txt
+KEEP (ultimi3): REC003_AUTOWIRE_REPORT.txt
+KEEP (ultimi3): REPORT_DETTAGLIATO_REC007_20250914.txt
+KEEP (ultimi3): REPORT_DETTAGLIATO_REC004_PINFIX_20250914.txt
+KEEP (ultimi3): REC006_REPORT.txt
+KEEP (ultimi3): POST_REBOOT_VALIDATION_REPORT.txt
+KEEP (ultimi3): REC003_TUNING_REPORT.txt
+KEEP (ultimi3): REC004_PINFIX_REPORT.txt
+KEEP (ultimi3): BADGENODE_PERFORMANCE_AUDIT_REPORT.txt
+KEEP (ultimi3): ._SISTEMA_PROBLEMI_REPORT.txt
+KEEP (ultimi3): ._BADGENODE_PERFORMANCE_AUDIT_REPORT.txt
+KEEP (ultimi3): SISTEMA_PROBLEMI_REPORT.txt
+KEEP (ultimi3): REPORT_DETTAGLIATO_REC004_FASE2_20250914.txt
+KEEP (ultimi3): REC007_REPORT.txt
+KEEP (ultimi3): REC004_P2_REPORT.txt
+KEEP (ultimi3): REC005_REPORT.txt
+KEEP (ultimi3): REPORT_DETTAGLIATO_REC005_20250914.txt
+TEMP: .DS_Store
+TEMP: node_modules/.DS_Store
+TEMP: .git/.DS_Store
+TEMP: assets/.DS_Store
+TEMP: utenti.html-E
+TEMP: ex-dipendenti.html-E
+
+NOTE:
+- DRY-RUN mostra anche le azioni che verrebbero eseguite.
+- Per eseguire davvero lo spostamento: CONFIRM_MOVE=1 bash move_to_archives.sh
+- Tutto è reversibile: i file sono in .archives/20250914-222959/

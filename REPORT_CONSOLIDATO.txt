@@ -1,0 +1,112 @@
+# ===== BADGENODE REPORT CONSOLIDATO - FINALIZE STREAMLINE =====
+# Data: 20250914-224611
+# Obiettivo: Archiviazione finale file non core, mantenimento solo runtime essenziale
+
+## Riepilogo operazione
+- File archiviati: 0
+- Dimensione totale archiviata: 0 B (0 KB)
+- Directory archivio: .archives/FINALIZE_20250914-224611
+
+## File archiviati
+ARCHIVE: ._.github-config.json (    4096 B) - file sistema
+ARCHIVE: ._copy-changelog.html (    4096 B) - file sistema
+ARCHIVE: ._copy-final-fix.html (    4096 B) - file sistema
+ARCHIVE: ._ex-dipendenti.html (    4096 B) - file sistema
+ARCHIVE: ._index.html (    4096 B) - file sistema
+ARCHIVE: ._main.js (    4096 B) - file sistema
+ARCHIVE: ._manifest.json (    4096 B) - file sistema
+ARCHIVE: ._offline.html (    4096 B) - file sistema
+ARCHIVE: ._package-lock.json (    4096 B) - file sistema
+ARCHIVE: ._package.json (    4096 B) - file sistema
+ARCHIVE: ._storico.html (    4096 B) - file sistema
+ARCHIVE: ._style.css (    4096 B) - file sistema
+ARCHIVE: ._sw.js (    4096 B) - file sistema
+ARCHIVE: ._utenti.html (    4096 B) - file sistema
+ARCHIVE: ._vite.config.js (    4096 B) - file sistema
+ARCHIVE: .htaccess (     630 B) - file non core
+ARCHIVE: REPORT_DETTAGLIATO_POST_REBOOT_VALIDATION_20250914.txt (    7872 B) - report storico
+
+## File mantenuti (core runtime + report chiave)
+### File Core Runtime:
+ - .github-config.json
+ - copy-changelog.html
+ - copy-final-fix.html
+ - ex-dipendenti.html
+ - index.html
+ - main.js
+ - manifest.json
+ - package-lock.json
+ - package.json
+ - storico.html
+ - style.css
+ - utenti.html
+ - vite.config.js
+
+### Directory Core:
+ - assets/
+ - public/
+ - sql/
+ - db/
+ - tools/
+
+### Report Tecnici Mantenuti:
+ - POST_REBOOT_VALIDATION_REPORT.txt
+ - REC003_AUTOWIRE_REPORT.txt
+ - REC003_TUNING_REPORT.txt
+ - REC004_P2_REPORT.txt
+ - REC004_PINFIX_REPORT.txt
+ - REPORT_DETTAGLIATO_REC004_FASE2_20250914.txt
+ - REPORT_DETTAGLIATO_REC004_PINFIX_20250914.txt
+ - REPORT_DETTAGLIATO_REC005_20250914.txt
+ - REPORT_DETTAGLIATO_REC006_20250914.txt
+ - REPORT_DETTAGLIATO_REC007_20250914.txt
+
+## Rollback
+Per ripristinare tutti i file archiviati:
+  bash ROLLBACK.sh
+
+## Errori (se presenti)
+ - Nessun errore
+
+## Note
+- Operazione conservativa: nessun file cancellato definitivamente
+- Progetto completamente snellito mantenendo funzionalità runtime
+- Report tecnici chiave preservati per riferimento
+- Backup ultimi 2 .tgz mantenuti
+
+## ROLLBACK BACKUP REC005_20250914-215814
+- Timestamp: 2025-09-14 22:26:34
+- Operazione: Ripristino completo da backup
+- Files ripristinati: storico.html, CSS, JS, assets
+- Motivo: Finalize Streamline aveva archiviato file essenziali
+- Stato: COMPLETATO - App funzionante
+
+## REC003 DISATTIVATO SU STORICO.HTML
+- Timestamp: 2025-09-14 23:23:45
+- Operazione: Aggiunto data-rec003-off al tbody#storico-body
+- Motivo: VirtualTable incompatibile con layout header/body/footer separati
+- Rimossi: storico-align.js, storico-colgroup-sync.js (script provvisori)
+- Stato: STABILE - Allineamento e matita funzionanti
+
+## RIPRISTINO BACKUP - 20250914-225449
+**Backup ripristinato:** REC005_20250914-215814
+**Motivo:** Problemi funzionamento storico.html dopo Finalize Streamline
+**File ripristinati:**
+- ex-dipendenti.html
+- index.html  
+- storico.html
+- style.css
+- utenti.html
+- assets/ (directory completa)
+
+## ROLLBACK COMPLETO FINALIZE - 20250914-230609
+**Archivio utilizzato:** .archives/FINALIZE_20250914-224611/
+**Motivo:** Ripristino integrale stato precedente pulizia FINALIZE
+**Script eseguito:** ROLLBACK.sh
+**File ripristinati:** 17 elementi totali
+- File ._* (metadata macOS): 15 file
+- .htaccess: 1 file  
+- REPORT_DETTAGLIATO_POST_REBOOT_VALIDATION_20250914.txt: 1 file
+**Status:** Rollback completato con successo
+
+# ===== FINE REPORT CONSOLIDATO =====

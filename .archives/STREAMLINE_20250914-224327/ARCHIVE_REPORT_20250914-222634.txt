@@ -1,0 +1,10 @@
+# ===== BADGENODE MOVE-TO-ARCHIVES REPORT =====
+# Data: 20250914-222634
+
+Modalità: DRY-RUN
+
+I seguenti elementi sono CANDIDATI all'archiviazione:
+
+DIR AUDIT: .audit_reports_20250914-221925
+DIR AUDIT: .audit_reports_20250914-221809
+DIR AUDIT: .audit_reports_20250914-221732

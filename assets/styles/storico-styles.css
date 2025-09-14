@@ -275,6 +275,7 @@ table {
   border-spacing: 0;
   background-color: transparent;
   table-layout: fixed;
+  min-width: 580px;
 }
 
 th, td {
@@ -930,22 +931,70 @@ button {
   }
 }
 
-/* Nuova regola per allineamento larghezza colonne */
-.tabella-container th:nth-child(1) { width: 120px; } /* Data */
-.tabella-container th:nth-child(2) { width: 110px; } /* Mese */
-.tabella-container th:nth-child(3) { width: 80px; }  /* Entrata */
-.tabella-container th:nth-child(4) { width: 80px; }  /* Uscita */
-.tabella-container th:nth-child(5) { width: 70px; }  /* Ore */
-.tabella-container th:nth-child(6) { width: 70px; }  /* Extra */
-.tabella-container th:nth-child(7) { width: 50px; }  /* Modifica - ridotta */
+/* Allineamento larghezza colonne - FORZA LAYOUT FISSO */
+.tabella-header table,
+.tabella-body-wrapper table,
+.tabella-footer table {
+  table-layout: fixed !important;
+  width: 100% !important;
+  min-width: 580px !important;
+}
 
-.tabella-container td:nth-child(1) { width: 120px; } /* Data */
-.tabella-container td:nth-child(2) { width: 110px; } /* Mese */
-.tabella-container td:nth-child(3) { width: 80px; }  /* Entrata */
-.tabella-container td:nth-child(4) { width: 80px; }  /* Uscita */
-.tabella-container td:nth-child(5) { width: 70px; }  /* Ore */
-.tabella-container td:nth-child(6) { width: 70px; }  /* Extra */
-.tabella-container td:nth-child(7) { width: 50px; }  /* Modifica - ridotta */
+.tabella-header th:nth-child(1),
+.tabella-body-wrapper td:nth-child(1),
+.tabella-footer td:nth-child(1) { 
+  width: 120px !important; 
+  min-width: 120px !important;
+  max-width: 120px !important;
+} /* Data */
+
+.tabella-header th:nth-child(2),
+.tabella-body-wrapper td:nth-child(2),
+.tabella-footer td:nth-child(2) { 
+  width: 110px !important; 
+  min-width: 110px !important;
+  max-width: 110px !important;
+} /* Mese */
+
+.tabella-header th:nth-child(3),
+.tabella-body-wrapper td:nth-child(3),
+.tabella-footer td:nth-child(3) { 
+  width: 80px !important; 
+  min-width: 80px !important;
+  max-width: 80px !important;
+} /* Entrata */
+
+.tabella-header th:nth-child(4),
+.tabella-body-wrapper td:nth-child(4),
+.tabella-footer td:nth-child(4) { 
+  width: 80px !important; 
+  min-width: 80px !important;
+  max-width: 80px !important;
+} /* Uscita */
+
+.tabella-header th:nth-child(5),
+.tabella-body-wrapper td:nth-child(5),
+.tabella-footer td:nth-child(5) { 
+  width: 70px !important; 
+  min-width: 70px !important;
+  max-width: 70px !important;
+} /* Ore */
+
+.tabella-header th:nth-child(6),
+.tabella-body-wrapper td:nth-child(6),
+.tabella-footer td:nth-child(6) { 
+  width: 70px !important; 
+  min-width: 70px !important;
+  max-width: 70px !important;
+} /* Extra */
+
+.tabella-header th:nth-child(7),
+.tabella-body-wrapper td:nth-child(7),
+.tabella-footer td:nth-child(7) { 
+  width: 50px !important; 
+  min-width: 50px !important;
+  max-width: 50px !important;
+} /* Modifica */
 
 /* Regole per mobile */
 @media (max-width: 480px) and (orientation: portrait) {

@@ -1,0 +1,643 @@
+# ===== PROJECT STRUCTURE SNAPSHOT =====
+# Data: 20250914-223505
+# Root: /Users/dero/Downloads/badgenode-main
+
+## Riepilogo
+- Cartelle: 26
+- File: 301
+
+## Struttura (albero con dimensioni)
+
+- ._.backups (    4096 B)
+- ._.env.local (    4096 B)
+- ._.git (    4096 B)
+- ._.github-config.json (    4096 B)
+- ._.gitignore (    4096 B)
+- ._.htaccess (    4096 B)
+- ._BACKUP_AUTOMATICO_APPLICAZIONE_ChangeLog.txt (    4096 B)
+- ._BACKUP_AUTOMATICO_Report.txt (    4096 B)
+- ._BADGENODE_PERFORMANCE_AUDIT_REPORT.txt (    4096 B)
+- ._CANONICALIZAZIONE_BADGENODE_REPORT.md (    4096 B)
+- ._DB_API_DOCS.md (    4096 B)
+- ._FEATURES_MANUAL.md (    4096 B)
+- ._GITHUB_SYNC.md (    4096 B)
+- ._GOVERNANCE.md (    4096 B)
+- ._ICON_OPTIMIZATION_REPORT.md (    4096 B)
+- ._ICON_PATH_STANDARDS.md (    4096 B)
+- ._PROJECT_STRUCTURE.md (    4096 B)
+- ._Procfile (    4096 B)
+- ._README.md (    4096 B)
+- ._REC-001_APPLIED_ChangeLog.txt (    4096 B)
+- ._REC-001_PIANO_OPERATIVO_CDN_ESTERNI.txt (    4096 B)
+- ._REC-002_APPLIED_ChangeLog.txt (    4096 B)
+- ._REC-002_Singleton_Supabase_Report.txt (    4096 B)
+- ._REC-003_Virtualizzazione_Tabella_Report.txt (    4096 B)
+- ._REC-004_APPLIED_ChangeLog.txt (    4096 B)
+- ._REC-004_Join_Query_Report.txt (    4096 B)
+- ._REC-005_Estrazione_CSS_Inline_Report.txt (    4096 B)
+- ._REC-006_Cache_HTTP_Report.txt (    4096 B)
+- ._REC-007_Pulizia_Obsoleti_Report.txt (    4096 B)
+- ._REPORT_AUDIT.md (    4096 B)
+- ._SCRIPTS_OVERVIEW.md (    4096 B)
+- ._SETUP_GUIDE.md (    4096 B)
+- ._SISTEMA_PROBLEMI_REPORT.txt (    4096 B)
+- ._STORICO_DUPLICATIONS_FINAL_FIX_CHANGELOG.md (    4096 B)
+- ._STORICO_DUPLICATIONS_FIX_CHANGELOG.md (    4096 B)
+- ._STORICO_FIX_CHANGELOG.md (    4096 B)
+- ._SUPABASE_SETUP.md (    4096 B)
+- ._TAGLIANDO_CHANGELOG.md (    4096 B)
+- .__headers (    4096 B)
+- .__redirects (    4096 B)
+- ._archivio_deprecati (    4096 B)
+- ._assets (    4096 B)
+- ._backups (    4096 B)
+- ._copy-changelog.html (    4096 B)
+- ._copy-final-fix.html (    4096 B)
+- ._db (    4096 B)
+- ._dist (    4096 B)
+- ._ex-dipendenti.html (    4096 B)
+- ._github-clean.sh (    4096 B)
+- ._index.html (    4096 B)
+- ._main.js (    4096 B)
+- ._manifest.json (    4096 B)
+- ._netlify.toml (    4096 B)
+- ._node_modules (    4096 B)
+- ._offline.html (    4096 B)
+- ._package-lock.json (    4096 B)
+- ._package.json (    4096 B)
+- ._public (    4096 B)
+- ._render.yaml (    4096 B)
+- ._replit.md (    4096 B)
+- ._sql (    4096 B)
+- ._storico.html (    4096 B)
+- ._style.css (    4096 B)
+- ._sw.js (    4096 B)
+- ._tools (    4096 B)
+- ._utenti.html (    4096 B)
+- ._vite.config.js (    4096 B)
++ .archives/
+  + 20250914-222634/
+  + 20250914-222709/
+  + 20250914-222959/
+    - .DS_Store (    8196 B)
+    + .audit_reports_20250914-221732/
+      - AUDIT_DUPLICATI.txt (      39 B)
+      - AUDIT_INVENTARIO.txt (   49340 B)
+    + .audit_reports_20250914-221809/
+      - AUDIT_DUPLICATI.txt (   34352 B)
+      - AUDIT_INVENTARIO.txt (   49443 B)
+      - AUDIT_ORFANI.txt (   12654 B)
+    + .audit_reports_20250914-221925/
+      - AUDIT_CASCADE_RIEPILOGO.txt (    1034 B)
+      - AUDIT_DUPLICATI.txt (   34352 B)
+      - AUDIT_INVENTARIO.txt (   49594 B)
+      - AUDIT_LINEE_GUIDA_PULIZIA.txt (     830 B)
+      - AUDIT_ORFANI.txt (   33236 B)
+    + .git/
+      - .DS_Store (    6148 B)
+    + assets/
+      - .DS_Store (    6148 B)
+    - ex-dipendenti.html-E (   13492 B)
+    + node_modules/
+      - .DS_Store (   24580 B)
+    - utenti.html-E (   21948 B)
+- .env.local (     401 B)
+- .github-config.json (     396 B)
+- .gitignore (     274 B)
+- .htaccess (     630 B)
+- ARCHIVE_REPORT_20250914-222634.txt (     274 B)
+- ARCHIVE_REPORT_20250914-222709.txt (    1495 B)
+- ARCHIVE_REPORT_20250914-222959.txt (    1498 B)
+- BACKUP_AUTOMATICO_APPLICAZIONE_ChangeLog.txt (    3542 B)
+- BACKUP_AUTOMATICO_Report.txt (   15313 B)
+- BADGENODE_HOTFIX_REC003_REPORT_20250914-205856.txt (    4372 B)
+- BADGENODE_PERFORMANCE_AUDIT_REPORT.txt (    8514 B)
+- BADGENODE_STATUS_REPORT_20250914-205311.txt (    2751 B)
+- CANONICALIZAZIONE_BADGENODE_REPORT.md (    7304 B)
+- DB_API_DOCS.md (   10033 B)
+- FEATURES_MANUAL.md (   14732 B)
+- GITHUB_SYNC.md (    8947 B)
+- GOVERNANCE.md (   17431 B)
+- ICON_OPTIMIZATION_REPORT.md (    8059 B)
+- ICON_PATH_STANDARDS.md (    3912 B)
+- POST_REBOOT_VALIDATION_REPORT.txt (    2219 B)
+- PROJECT_STRUCTURE.md (    9236 B)
+- PROJECT_STRUCTURE_20250914-223505.txt (    4354 B)
+- Procfile (      32 B)
+- README.md (     852 B)
+- REC-001_APPLIED_ChangeLog.txt (    1315 B)
+- REC-001_PIANO_OPERATIVO_CDN_ESTERNI.txt (    6101 B)
+- REC-002_APPLIED_ChangeLog.txt (    2056 B)
+- REC-002_Singleton_Supabase_Report.txt (   14828 B)
+- REC-003_Virtualizzazione_Tabella_Report.txt (   15483 B)
+- REC-004_APPLIED_ChangeLog.txt (     888 B)
+- REC-004_Join_Query_Report.txt (   15806 B)
+- REC-005_Estrazione_CSS_Inline_Report.txt (   14314 B)
+- REC-006_Cache_HTTP_Report.txt (   15642 B)
+- REC-007_Pulizia_Obsoleti_Report.txt (   16953 B)
+- REC003_AUTOWIRE_REPORT.txt (     965 B)
+- REC003_TUNING_REPORT.txt (     820 B)
+- REC004_P2_REPORT.txt (    1150 B)
+- REC004_PINFIX_REPORT.txt (     971 B)
+- REC005_REPORT.txt (     526 B)
+- REC006_DEPLOY_NOTES.txt (     557 B)
+- REC006_REPORT.txt (    1064 B)
+- REC007_REPORT.txt (     401 B)
+- REPORT_AUDIT.md (    5053 B)
+- REPORT_DETTAGLIATO_POST_REBOOT_VALIDATION_20250914.txt (    7872 B)
+- REPORT_DETTAGLIATO_REC004_FASE2_20250914.txt (    6834 B)
+- REPORT_DETTAGLIATO_REC004_PINFIX_20250914.txt (    8198 B)
+- REPORT_DETTAGLIATO_REC005_20250914.txt (    7505 B)
+- REPORT_DETTAGLIATO_REC006_20250914.txt (    7929 B)
+- REPORT_DETTAGLIATO_REC007_20250914.txt (    5619 B)
+- REPORT_MODIFICHE_REC003_AUTOWIRE_20250914.txt (    5282 B)
+- SCRIPTS_OVERVIEW.md (    8859 B)
+- SETUP_GUIDE.md (    9327 B)
+- SISTEMA_PROBLEMI_REPORT.txt (   10107 B)
+- STORICO_DUPLICATIONS_FINAL_FIX_CHANGELOG.md (    4412 B)
+- STORICO_DUPLICATIONS_FIX_CHANGELOG.md (    2497 B)
+- STORICO_FIX_CHANGELOG.md (    3377 B)
+- SUPABASE_SETUP.md (    9191 B)
+- TAGLIANDO_CHANGELOG.md (    3722 B)
+- _headers (    1246 B)
+- _redirects (     560 B)
++ archivio_deprecati/
+  - ._backups-legacy (    4096 B)
+  + backups-legacy/
+    - ._storico.html-pre-fix-20250909-214114.bak (    4096 B)
+    - storico.html-pre-fix-20250909-214114.bak (    9174 B)
++ assets/
+  - ._css (    4096 B)
+  - ._icons (    4096 B)
+  - ._scripts (    4096 B)
+  - ._styles (    4096 B)
+  + css/
+    - ex-dipendenti.css (    8547 B)
+  + icons/
+    - ._BADGENODE.png (    4096 B)
+    - ._BNLOGO.png (    4096 B)
+    - ._badgenode-192.png (    4096 B)
+    - ._badgenode-512.png (    4096 B)
+    - ._calendario.png (    4096 B)
+    - ._cancella.png (    4096 B)
+    - ._esporta.png (    4096 B)
+    - ._freccia.png (    4096 B)
+    - ._invia.png (    4096 B)
+    - ._matita-colorata.png (    4096 B)
+    - ._orologio.png (    4096 B)
+    - ._pdf.png (    4096 B)
+    - BADGENODE.png (   56540 B)
+    - BNLOGO.png (    6244 B)
+    - badgenode-192.png (   14890 B)
+    - badgenode-512.png (   35298 B)
+    - calendario.png (     753 B)
+    - cancella.png (    1110 B)
+    - esporta.png (    1288 B)
+    - freccia.png (    5661 B)
+    - invia.png (    1785 B)
+    - matita-colorata.png (     851 B)
+    - orologio.png (   13758 B)
+    - pdf.png (    1271 B)
+  + scripts/
+    - ._calendar-utils.js (    4096 B)
+    - ._calendario-popup.js (    4096 B)
+    - ._modale-modifica.js (    4096 B)
+    - ._perf.patch.js (    4096 B)
+    - ._rec004_join_adapter.js (    4096 B)
+    - ._storico-logic.js (    4096 B)
+    - ._supabase-client.js (    4096 B)
+    - ._timbrature-render.js (    4096 B)
+    - ._users-stabilizer.js (    4096 B)
+    - ._users-stable.mjs (    4096 B)
+    - ._utenti-loader.js (    4096 B)
+    - calendar-utils.js (    3462 B)
+    - calendario-popup.js (    7536 B)
+    - modale-modifica.js (    6858 B)
+    - perf.patch.js (    3959 B)
+    - rec004_join_adapter.js (    3982 B)
+    - storico-logic.js (   15993 B)
+    - supabase-client.js (    1962 B)
+    - timbrature-data.js (    5269 B)
+    - timbrature-render.js (    6344 B)
+    - users-stabilizer.js (    3561 B)
+    - users-stable.mjs (    3687 B)
+    - virtual-table.js (    1706 B)
+  + styles/
+    - ._app-corner-brand.css (    4096 B)
+    - app-corner-brand.css (     480 B)
+    - ex-dipendenti.css (   10901 B)
+    - storico-styles.css (   19714 B)
+    - utenti.css (    7210 B)
+- audit_cascade_script.sh (    6670 B)
++ backups/
+  - ._backup-20250914-130929.tgz (    4096 B)
+  - ._backup-20250914-134416.tgz (    4096 B)
+  - ._backup-20250914-135236.tgz (    4096 B)
+  - backup-20250914-135236.tgz (  346775 B)
+  - backup-20250914-191621.tgz (  350770 B)
+  - backup-20250914-200046.tgz (  372927 B)
+- copy-changelog.html (    7583 B)
+- copy-final-fix.html (   13275 B)
++ db/
+  - ._sql (    4096 B)
+  + sql/
+    - ._rec004_create_view_v_timbrature_utenti.sql (    4096 B)
+    - rec004_create_view_v_timbrature_utenti.sql (     589 B)
++ dist/
+  - ._assets (    4096 B)
+  - ._config.js (    4096 B)
+  - ._ex-dipendenti.html (    4096 B)
+  - ._favicon.ico (    4096 B)
+  - ._index.html (    4096 B)
+  - ._storico.html (    4096 B)
+  - ._sw.js (    4096 B)
+  - ._utenti.html (    4096 B)
+  - ._version.txt (    4096 B)
+  + assets/
+    - ._BNLOGO-CdebEBu_.png (    4096 B)
+    - ._badgenode-192-UNkmzwHW.png (    4096 B)
+    - ._exdipendenti-DUjP0Ykk.css (    4096 B)
+    - ._exdipendenti-DmJjtETv.js (    4096 B)
+    - ._main-BOFlOzxF.js (    4096 B)
+    - ._manifest-Ci4Ht8o6.json (    4096 B)
+    - ._perf.patch-DUElHh-P.js (    4096 B)
+    - ._storico-BibyRRYF.js (    4096 B)
+    - ._storico-DUYdQ9fP.css (    4096 B)
+    - ._supabase-client-Ciq2puh4.css (    4096 B)
+    - ._supabase-client-Dh7EII58.js (    4096 B)
+    - ._utenti-Bsca7crT.html (    4096 B)
+    - ._utenti-D7gUG-rE.js (    4096 B)
+    - BNLOGO-CdebEBu_.png (    6244 B)
+    - badgenode-192-UNkmzwHW.png (   14890 B)
+    - exdipendenti-DUjP0Ykk.css (    6399 B)
+    - exdipendenti-DmJjtETv.js (    4621 B)
+    - main-BOFlOzxF.js (    4777 B)
+    - manifest-Ci4Ht8o6.json (     618 B)
+    - perf.patch-DUElHh-P.js (    2411 B)
+    - storico-BibyRRYF.js (   23543 B)
+    - storico-DUYdQ9fP.css (   14534 B)
+    - supabase-client-Ciq2puh4.css (    5561 B)
+    - supabase-client-Dh7EII58.js (    1790 B)
+    - utenti-Bsca7crT.html (   28626 B)
+    - utenti-D7gUG-rE.js (    9793 B)
+  - config.js (     661 B)
+  - ex-dipendenti.html (   16862 B)
+  - favicon.ico (       1 B)
+  - index.html (    7288 B)
+  - storico.html (   13129 B)
+  - sw.js (    5999 B)
+  - utenti.html (   17780 B)
+  - version.txt (      57 B)
+- ex-dipendenti.html (   13559 B)
+- github-clean.sh (    2188 B)
+- hotfix_rec003_script.sh (    6233 B)
+- index.html (    8501 B)
+- main.js (    7618 B)
+- manifest.json (     618 B)
+- move_to_archives.sh (    4325 B)
+- netlify.toml (     936 B)
+- package-lock.json (  122867 B)
+- package.json (     689 B)
+- post_reboot_validation_script.sh (    3195 B)
+- project_structure_snapshot.sh (    4129 B)
++ public/
+  - ._assets (    4096 B)
+  - ._config.js (    4096 B)
+  - ._favicon.ico (    4096 B)
+  - ._sw.js (    4096 B)
+  - ._version.txt (    4096 B)
+  - _headers (     373 B)
+  - config.js (     661 B)
+  - favicon.ico (       1 B)
+  - sw.js (    5999 B)
+  - version.txt (      57 B)
+- rec003_autowire_script.sh (    4140 B)
+- rec003_tuning_script.sh (    3540 B)
+- rec004_p2_script.sh (    5762 B)
+- rec004_pinfix_script.sh (    4545 B)
+- rec005_script.sh (    2032 B)
+- rec006_script.sh (    3144 B)
+- rec007_script.sh (    1480 B)
+- render.yaml (     253 B)
+- replit.md (    4891 B)
++ sql/
+  - ._INSTALL.md (    4096 B)
+  - ._README_retention.md (    4096 B)
+  - ._retention_timbrature_6m.sql (    4096 B)
+  - INSTALL.md (    1129 B)
+  - README_retention.md (    5319 B)
+  - retention_timbrature_6m.sql (    3711 B)
+- status_check_script.sh (    2665 B)
+- storico.html (   13332 B)
+- style.css (    7378 B)
++ tools/
+  - backup.mjs (    3626 B)
+- utenti.html (   22008 B)
+- vite.config.js (    1301 B)
+
+## Elenco completo (per ricerca testuale)
+._.backups
+._.env.local
+._.git
+._.github-config.json
+._.gitignore
+._.htaccess
+._BACKUP_AUTOMATICO_APPLICAZIONE_ChangeLog.txt
+._BACKUP_AUTOMATICO_Report.txt
+._BADGENODE_PERFORMANCE_AUDIT_REPORT.txt
+._CANONICALIZAZIONE_BADGENODE_REPORT.md
+._DB_API_DOCS.md
+._FEATURES_MANUAL.md
+._GITHUB_SYNC.md
+._GOVERNANCE.md
+._ICON_OPTIMIZATION_REPORT.md
+._ICON_PATH_STANDARDS.md
+._PROJECT_STRUCTURE.md
+._Procfile
+._README.md
+._REC-001_APPLIED_ChangeLog.txt
+._REC-001_PIANO_OPERATIVO_CDN_ESTERNI.txt
+._REC-002_APPLIED_ChangeLog.txt
+._REC-002_Singleton_Supabase_Report.txt
+._REC-003_Virtualizzazione_Tabella_Report.txt
+._REC-004_APPLIED_ChangeLog.txt
+._REC-004_Join_Query_Report.txt
+._REC-005_Estrazione_CSS_Inline_Report.txt
+._REC-006_Cache_HTTP_Report.txt
+._REC-007_Pulizia_Obsoleti_Report.txt
+._REPORT_AUDIT.md
+._SCRIPTS_OVERVIEW.md
+._SETUP_GUIDE.md
+._SISTEMA_PROBLEMI_REPORT.txt
+._STORICO_DUPLICATIONS_FINAL_FIX_CHANGELOG.md
+._STORICO_DUPLICATIONS_FIX_CHANGELOG.md
+._STORICO_FIX_CHANGELOG.md
+._SUPABASE_SETUP.md
+._TAGLIANDO_CHANGELOG.md
+.__headers
+.__redirects
+._archivio_deprecati
+._assets
+._backups
+._copy-changelog.html
+._copy-final-fix.html
+._db
+._dist
+._ex-dipendenti.html
+._github-clean.sh
+._index.html
+._main.js
+._manifest.json
+._netlify.toml
+._node_modules
+._offline.html
+._package-lock.json
+._package.json
+._public
+._render.yaml
+._replit.md
+._sql
+._storico.html
+._style.css
+._sw.js
+._tools
+._utenti.html
+._vite.config.js
+.archives/20250914-222959/.DS_Store
+.archives/20250914-222959/.audit_reports_20250914-221732/AUDIT_DUPLICATI.txt
+.archives/20250914-222959/.audit_reports_20250914-221732/AUDIT_INVENTARIO.txt
+.archives/20250914-222959/.audit_reports_20250914-221809/AUDIT_DUPLICATI.txt
+.archives/20250914-222959/.audit_reports_20250914-221809/AUDIT_INVENTARIO.txt
+.archives/20250914-222959/.audit_reports_20250914-221809/AUDIT_ORFANI.txt
+.archives/20250914-222959/.audit_reports_20250914-221925/AUDIT_CASCADE_RIEPILOGO.txt
+.archives/20250914-222959/.audit_reports_20250914-221925/AUDIT_DUPLICATI.txt
+.archives/20250914-222959/.audit_reports_20250914-221925/AUDIT_INVENTARIO.txt
+.archives/20250914-222959/.audit_reports_20250914-221925/AUDIT_LINEE_GUIDA_PULIZIA.txt
+.archives/20250914-222959/.audit_reports_20250914-221925/AUDIT_ORFANI.txt
+.archives/20250914-222959/.git/.DS_Store
+.archives/20250914-222959/assets/.DS_Store
+.archives/20250914-222959/ex-dipendenti.html-E
+.archives/20250914-222959/node_modules/.DS_Store
+.archives/20250914-222959/utenti.html-E
+.env.local
+.github-config.json
+.gitignore
+.htaccess
+ARCHIVE_REPORT_20250914-222634.txt
+ARCHIVE_REPORT_20250914-222709.txt
+ARCHIVE_REPORT_20250914-222959.txt
+BACKUP_AUTOMATICO_APPLICAZIONE_ChangeLog.txt
+BACKUP_AUTOMATICO_Report.txt
+BADGENODE_HOTFIX_REC003_REPORT_20250914-205856.txt
+BADGENODE_PERFORMANCE_AUDIT_REPORT.txt
+BADGENODE_STATUS_REPORT_20250914-205311.txt
+CANONICALIZAZIONE_BADGENODE_REPORT.md
+DB_API_DOCS.md
+FEATURES_MANUAL.md
+GITHUB_SYNC.md
+GOVERNANCE.md
+ICON_OPTIMIZATION_REPORT.md
+ICON_PATH_STANDARDS.md
+POST_REBOOT_VALIDATION_REPORT.txt
+PROJECT_STRUCTURE.md
+PROJECT_STRUCTURE_20250914-223505.txt
+Procfile
+README.md
+REC-001_APPLIED_ChangeLog.txt
+REC-001_PIANO_OPERATIVO_CDN_ESTERNI.txt
+REC-002_APPLIED_ChangeLog.txt
+REC-002_Singleton_Supabase_Report.txt
+REC-003_Virtualizzazione_Tabella_Report.txt
+REC-004_APPLIED_ChangeLog.txt
+REC-004_Join_Query_Report.txt
+REC-005_Estrazione_CSS_Inline_Report.txt
+REC-006_Cache_HTTP_Report.txt
+REC-007_Pulizia_Obsoleti_Report.txt
+REC003_AUTOWIRE_REPORT.txt
+REC003_TUNING_REPORT.txt
+REC004_P2_REPORT.txt
+REC004_PINFIX_REPORT.txt
+REC005_REPORT.txt
+REC006_DEPLOY_NOTES.txt
+REC006_REPORT.txt
+REC007_REPORT.txt
+REPORT_AUDIT.md
+REPORT_DETTAGLIATO_POST_REBOOT_VALIDATION_20250914.txt
+REPORT_DETTAGLIATO_REC004_FASE2_20250914.txt
+REPORT_DETTAGLIATO_REC004_PINFIX_20250914.txt
+REPORT_DETTAGLIATO_REC005_20250914.txt
+REPORT_DETTAGLIATO_REC006_20250914.txt
+REPORT_DETTAGLIATO_REC007_20250914.txt
+REPORT_MODIFICHE_REC003_AUTOWIRE_20250914.txt
+SCRIPTS_OVERVIEW.md
+SETUP_GUIDE.md
+SISTEMA_PROBLEMI_REPORT.txt
+STORICO_DUPLICATIONS_FINAL_FIX_CHANGELOG.md
+STORICO_DUPLICATIONS_FIX_CHANGELOG.md
+STORICO_FIX_CHANGELOG.md
+SUPABASE_SETUP.md
+TAGLIANDO_CHANGELOG.md
+_headers
+_redirects
+archivio_deprecati/._backups-legacy
+archivio_deprecati/backups-legacy/._storico.html-pre-fix-20250909-214114.bak
+archivio_deprecati/backups-legacy/storico.html-pre-fix-20250909-214114.bak
+assets/._css
+assets/._icons
+assets/._scripts
+assets/._styles
+assets/css/ex-dipendenti.css
+assets/icons/._BADGENODE.png
+assets/icons/._BNLOGO.png
+assets/icons/._badgenode-192.png
+assets/icons/._badgenode-512.png
+assets/icons/._calendario.png
+assets/icons/._cancella.png
+assets/icons/._esporta.png
+assets/icons/._freccia.png
+assets/icons/._invia.png
+assets/icons/._matita-colorata.png
+assets/icons/._orologio.png
+assets/icons/._pdf.png
+assets/icons/BADGENODE.png
+assets/icons/BNLOGO.png
+assets/icons/badgenode-192.png
+assets/icons/badgenode-512.png
+assets/icons/calendario.png
+assets/icons/cancella.png
+assets/icons/esporta.png
+assets/icons/freccia.png
+assets/icons/invia.png
+assets/icons/matita-colorata.png
+assets/icons/orologio.png
+assets/icons/pdf.png
+assets/scripts/._calendar-utils.js
+assets/scripts/._calendario-popup.js
+assets/scripts/._modale-modifica.js
+assets/scripts/._perf.patch.js
+assets/scripts/._rec004_join_adapter.js
+assets/scripts/._storico-logic.js
+assets/scripts/._supabase-client.js
+assets/scripts/._timbrature-render.js
+assets/scripts/._users-stabilizer.js
+assets/scripts/._users-stable.mjs
+assets/scripts/._utenti-loader.js
+assets/scripts/calendar-utils.js
+assets/scripts/calendario-popup.js
+assets/scripts/modale-modifica.js
+assets/scripts/perf.patch.js
+assets/scripts/rec004_join_adapter.js
+assets/scripts/storico-logic.js
+assets/scripts/supabase-client.js
+assets/scripts/timbrature-data.js
+assets/scripts/timbrature-render.js
+assets/scripts/users-stabilizer.js
+assets/scripts/users-stable.mjs
+assets/scripts/virtual-table.js
+assets/styles/._app-corner-brand.css
+assets/styles/app-corner-brand.css
+assets/styles/ex-dipendenti.css
+assets/styles/storico-styles.css
+assets/styles/utenti.css
+audit_cascade_script.sh
+backups/._backup-20250914-130929.tgz
+backups/._backup-20250914-134416.tgz
+backups/._backup-20250914-135236.tgz
+backups/backup-20250914-135236.tgz
+backups/backup-20250914-191621.tgz
+backups/backup-20250914-200046.tgz
+copy-changelog.html
+copy-final-fix.html
+db/._sql
+db/sql/._rec004_create_view_v_timbrature_utenti.sql
+db/sql/rec004_create_view_v_timbrature_utenti.sql
+dist/._assets
+dist/._config.js
+dist/._ex-dipendenti.html
+dist/._favicon.ico
+dist/._index.html
+dist/._storico.html
+dist/._sw.js
+dist/._utenti.html
+dist/._version.txt
+dist/assets/._BNLOGO-CdebEBu_.png
+dist/assets/._badgenode-192-UNkmzwHW.png
+dist/assets/._exdipendenti-DUjP0Ykk.css
+dist/assets/._exdipendenti-DmJjtETv.js
+dist/assets/._main-BOFlOzxF.js
+dist/assets/._manifest-Ci4Ht8o6.json
+dist/assets/._perf.patch-DUElHh-P.js
+dist/assets/._storico-BibyRRYF.js
+dist/assets/._storico-DUYdQ9fP.css
+dist/assets/._supabase-client-Ciq2puh4.css
+dist/assets/._supabase-client-Dh7EII58.js
+dist/assets/._utenti-Bsca7crT.html
+dist/assets/._utenti-D7gUG-rE.js
+dist/assets/BNLOGO-CdebEBu_.png
+dist/assets/badgenode-192-UNkmzwHW.png
+dist/assets/exdipendenti-DUjP0Ykk.css
+dist/assets/exdipendenti-DmJjtETv.js
+dist/assets/main-BOFlOzxF.js
+dist/assets/manifest-Ci4Ht8o6.json
+dist/assets/perf.patch-DUElHh-P.js
+dist/assets/storico-BibyRRYF.js
+dist/assets/storico-DUYdQ9fP.css
+dist/assets/supabase-client-Ciq2puh4.css
+dist/assets/supabase-client-Dh7EII58.js
+dist/assets/utenti-Bsca7crT.html
+dist/assets/utenti-D7gUG-rE.js
+dist/config.js
+dist/ex-dipendenti.html
+dist/favicon.ico
+dist/index.html
+dist/storico.html
+dist/sw.js
+dist/utenti.html
+dist/version.txt
+ex-dipendenti.html
+github-clean.sh
+hotfix_rec003_script.sh
+index.html
+main.js
+manifest.json
+move_to_archives.sh
+netlify.toml
+package-lock.json
+package.json
+post_reboot_validation_script.sh
+project_structure_snapshot.sh
+public/._assets
+public/._config.js
+public/._favicon.ico
+public/._sw.js
+public/._version.txt
+public/_headers
+public/config.js
+public/favicon.ico
+public/sw.js
+public/version.txt
+rec003_autowire_script.sh
+rec003_tuning_script.sh
+rec004_p2_script.sh
+rec004_pinfix_script.sh
+rec005_script.sh
+rec006_script.sh
+rec007_script.sh
+render.yaml
+replit.md
+sql/._INSTALL.md
+sql/._README_retention.md
+sql/._retention_timbrature_6m.sql
+sql/INSTALL.md
+sql/README_retention.md
+sql/retention_timbrature_6m.sql
+status_check_script.sh
+storico.html
+style.css
+tools/backup.mjs
+utenti.html
+vite.config.js
+
+## Note
+- Variabili usate: INCLUDE_BACKUPS=0, INCLUDE_NODE_MODULES=0, INCLUDE_GIT=0, MAX_DEPTH=0
+- Per includere tutto, rilancia: INCLUDE_BACKUPS=1 INCLUDE_NODE_MODULES=1 INCLUDE_GIT=1 bash project_structure_snapshot.sh
