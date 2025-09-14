@@ -1,12 +1,13 @@
 // [REC002-HOTFIX] Env guard
 globalThis.__IS_PROD__ = (typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PROD !== 'undefined')
-  ? import.meta.env.PROD
+  ? import.meta.env.PROD 
   : (location.port && location.port !== '5173'); 
 
 // 🚀 BADGEBOX - Entry Point Unico Applicativo
 // Architettura: ES Modules + API globali controllate
 
 import { supabaseClient } from './assets/scripts/supabase-client.js';
+import { cleanupServiceWorker } from './assets/scripts/sw-cleanup.js';
 
 // 🔧 Inizializzazione asincrona con validazione
 (async function initializeApp() {
@@ -168,36 +169,8 @@ function initializeInterface() {
   pinInput.focus();
 }
 
-// Service Worker gestione semplificata - evita loop
-if ('serviceWorker' in navigator) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const forceUnregisterSW = urlParams.get('no-sw') === '1';
-  
-  if (forceUnregisterSW) {
-    // Kill-switch: rimuovi tutti i SW
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
-      registrations.forEach(registration => {
-        registration.unregister();
-        console.log('[SW] Force unregistered:', registration.scope);
-      });
-    });
-    if ('caches' in window) {
-      caches.keys().then(names => {
-        names.forEach(name => caches.delete(name));
-      });
-    }
-    console.log('🔧 Kill-switch attivato: SW rimosso');
-  } else if (globalThis.__IS_PROD__) {
-    // Solo in produzione: registra SW
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('[SW] Registered:', registration.scope);
-        })
-        .catch((error) => {
-          console.log('[SW] Registration failed:', error);
-        });
-    });
-  }
-  // In DEV: nessuna azione (evita cleanup loop)
-}
+// Service Worker DISABILITATO - Bonifica zombie SW
+cleanupServiceWorker();
+
+// Service Worker completamente disabilitato per questa app
+console.log('[SW] Service Worker disabilitato - app utilizza solo network requests');

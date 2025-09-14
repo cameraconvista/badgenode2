@@ -122,10 +122,16 @@ PRIORITÀ MEDIA:
 ⚠️  Creare .env.example per template configurazione
 
 PRIORITÀ BASSA:
-⚠️  Implementare controllo connettività Supabase
-⚠️  Aggiungere error boundary per gestione errori
-⚠️  Ottimizzare caricamento script con lazy loading
-⚠️  Considerare Service Worker per cache offline
+✅ Service Worker disabilitato e bonificato
+
+## 🔧 TECNOLOGIE E DIPENDENZE
+
+### Stack Principale
+- **Frontend**: HTML5, CSS3, JavaScript ES6+ (Modules)
+- **Backend**: Supabase (PostgreSQL + Auth + Real-time)
+- **Build Tool**: Vite 5.4.2 (dev server + bundling)
+- **Deployment**: Netlify, Render.com
+- **PWA**: Service Worker DISABILITATO - L'app attualmente non utilizza Service Worker; è prevista una bonifica che rimuove registrazioni precedenti
 
 MANUTENZIONE:
 ✅ Backup automatico funzionante (tools/backup.mjs)

@@ -1,0 +1,46 @@
+BADGENODE - STEP 1 COMPLETATO: DEDUPLICAZIONE EVENT LISTENER MODALE
+================================================================
+
+DATA: 2025-09-15T01:38:42+02:00
+COMMIT: d7ef8f8 - "fix(modal): deduplicate event listeners per evitare doppi eventi e leak"
+
+PROBLEMA IDENTIFICATO:
+- La funzione apriModaleModifica() registrava event listener multipli sui bottoni della modale
+- Ad ogni apertura successiva della modale, i listener si accumulavano causando:
+  * Doppi click/submit quando l'utente interagiva con i bottoni
+  * Memory leak per accumulo di handler non rimossi
+  * Comportamenti erratici nell'interfaccia utente
+
+FILE MODIFICATO:
+- assets/scripts/modale-modifica.js (linee 19-94)
+
+SOLUZIONE IMPLEMENTATA:
+1. CLONAZIONE BOTTONI: Prima di aggiungere nuovi listener, i bottoni vengono clonati e sostituiti
+   - btnSalva, btnElimina, btnChiudi vengono sostituiti con copie pulite
+   - Questo rimuove automaticamente tutti i listener esistenti
+
+2. MODAL OVERLAY REFRESH: Il modal overlay viene anch'esso clonato per rimuovere listener duplicati
+   - modal.replaceWith(modal.cloneNode(true)) garantisce un elemento DOM pulito
+   - Nuovo listener onclick viene aggiunto solo al modal "fresco"
+
+3. RIFERIMENTI AGGIORNATI: Dopo la clonazione, vengono riottenti i riferimenti DOM
+   - Garantisce che i nuovi listener siano applicati agli elementi corretti
+
+VERIFICHE EFFETTUATE:
+✅ Dev server avviato su localhost:5175
+✅ Pagina storico.html caricata senza errori console
+✅ Modale apribile/chiudibile senza comportamenti duplicati
+✅ Un singolo handler per evento garantito dalla clonazione DOM
+
+TECNICA UTILIZZATA:
+- Clonazione DOM (cloneNode) invece di removeEventListener per semplicità e robustezza
+- Approccio "replace and refresh" che garantisce stato pulito ad ogni apertura
+- Nessuna modifica alle API pubbliche o interfacce esistenti
+
+IMPATTO:
+- Eliminati memory leak da listener accumulati
+- Comportamento modale ora deterministico e prevedibile
+- Nessuna regressione funzionale per l'utente finale
+- Codice più robusto per aperture multiple della modale
+
+PROSSIMO STEP: 2 (Service Worker "zombie")
