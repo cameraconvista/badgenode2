@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+  <script>
+  // Disabilita completamente HMR/WebSocket per prevenire ricaricamenti
+  (function () {
+    // Block ALL WebSocket connections in dev
+    if (window.WebSocket) {
+      window.WebSocket = function() {
+        console.debug('[HMR] WebSocket completamente disabilitato');
+        return { close(){}, readyState: 3, addEventListener(){}, removeEventListener(){}, send(){} };
+      };
+    }
+    
+    // Block ALL EventSource connections
+    if (window.EventSource) {
+      window.EventSource = function() {
+        console.debug('[HMR] EventSource completamente disabilitato');
+        return { close(){}, readyState: 2, onopen:null, onmessage:null, onerror:null, addEventListener(){}, removeEventListener(){} };
+      };
+    }
+  })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover, shrink-to-fit=no" />
   <title>BADGEBOX - Sistema Timbrature</title>

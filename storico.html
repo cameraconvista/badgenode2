@@ -2,36 +2,29 @@
 <html lang="it">
 <head>
   <script>
+  // Disabilita completamente HMR/WebSocket per prevenire ricaricamenti
   (function () {
-    if (location.protocol !== 'https:') return;  // only on https
-    var HMR = /:\/\/(0\.0\.0\.0|127\.0\.0\.1|localhost):5173\d/;
-
-    // Patch WebSocket (block only Vite HMR)
-    var OldWS = window.WebSocket;
-    window.WebSocket = function (url, protocols) {
-      try { if (typeof url === 'string' && HMR.test(url)) throw new Error('HMR disabled on HTTPS'); }
-      catch (e) { console.debug('[HMR muted]', e.message); return { close(){}, readyState: 3, addEventListener(){}, removeEventListener(){}, send(){} }; }
-      var ws = new OldWS(url, protocols);
-      return ws;
-    };
-    if (OldWS) window.WebSocket.prototype = OldWS.prototype;
-
-    // Patch EventSource (some setups use it for HMR)
-    var OldES = window.EventSource;
-    if (OldES) {
-      window.EventSource = function (url, conf) {
-        if (typeof url === 'string' && HMR.test(url)) {
-          console.debug('[HMR muted] EventSource blocked');
-          return { close(){}, readyState: 2, onopen:null, onmessage:null, onerror:null, addEventListener(){}, removeEventListener(){} };
-        }
-        return new OldES(url, conf);
+    // Block ALL WebSocket connections in dev
+    if (window.WebSocket) {
+      window.WebSocket = function() {
+        console.debug('[HMR] WebSocket completamente disabilitato');
+        return { close(){}, readyState: 3, addEventListener(){}, removeEventListener(){}, send(){} };
       };
-      window.EventSource.prototype = OldES.prototype;
+    }
+    
+    // Block ALL EventSource connections
+    if (window.EventSource) {
+      window.EventSource = function() {
+        console.debug('[HMR] EventSource completamente disabilitato');
+        return { close(){}, readyState: 2, onopen:null, onmessage:null, onerror:null, addEventListener(){}, removeEventListener(){} };
+      };
     }
   })();
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover, shrink-to-fit=no" />
+  
+  <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4bWpxcm5pdGZzaXl0Ynl0eGxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MzY1MDcsImV4cCI6MjA2NzExMjUwN30.lag16Oxh_UQL4WOeU9-pVxIzvUyiNQMhKUY5Y5s9DPg">
   <title>Storico Timbrature - BADGEBOX</title>
 
   <!-- PWA Meta -->
@@ -204,9 +197,9 @@
   </div>
 
   <!-- 🚀 Entry Point Unico - ES Modules con percorsi assoluti -->
-  <script type="module" src="/assets/scripts/calendario-popup.js"></script>
-  <script type="module" src="/assets/scripts/modale-modifica.js"></script>
   <script type="module" src="./assets/scripts/supabase-client.js"></script>
+  <script type="module" src="./assets/scripts/storico-logic.js"></script>
+  <script type="module" src="./assets/scripts/timbrature-render.js"></script>
 
 <script>
 /* REC-SW-GUARD-ALL */

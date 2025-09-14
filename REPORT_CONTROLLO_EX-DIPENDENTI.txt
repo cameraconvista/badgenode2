@@ -1,0 +1,171 @@
+================================================================================
+                    REPORT CONTROLLO SICUREZZA EX-DIPENDENTI.HTML
+================================================================================
+Data: 15/09/2025 00:55
+File analizzato: ex-dipendenti.html
+Tipo controllo: SOLO LETTURA - Nessuna modifica effettuata
+
+================================================================================
+1. SCRIPT SERVICE WORKER "MONCO"
+================================================================================
+STATO: ❌ ROTTO - Tag </script> mancante
+
+DETTAGLI:
+- Riga 763: /* SW register stripped */.then((registration) => {
+- PROBLEMA: Il tag </script> è MANCANTE prima del blocco REC-SW-GUARD-ALL (riga 772)
+- EFFETTO: Script malformato che può causare errori di parsing JavaScript
+- PRIORITÀ: 🔴 ALTA - Richiede correzione immediata
+
+CODICE PROBLEMATICO:
+```
+<script>
+  // Service Worker registration per PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      /* SW register stripped */.then((registration) => {
+          console.log('[SW] Registered:', registration.scope);
+        })
+        .catch((error) => {
+          console.error('[SW] Registration failed:', error);
+        });
+    });
+  }
+  
+<script>  // ← MANCA </script> QUI
+/* REC-SW-GUARD-ALL */
+```
+
+================================================================================
+2. IMPORT SCRIPT MODULE
+================================================================================
+ELENCO COMPLETO SCRIPT TYPE="MODULE":
+
+1. Riga 590: 
+   <script type="module" src="./assets/scripts/supabase-client.js"></script>
+
+2. Riga 591-736: Script inline
+   import { supabaseClient } from './assets/scripts/supabase-client.js';
+
+3. Riga 738-756: Script inline  
+   import { supabaseClient as supabase } from './assets/scripts/supabase-client.js';
+
+TOTALE SCRIPT MODULE: 3 (1 esterno + 2 inline)
+
+================================================================================
+3. DOPPIONI IMPORT SUPABASE
+================================================================================
+STATO: ⚠️ DOPPIONI PRESENTI
+
+IMPORT MULTIPLI:
+- 3 import dello stesso supabase-client.js
+- Import 1: Riga 590 (esterno)
+- Import 2: Riga 593 (inline)
+- Import 3: Riga 739 (inline)
+
+ESPOSIZIONE GLOBALE:
+- window.supabase (riga 595)
+- globalThis.supabase (riga 740)
+
+FUNZIONI DUPLICATE: ❌ NO
+- Funzioni diverse ma complementari
+- Non ci sono conflitti di naming
+
+PRIORITÀ: 🟡 MEDIA - Ridondante ma non critico
+
+================================================================================
+4. FUNZIONI CARICAMENTO EX-DIPENDENTI
+================================================================================
+FUNZIONI IDENTIFICATE:
+
+✅ caricaExDipendenti() (riga 599-653)
+   - CHIAMATA: Sì (riga 735)
+   - SCOPO: Caricamento principale tabella ex-dipendenti
+   - STATO: Attiva e funzionante
+
+✅ loadExDip() (riga 741-753)  
+   - CHIAMATA: Sì (riga 755)
+   - SCOPO: Caricamento alternativo/fallback
+   - STATO: Attiva ma secondaria
+
+❌ renderExDipendenti() 
+   - DEFINITA: No
+   - REFERENZIATA: Sì (riga 747)
+   - STATO: Funzione fantasma - chiamata ma non definita
+
+FUNZIONE EFFETTIVAMENTE INVOCATA: caricaExDipendenti (principale)
+
+PRIORITÀ: 🟢 BASSA - Funzionamento corretto nonostante ridondanza
+
+================================================================================
+5. DOCS-ENFORCER.JS
+================================================================================
+STATO: ✅ NON USATO - Completamente pulito
+
+RICERCA EFFETTUATA:
+- Pattern: "docs-enforcer" (case insensitive)
+- File controllati: *.js, *.html
+- Risultati: 0 occorrenze
+
+DETTAGLI:
+- Import: Assente
+- Chiamate: Nessuna
+- Riferimenti: Nessuno
+
+PRIORITÀ: 🟢 BASSA - Sistema completamente rimosso
+
+================================================================================
+6. META SUPABASE-ANON-KEY
+================================================================================
+STATO: ❌ NON USATA - Token presente ma mai letto
+
+PRESENZA:
+- Riga 36: <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+- Token: Valido e completo
+
+UTILIZZO NEL CODICE:
+- Ricerca pattern: "supabase-anon-key"
+- Risultati: 1 occorrenza (solo dichiarazione HTML)
+- Lettura JavaScript: NESSUNA
+- Accesso DOM: NESSUNO
+
+PRIORITÀ: 🟡 MEDIA - Risorsa inutilizzata
+
+================================================================================
+RIEPILOGO CRITICITÀ
+================================================================================
+
+| Elemento                | Stato        | Priorità | Azione Richiesta           |
+|------------------------|--------------|----------|----------------------------|
+| SW Script              | ❌ ROTTO     | 🔴 ALTA  | Aggiungere </script>       |
+| Import Supabase        | ⚠️ DOPPIONI  | 🟡 MEDIA | Consolidare import         |
+| Funzioni caricamento   | ✅ OK        | 🟢 BASSA | Nessuna                    |
+| docs-enforcer          | ✅ PULITO    | 🟢 BASSA | Nessuna                    |
+| Meta anon-key          | ❌ INUTILIZZATA | 🟡 MEDIA | Rimuovere o utilizzare  |
+
+================================================================================
+RACCOMANDAZIONI
+================================================================================
+
+IMMEDIATA (Priorità Alta):
+1. Correggere tag </script> mancante alla riga 771
+   - Aggiungere </script> prima di <script> REC-SW-GUARD-ALL
+
+BREVE TERMINE (Priorità Media):
+2. Consolidare import Supabase multipli
+   - Mantenere solo un import e una esposizione globale
+3. Valutare utilizzo meta supabase-anon-key
+   - Rimuovere se non necessario o implementare lettura
+
+LUNGO TERMINE (Priorità Bassa):
+4. Pulizia funzioni ridondanti
+   - Rimuovere loadExDip se caricaExDipendenti è sufficiente
+   - Rimuovere riferimento a renderExDipendenti non definita
+
+================================================================================
+STATO GENERALE: ⚠️ RICHIEDE ATTENZIONE
+================================================================================
+Il file presenta un errore critico di sintassi che può causare malfunzionamenti.
+La correzione del tag </script> mancante è URGENTE.
+Gli altri problemi sono di natura organizzativa e non compromettono il funzionamento.
+
+Report generato automaticamente - Nessuna modifica effettuata ai file.
