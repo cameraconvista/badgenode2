@@ -68,7 +68,7 @@
   <link rel="preload" href="style.css" as="style">
   <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
   <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
-  <script defer src="/assets/scripts/perf.patch.js" type="module"></script>
+  
 
   <!-- Fonts e CSS -->
   <link rel="stylesheet" href="style.css" />
@@ -233,6 +233,7 @@
 })();
 </script>
 <!-- removed extra </body> -->
+<script type="module">import { VirtualTable } from './assets/scripts/virtual-table.js'; window.__REC003__ = window.__REC003__ || {}; window.__REC003__.mount = (rowsHTML)=>{   try{     const tb = document.querySelector('#storico-body');     if(!tb) return console.warn('[REC003] tbody non trovato');     const vt = new VirtualTable(tb,{ rowHeight: 44, buffer: 12 });     vt.setRows(rowsHTML);     console.info('[REC003] virtual table attiva:', rowsHTML?.length||0, 'righe');   }catch(e){ console.warn('[REC003] fallback renderer:', e?.message||e); } };</script>
 <script type="module">import { fetchStoricoJoin } from './assets/scripts/rec004_join_adapter.js'; window.__REC004__ = { fetchStoricoJoin };</script>
 
   <script>

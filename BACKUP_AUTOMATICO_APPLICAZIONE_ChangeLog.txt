@@ -64,3 +64,7 @@ Tempo rollback stimato: 2 minuti
 - ex-dipendenti.html: rimosso reload loop, uso singleton, guard caricamento
 - Validazione: nessun TypeError; nessun warning Supabase; ex-dipendenti stabile
 - Rollback: ripristinare .backups/REC002_HOTFIX_20250914-145718/*
+
+## REBOOT STATUS (20250914-205311) — STATUS-20250914-205311-16107
+Sincronizzazione stato e backup iniziale. Nessuna modifica applicata. RUN_ID=STATUS-20250914-205311-16107
+Rollback: ripristina la cartella .backups/REBOOT_20250914-205311/*

@@ -1,0 +1,82 @@
+# ===== BADGENODE STATUS REPORT =====
+# Data: 2025-09-14 20:53:11
+# RUN_ID: STATUS-20250914-205311-16107
+# Tipo: VERIFICA STATO + BACKUP (ZERO MODIFICHE)
+
+## ESECUZIONE SCRIPT STATUS CHECK
+==> STEP corrente: STATUS | RUN_ID: STATUS-20250914-205311-16107
+==> Backup creato in .backups/REBOOT_20250914-205311
+
+## RISULTATI VERIFICA
+
+### ✅ FILE CHIAVE E HELPER PRESENTI:
+- rec004_join_adapter.js ✓
+- storico-logic.js ✓
+- supabase-client.js ✓
+- timbrature-data.js ✓
+- users-stable.mjs ✓
+
+### ✅ GUARD SERVICE WORKER (SW-GUARD):
+- index.html:202: /* REC-SW-GUARD-ALL */ ✓
+- utenti.html:834: /* REC-SW-GUARD-ALL */ ✓
+- storico.html:212: /* REC-SW-GUARD-ALL */ ✓
+- ex-dipendenti.html:772: /* REC-SW-GUARD-ALL */ ✓
+
+### ⚠️ PROBLEMI IDENTIFICATI:
+
+#### 1. CONFIG.JS ANCORA REFERENZIATO:
+- utenti.html:20: <script src="/config.js"></script>
+  AZIONE RICHIESTA: Rimuovere riferimento config.js da utenti.html
+
+#### 2. PERF.PATCH.JS ANCORA PRESENTE:
+- storico.html:71: <script defer src="/assets/scripts/perf.patch.js" type="module"></script>
+- ex-dipendenti.html:69: <script defer src="/assets/scripts/perf.patch.js" type="module"></script>
+  AZIONE RICHIESTA: Rimuovere riferimenti a perf.patch.js (dovrebbe essere stato eliminato)
+
+### ✅ CONFIGURAZIONI CORRETTE:
+
+#### PATH ICONE:
+- OK: path icone normalizzati (nessun riferimento a /icons/ trovato)
+
+#### ADAPTER REC004:
+- storico.html:236: Hook window.__REC004__ correttamente configurato
+- Import module: fetchStoricoJoin da rec004_join_adapter.js ✓
+
+#### LIBRERIE PRELOAD (REC-001):
+- storico.html:69: jsPDF preload ✓
+- storico.html:70: XLSX preload ✓
+
+### ℹ️ INFO STATO:
+
+#### REC003 (VIRTUAL TABLE):
+- INFO: infrastruttura virtualizzazione non ancora agganciata
+- STATUS: OK per fase corrente
+
+## BACKUP CREATO
+- Percorso: .backups/REBOOT_20250914-205311/
+- File salvati: index.html, utenti.html, storico.html, ex-dipendenti.html, assets/, style.css
+- Rollback: ripristina la cartella .backups/REBOOT_20250914-205311/*
+
+## CHANGELOG AGGIORNATO
+Aggiunta voce in BACKUP_AUTOMATICO_APPLICAZIONE_ChangeLog.txt:
+## REBOOT STATUS (20250914-205311) — STATUS-20250914-205311-16107
+Sincronizzazione stato e backup iniziale. Nessuna modifica applicata.
+
+## RACCOMANDAZIONI PROSSIMI STEP
+
+### PRIORITÀ ALTA:
+1. Rimuovere config.js da utenti.html (linea 20)
+2. Rimuovere perf.patch.js da storico.html (linea 71) e ex-dipendenti.html (linea 69)
+
+### PRIORITÀ MEDIA:
+3. Implementare hook REC003 per virtualizzazione tabella (se previsto)
+
+### STATO GENERALE: ✅ BUONO
+- Applicazione funzionale
+- Backup sicuro creato
+- File helper principali presenti
+- SW-GUARD correttamente implementato
+- Librerie preload configurate
+
+## FINE REPORT
+# =====================================
