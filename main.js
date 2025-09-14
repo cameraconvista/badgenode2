@@ -7,11 +7,15 @@ globalThis.__IS_PROD__ = (typeof import.meta !== 'undefined' && import.meta.env 
 // Architettura: ES Modules + API globali controllate
 
 import { supabaseClient } from './assets/scripts/supabase-client.js';
+import docsEnforcer from './assets/scripts/docs-enforcer.js';
 
 // 🔧 Inizializzazione asincrona con validazione
 (async function initializeApp() {
   try {
-    // 1. Usa client Supabase singleton
+    // 1. Forza lettura documentazione alla prima apertura
+    await docsEnforcer.enforceDocsReading();
+
+    // 2. Usa client Supabase singleton
     window.supabase = supabaseClient;
     console.log('✅ Supabase connesso e disponibile');
 
