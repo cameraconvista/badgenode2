@@ -1,153 +1,96 @@
-// [users-stable] Stabilizzazione fetch utenti su Render/Prod
-let __installed = false;
+// [users-stable] v2 — anti-loop definitivo per utenti.html (deploy)
+// - Snapshot del <tbody> quando i dati sono validi
+// - Se la pagina tenta di svuotarlo, ripristina l'ultimo HTML buono
+// - Backoff su fetch REST /utenti, no reload(), single-flight
+let __installed=false;
 export function installUsersStable(){
-  if (__installed) return; __installed = true;
+  if(__installed) return; __installed=true;
 
-  const isUtenti = /(^|\/)utenti\.html(\?|#|$)/.test(location.pathname + location.search + location.hash);
-  if (!isUtenti) return;
+  const isUtenti = /(^|\/)utenti\.html(\?|#|$)/.test(location.pathname+location.search+location.hash);
+  if(!isUtenti) return;
 
   const isRender = /\.onrender\.com$/.test(location.hostname);
-  const MAX_BACKOFF = 30000;
-  let failures = 0;
-  let inFlight = false;
-  let lastGood = null;
-  let lastGoodAt = 0;
-  let retryTimeout = null;
+  const MAX_BACKOFF=30000;
+  let failures=0, inFlight=false;
+  let lastGoodHTML=null, lastGoodRows=0, restoring=false;
 
-  console.info('[users-stable] attivo', {isRender, url: location.href});
+  // Blocca reload aggressivi
+  try{ location.reload = function(){ console.info('[users-stable] reload bloccato'); }; }catch(_){}
 
-  // Blocca qualsiasi reload automatico
-  const origReload = location.reload;
-  location.reload = function(){ 
-    console.warn('[users-stable] reload bloccato - uso cache invece');
-    if (lastGood && lastGood.length) {
-      document.dispatchEvent(new CustomEvent('users-stable:restore', {detail:{data:lastGood, ts:lastGoodAt}}));
+  // Trova tbody principale
+  function findTbody(){
+    return document.querySelector('table tbody') ||
+           document.querySelector('#lista-utenti tbody') ||
+           document.querySelector('tbody');
+  }
+
+  // Salva snapshot quando la tabella è popolata
+  function snapshotIfGood(){
+    const tb = findTbody(); if(!tb) return;
+    const rows = tb.querySelectorAll('tr').length;
+    if(rows>0){
+      lastGoodHTML = tb.innerHTML;
+      lastGoodRows = rows;
+      //console.info('[users-stable] snapshot', rows);
     }
+  }
+
+  // Ripristina snapshot se il tbody viene svuotato
+  function restoreIfEmpty(){
+    const tb = findTbody(); if(!tb) return;
+    const rows = tb.querySelectorAll('tr').length;
+    if(rows===0 && lastGoodHTML && !restoring){
+      restoring=true;
+      tb.innerHTML = lastGoodHTML; // ripristina senza toccare layout/handler inline
+      //console.info('[users-stable] ripristino snapshot', lastGoodRows);
+      setTimeout(()=>{ restoring=false; }, 50);
+    }
+  }
+
+  // Observer per prevenire "schermo vuoto"
+  const mo = new MutationObserver(()=>{ snapshotIfGood(); restoreIfEmpty(); });
+  const startMO = ()=>{
+    const tb = findTbody(); if(!tb) return setTimeout(startMO,150);
+    mo.observe(tb, {childList:true, subtree:true});
+    snapshotIfGood();
   };
+  startMO();
 
-  // Intercetta errori di rete per evitare loop di retry
-  window.addEventListener('error', (e) => {
-    if (e.message && e.message.includes('supabase')) {
-      console.warn('[users-stable] Supabase error intercepted:', e.message);
-      e.preventDefault();
-    }
-  });
-
-  // Wrapper fetch SOLO per query utenti via Supabase REST
-  const origFetch = window.fetch.bind(window);
+  // Wrapper fetch per le chiamate a /rest/v1/utenti (via supabase-js o fetch diretto)
+  const _fetch = window.fetch.bind(window);
   window.fetch = async function(resource, init){
-    const url = typeof resource === 'string' ? resource : (resource && resource.url) || '';
+    const url = typeof resource==='string' ? resource : (resource&&resource.url)||'';
     const isUsers = /\/rest\/v1\/utenti(\b|\/|\?)/.test(url);
-    
-    if (!isUsers) return origFetch(resource, init);
+    if(!isUsers) return _fetch(resource, init);
 
-    console.info('[users-stable] fetch utenti intercettato:', url);
+    if(inFlight){ return _fetch(resource, init); } // lasciamo scorrere ma evitiamo burst al reset
 
-    // Se c'è già una richiesta in corso, restituisci la cache se disponibile
-    if (inFlight) {
-      if (lastGood && Date.now() - lastGoodAt < 60000) { // cache valida per 1 minuto
-        console.info('[users-stable] usando cache durante fetch in corso');
-        return new Response(JSON.stringify(lastGood), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
-      return origFetch(resource, init);
-    }
-
-    inFlight = true;
-    
+    inFlight=true;
     try{
-      const res = await origFetch(resource, init);
-      
-      if (!res.ok) {
-        failures = Math.min(failures + 1, 8);
-        const delay = Math.min(1000 * (2 ** failures), MAX_BACKOFF);
-        console.warn('[users-stable] HTTP', res.status, '-> backoff', delay, 'ms');
-
-        // Programma retry con backoff
-        if (retryTimeout) clearTimeout(retryTimeout);
-        retryTimeout = setTimeout(()=>{ 
-          inFlight = false; 
-          console.info('[users-stable] retry disponibile dopo backoff');
-        }, delay);
-
-        // Se abbiamo cache valida, restituiscila invece dell'errore
-        if (lastGood && lastGood.length) {
-          console.info('[users-stable] restituisco cache invece di errore HTTP', res.status);
-          return new Response(JSON.stringify(lastGood), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-          });
-        }
-        
+      const res = await _fetch(resource, init);
+      if(!res.ok){
+        failures = Math.min(failures+1, 8);
+        const delay = Math.min(1000*(2**failures), MAX_BACKOFF);
+        console.warn('[users-stable] HTTP', res.status, '→ backoff', delay,'ms');
+        setTimeout(()=>{ inFlight=false; }, delay);
+        // NON svuotiamo nulla: observer ripristina lastGood se il codice lo svuota
         return res;
       }
-
-      // Successo: reset failures e salva cache
-      failures = 0;
-      if (retryTimeout) { clearTimeout(retryTimeout); retryTimeout = null; }
-      
-      const clone = res.clone();
-      try{
-        const data = await clone.json().catch(()=>null);
-        if (Array.isArray(data) && data.length > 0) { 
-          lastGood = data; 
-          lastGoodAt = Date.now();
-          console.info('[users-stable] cache aggiornata:', data.length, 'utenti');
-        }
-      }catch(_){}
-      
-      inFlight = false;
+      failures=0;
+      // successo → inFlight off subito; snapshot avviene via observer quando DOM si popola
+      inFlight=false;
       return res;
-
     }catch(e){
-      failures = Math.min(failures + 1, 8);
-      const delay = Math.min(1000 * (2 ** failures), MAX_BACKOFF);
-      console.warn('[users-stable] fetch error -> backoff', delay, 'ms', e?.message||e);
-      
-      if (retryTimeout) clearTimeout(retryTimeout);
-      retryTimeout = setTimeout(()=>{ 
-        inFlight = false;
-        console.info('[users-stable] retry disponibile dopo errore');
-      }, delay);
-
-      // Se abbiamo cache valida, restituiscila invece di lanciare errore
-      if (lastGood && lastGood.length) {
-        console.info('[users-stable] restituisco cache invece di errore fetch');
-        return new Response(JSON.stringify(lastGood), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
-      
+      failures = Math.min(failures+1, 8);
+      const delay = Math.min(1000*(2**failures), MAX_BACKOFF);
+      console.warn('[users-stable] fetch error → backoff', delay,'ms', e?.message||e);
+      setTimeout(()=>{ inFlight=false; }, delay);
       throw e;
     }
   };
 
-  // Guard DOM: evita "schermo vuoto" ripristinando ultima tabella valida
-  const checkTable = () => {
-    const table = document.querySelector('table tbody');
-    if (table) {
-      const rows = table.querySelectorAll('tr').length;
-      if (rows === 0 && lastGood && lastGood.length) {
-        console.info('[users-stable] tabella vuota rilevata, ripristino cache');
-        document.dispatchEvent(new CustomEvent('users-stable:restore', {detail:{data:lastGood, ts:lastGoodAt}}));
-      }
-    }
-  };
+  // Hard guard: se dopo N secondi il tbody è vuoto ma in passato era pieno, ripristina
+  setInterval(()=>{ if(lastGoodHTML) restoreIfEmpty(); }, 3000);
 
-  // Controlla tabella ogni 2 secondi
-  setInterval(checkTable, 2000);
-
-  // Observer per cambiamenti DOM
-  const observer = new MutationObserver(checkTable);
-  observer.observe(document.body, {childList:true, subtree:true});
-
-  // Espone la cache
-  globalThis.__USERS_CACHE__ = { 
-    get data(){ return lastGood; }, 
-    get ts(){ return lastGoodAt; },
-    get failures(){ return failures; }
-  };
+  console.info('[users-stable] v2 attivo', {isRender});
 }
