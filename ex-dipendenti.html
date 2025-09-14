@@ -760,8 +760,7 @@
     // Service Worker registration per PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=20250911')
-          .then((registration) => {
+        /* SW register stripped */.then((registration) => {
             console.log('[SW] Registered:', registration.scope);
           })
           .catch((error) => {
@@ -769,6 +768,30 @@
           });
       });
     }
-  </script>
+  
+<script>
+/* REC-SW-GUARD-ALL */
+(function(){
+  try{
+    const host = location.hostname, port = location.port;
+    const isDev = host==='localhost' || host.includes('replit.dev') || port==='5000' || port==='5173';
+    const is8080 = port==='8080';
+    const isRender = /\.onrender\.com$/.test(host);
+    if ('serviceWorker' in navigator) {
+      if (isDev || is8080 || isRender || (new URLSearchParams(location.search)).get('no-sw')==='1') {
+        navigator.serviceWorker.getRegistrations?.().then(rs=>rs.forEach(r=>r.unregister().catch(()=>{})));
+        if ('caches' in window) caches.keys().then(ns=>ns.forEach(n=>caches.delete(n).catch(()=>{})));
+        console.info('[SW] Unregistered (env guard)');
+      } else {
+        const swPath='/sw.js';
+        fetch(swPath,{method:'HEAD'}).then(r=>{
+          if(r&&r.ok) navigator.serviceWorker.register(swPath).catch(()=>{});
+          else console.info('[SW] Not found, skip');
+        }).catch(()=>console.info('[SW] Skip'));
+      }
+    }
+  }catch(e){ console.info('[SW] guard error', e?.message||e); }
+})();
+</script>
 </body>
 </html>
