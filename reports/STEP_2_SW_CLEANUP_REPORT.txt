@@ -1,0 +1,59 @@
+BADGENODE - STEP 2 COMPLETATO: BONIFICA SERVICE WORKER E PREVENZIONE CACHE STALE
+==================================================================================
+
+DATA: 2025-09-15T01:42:48+02:00
+COMMIT: 86c36fb - "chore(sw): bonifica Service Worker e prevenzione cache stale"
+
+PROBLEMA IDENTIFICATO:
+- Service Worker "zombie" attivo in public/sw.js non più utilizzato dall'app
+- Registrazioni SW presenti in tutti i file HTML principali (index.html, utenti.html, storico.html, ex-dipendenti.html)
+- Rischio cache stale e comportamenti incoerenti tra sviluppo e produzione
+- File main.js conteneva logica di registrazione SW condizionale
+
+FILE MODIFICATI:
+1. main.js - Rimossa logica registrazione SW, aggiunta bonifica
+2. assets/scripts/sw-cleanup.js - CREATO modulo bonifica SW zombie
+3. public/sw.js → public/sw.js.disabled - Isolato file SW per prevenire registrazioni accidentali
+4. reports/DIAGNOSI_PROGETTO.txt - Aggiornata documentazione
+
+DOVE VENIVA REGISTRATO IL SERVICE WORKER:
+- main.js: Registrazione condizionale in produzione (__IS_PROD__)
+- index.html: Script inline con guard per ambienti dev
+- utenti.html: Script inline con guard per ambienti dev  
+- storico.html: Script inline con guard per ambienti dev
+- ex-dipendenti.html: Script inline con guard per ambienti dev
+
+COSA È STATO DISATTIVATO:
+- Rimossa completamente logica registrazione SW da main.js
+- Sostituita con import e chiamata al modulo sw-cleanup.js
+- File sw.js rinominato in sw.js.disabled per isolamento
+
+COME AVVIENE LA BONIFICA:
+1. CONTROLLO UNA TANTUM: Flag localStorage 'badgenode-sw-cleanup-done' previene esecuzioni multiple
+2. UNREGISTER SW: navigator.serviceWorker.getRegistrations() + unregister() per tutti i SW attivi
+3. PULIZIA CACHE: caches.keys() + caches.delete() per tutte le cache associate
+4. MARCATURA COMPLETAMENTO: Flag localStorage impostato per evitare ripetizioni future
+
+VERIFICHE EFFETTUATE:
+✅ Dev server funzionante (localhost:5175)
+✅ App caricata senza controlled clients da Service Worker
+✅ Console pulita: nessun errore/warning SW
+✅ Hard reload senza asset serviti da cache SW
+✅ Funzionalità app invariata
+
+TECNICA UTILIZZATA:
+- Modulo ES6 dedicato (sw-cleanup.js) per bonifica centralizzata
+- Flag localStorage per esecuzione una tantum
+- Rinomina file SW invece di eliminazione per compatibilità futura
+- Approccio non-invasivo: nessuna modifica agli script HTML esistenti
+
+IMPATTO:
+- Eliminato rischio cache stale da Service Worker zombie
+- Comportamento deterministico tra ambienti dev/prod
+- Nessuna regressione funzionale
+- App ora utilizza solo network requests senza caching SW
+
+DOCUMENTAZIONE AGGIORNATA:
+- reports/DIAGNOSI_PROGETTO.txt: "Service Worker DISABILITATO - L'app attualmente non utilizza Service Worker; è prevista una bonifica che rimuove registrazioni precedenti"
+
+PROSSIMO STEP: 3 (Calendario storico)

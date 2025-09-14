@@ -19,8 +19,14 @@ let dipendente = null;
 let timbrature = [];
 let totaleMensile = '—';
 
-// ✅ UNICA gestione range - eliminati duplicati
+// ✅ SINGLE SOURCE OF TRUTH per periodo selezionato
 let currentRange = null;
+
+// ✅ Stato globale periodo - condiviso tra lista e export
+window.storicoState = {
+  periodo: null,
+  modalita: 'corrente' // 'corrente', 'precedente', 'due-precedenti', 'custom'
+};
 
 // ✅ DEFAULT ROBUSTO: primo e ultimo giorno del mese corrente
 function getDefaultRange() {
@@ -37,7 +43,7 @@ function getDefaultRange() {
   };
 }
 
-// ✅ GUARDIA: Assicura sempre un range valido
+// ✅ GUARDIA: Assicura sempre un range valido e aggiorna stato globale
 function assicuraRangeValido() {
   if (!currentRange || !currentRange.inizio || !currentRange.fine) {
     currentRange = getDefaultRange();
@@ -52,6 +58,12 @@ function assicuraRangeValido() {
     console.log('🔄 Range corretto (swap):', currentRange);
   }
 
+  // Aggiorna stato globale
+  window.storicoState.periodo = {
+    inizio: currentRange.inizio,
+    fine: currentRange.fine
+  };
+  
   return currentRange;
 }
 
@@ -235,9 +247,10 @@ document.getElementById("torna-utenti")?.addEventListener("click", () => {
   window.location.href = "utenti.html";
 });
 
-// ✅ FUNZIONI EXPORT - mantenute separate per chiarezza
+// ✅ FUNZIONI EXPORT - ora usano single source of truth
 async function exportaPDF() {
-  const range = assicuraRangeValido();
+  // Usa stato globale condiviso
+  const range = window.storicoState.periodo || assicuraRangeValido();
 
   if (!range) {
     mostraMessaggio('Errore nella selezione del periodo', 'error');
@@ -397,7 +410,8 @@ async function exportaPDF() {
 }
 
 async function exportaExcel() {
-  const range = assicuraRangeValido();
+  // Usa stato globale condiviso
+  const range = window.storicoState.periodo || assicuraRangeValido();
 
   if (!range) {
     mostraMessaggio('Errore nella selezione del periodo', 'error');
@@ -546,41 +560,7 @@ function mostraMessaggio(messaggio, tipo = 'info') {
   }
 }
 
-// ✅ INIZIALIZZAZIONE SICURA E ORDINATA - UNA SOLA VOLTA
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('📊 STORICO: Inizializzazione...');
-
-  // 1. Forza il filtro su "mese corrente" se non impostato
-  const selectFiltro = document.getElementById('filtro-mese');
-  if (selectFiltro && !selectFiltro.value) {
-    selectFiltro.value = 'corrente';
-    console.log('🔧 Filtro forzato su "mese corrente"');
-  }
-
-  // 2. Calcola range usando helper locali per mese corrente
-  const oggi = new Date();
-  const base = monthWithOffset(oggi, 0);
-  const range = getMonthRangeLocal(base);
-  
-  currentRange = {
-    inizio: fmtYmd(range.start),
-    fine: fmtYmd(range.end)
-  };
-  
-  console.log('🔧 Range mese corrente calcolato:', currentRange);
-
-  // 3. Aggiorna input date con range corretto
-  const dataInizioEl = document.getElementById('data-inizio');
-  const dataFineEl = document.getElementById('data-fine');
-
-  if (dataInizioEl && dataFineEl) {
-    dataInizioEl.value = currentRange.inizio;
-    dataFineEl.value = currentRange.fine;
-    console.log('📅 Input date inizializzati con range mese corrente');
-  }
-
-  // 4. Primo caricamento IMMEDIATO con range corretto
-  caricaDatiServer();
-
-  console.log('✅ Storico inizializzato e caricamento avviato');
-});
+// ✅ Export funzione per accesso globale al periodo corrente
+export function getCurrentPeriod() {
+  return window.storicoState.periodo || assicuraRangeValido();
+}
