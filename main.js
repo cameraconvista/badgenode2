@@ -54,7 +54,8 @@ function initializeInterface() {
 
   // Sistema status unificato
   window.mostraStatus = function(messaggio, tipo = "info", durata = 3000) {
-    status.textContent = messaggio;
+    // Sostituisce \n con <br> per andare a capo nel HTML
+    status.innerHTML = messaggio.replace(/\n/g, '<br>');
     if (tipo === "success" && (messaggio.includes("ENTRATA") || messaggio.includes("USCITA"))) {
       status.className = `status-message ${tipo} visible timbratura-flash`;
       setTimeout(() => status.className = "status-message", 7000);

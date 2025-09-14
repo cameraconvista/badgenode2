@@ -156,7 +156,8 @@
         }
 
         const oraDisplay = oraFormatted.slice(0, 5); // HH:mm
-        mostraStatus(`${utente.nome} ${utente.cognome}\n${tipo.toUpperCase()} ${oraDisplay}`, "success", 7000);
+        const messaggioConferma = `${utente.nome} ${utente.cognome}\n${tipo.toUpperCase()} ${oraDisplay}`;
+        mostraStatus(messaggioConferma, "success", 7000);
         pinInput.value = '';
 
       } catch (e) {
