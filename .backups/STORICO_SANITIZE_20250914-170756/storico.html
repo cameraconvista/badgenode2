@@ -206,8 +206,7 @@
   <!-- 🚀 Entry Point Unico - ES Modules con percorsi assoluti -->
   <script type="module" src="/assets/scripts/calendario-popup.js"></script>
   <script type="module" src="/assets/scripts/modale-modifica.js"></script>
-  <script type="module" src="/assets/scripts/storico-logic.js"></script>
-
+  <script type="module" src="/assets/scripts/storico-logic.js">
 <script>
 /* REC-SW-GUARD-ALL */
 (function(){
@@ -232,8 +231,7 @@
   }catch(e){ console.info('[SW] guard error', e?.message||e); }
 })();
 </script>
-<!-- removed extra </body> -->
-<script type="module">import { fetchStoricoJoin } from './assets/scripts/rec004_join_adapter.js'; window.__REC004__ = { fetchStoricoJoin };</script>
+</body>
 
   <script>
     document.getElementById("torna-utenti")?.addEventListener("click", () => {
@@ -241,6 +239,52 @@
     });
   </script>
 
-  <!-- PWA SW block removed -->
+  <!-- PWA Service Worker Registration -->
+  <script>
+    // Kill-switch per DEV: ?no-sw=1 disabilita e rimuove SW
+    const urlParams = new URLSearchParams(window.location.search);
+    const noSW = urlParams.get('no-sw') === '1';
+
+    // Rileva ambiente DEV (Vite dev server)
+    const isDev = window.location.hostname === 'localhost' || 
+                  window.location.hostname.includes('replit.dev') ||
+                  window.location.port === '5000' ||
+                  window.location.port === '5173';
+
+    if (noSW || isDev) {
+      // KILL-SWITCH: Unregister tutti i SW e pulisci cache
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          registrations.forEach(registration => {
+            registration.unregister();
+            console.log('[SW] Unregistered (DEV mode):', registration.scope);
+          });
+        });
+
+        // Pulisci Cache Storage
+        if ('caches' in window) {
+          caches.keys().then(names => {
+            names.forEach(name => {
+              caches.delete(name);
+              console.log('[SW] Cache deleted (DEV mode):', name);
+            });
+          });
+        }
+      }
+      console.log('[SW] Service Worker DISABILITATO in ambiente DEV');
+    } else {
+      // PRODUZIONE: Registra SW normalmente
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          /* SW register stripped */.then((registration) => {
+              console.log('[SW] Registered (PROD):', registration.scope);
+            })
+            .catch((error) => {
+              console.error('[SW] Registration failed:', error);
+            });
+        });
+      }
+    }
+  </script>
 </body>
 </html>

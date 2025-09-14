@@ -41,20 +41,20 @@
   <meta name="apple-mobile-web-app-title" content="BADGEBOX" />
 
   <!-- Icone PWA -->
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/badgenode-192.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/badgenode-192.png" />
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/badgenode-192.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/badgenode-192.png" />
-  <meta name="msapplication-TileImage" content="/assets/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/icons/badgenode-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="60x60" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/badgenode-192.png" />
+  <meta name="msapplication-TileImage" content="/icons/badgenode-192.png" />
   <meta name="msapplication-TileColor" content="#0d1b2b" />
   <link rel="manifest" href="manifest.json" />
 
@@ -64,7 +64,7 @@
   <link rel="dns-prefetch" href="https://txmjqrnitfsiytbytxlc.supabase.co">
 
   <!-- Preload risorse critiche -->
-  <link rel="preload" href="utenti.html" as="fetch">
+  <link rel="preload" href="utenti.html" as="document">
   <link rel="preload" href="style.css" as="style">
   <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
   <link rel="modulepreload" href="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
@@ -207,33 +207,7 @@
   <script type="module" src="/assets/scripts/calendario-popup.js"></script>
   <script type="module" src="/assets/scripts/modale-modifica.js"></script>
   <script type="module" src="/assets/scripts/storico-logic.js"></script>
-
-<script>
-/* REC-SW-GUARD-ALL */
-(function(){
-  try{
-    const host = location.hostname, port = location.port;
-    const isDev = host==='localhost' || host.includes('replit.dev') || port==='5000' || port==='5173';
-    const is8080 = port==='8080';
-    const isRender = /\.onrender\.com$/.test(host);
-    if ('serviceWorker' in navigator) {
-      if (isDev || is8080 || isRender || (new URLSearchParams(location.search)).get('no-sw')==='1') {
-        navigator.serviceWorker.getRegistrations?.().then(rs=>rs.forEach(r=>r.unregister().catch(()=>{})));
-        if ('caches' in window) caches.keys().then(ns=>ns.forEach(n=>caches.delete(n).catch(()=>{})));
-        console.info('[SW] Unregistered (env guard)');
-      } else {
-        const swPath='/sw.js';
-        fetch(swPath,{method:'HEAD'}).then(r=>{
-          if(r&&r.ok) navigator.serviceWorker.register(swPath).catch(()=>{});
-          else console.info('[SW] Not found, skip');
-        }).catch(()=>console.info('[SW] Skip'));
-      }
-    }
-  }catch(e){ console.info('[SW] guard error', e?.message||e); }
-})();
-</script>
-<!-- removed extra </body> -->
-<script type="module">import { fetchStoricoJoin } from './assets/scripts/rec004_join_adapter.js'; window.__REC004__ = { fetchStoricoJoin };</script>
+</body>
 
   <script>
     document.getElementById("torna-utenti")?.addEventListener("click", () => {
@@ -241,6 +215,53 @@
     });
   </script>
 
-  <!-- PWA SW block removed -->
+  <!-- PWA Service Worker Registration -->
+  <script>
+    // Kill-switch per DEV: ?no-sw=1 disabilita e rimuove SW
+    const urlParams = new URLSearchParams(window.location.search);
+    const noSW = urlParams.get('no-sw') === '1';
+
+    // Rileva ambiente DEV (Vite dev server)
+    const isDev = window.location.hostname === 'localhost' || 
+                  window.location.hostname.includes('replit.dev') ||
+                  window.location.port === '5000' ||
+                  window.location.port === '5173';
+
+    if (noSW || isDev) {
+      // KILL-SWITCH: Unregister tutti i SW e pulisci cache
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          registrations.forEach(registration => {
+            registration.unregister();
+            console.log('[SW] Unregistered (DEV mode):', registration.scope);
+          });
+        });
+
+        // Pulisci Cache Storage
+        if ('caches' in window) {
+          caches.keys().then(names => {
+            names.forEach(name => {
+              caches.delete(name);
+              console.log('[SW] Cache deleted (DEV mode):', name);
+            });
+          });
+        }
+      }
+      console.log('[SW] Service Worker DISABILITATO in ambiente DEV');
+    } else {
+      // PRODUZIONE: Registra SW normalmente
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js?v=20250911')
+            .then((registration) => {
+              console.log('[SW] Registered (PROD):', registration.scope);
+            })
+            .catch((error) => {
+              console.error('[SW] Registration failed:', error);
+            });
+        });
+      }
+    }
+  </script>
 </body>
 </html>
