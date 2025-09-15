@@ -22,7 +22,7 @@ export default defineConfig(({ command, mode }) => {
       open: false
     },
     
-    // 🔧 BUILD: Multi-page app con ES2020 target
+    // 🔧 BUILD: Multi-page app con ES2020 target + ottimizzazioni
     build: {
       outDir: 'dist',
       target: 'es2020',
@@ -34,6 +34,26 @@ export default defineConfig(({ command, mode }) => {
           storico: 'storico.html', 
           utenti: 'utenti.html',
           exdipendenti: 'ex-dipendenti.html'
+        },
+        // 🚀 Tree shaking ottimizzato
+        treeshake: {
+          moduleSideEffects: false,
+          propertyReadSideEffects: false
+        },
+        output: {
+          // 🚀 Code splitting per chunks comuni (solo moduli interni)
+          manualChunks: (id) => {
+            if (id.includes('calendar-utils')) {
+              return 'utils';
+            }
+            if (id.includes('supabase-client')) {
+              return 'supabase';
+            }
+          },
+          // 🚀 Asset naming ottimizzato per cache
+          assetFileNames: 'assets/[name]-[hash][extname]',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: 'assets/[name]-[hash].js'
         }
       }
     },
