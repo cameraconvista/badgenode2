@@ -235,9 +235,10 @@ document.getElementById("torna-utenti")?.addEventListener("click", () => {
   window.location.href = "utenti.html";
 });
 
-// ✅ FUNZIONI EXPORT - mantenute separate per chiarezza
+// ✅ FUNZIONI EXPORT - con integrazione shadow mode
 async function exportaPDF() {
-  const range = assicuraRangeValido();
+  // Usa SSOT per periodo (shadow-aware)
+  const range = window.PeriodSSOT ? window.PeriodSSOT.getPeriodForExport() : assicuraRangeValido();
 
   if (!range) {
     mostraMessaggio('Errore nella selezione del periodo', 'error');
@@ -397,7 +398,8 @@ async function exportaPDF() {
 }
 
 async function exportaExcel() {
-  const range = assicuraRangeValido();
+  // Usa SSOT per periodo (shadow-aware)
+  const range = window.PeriodSSOT ? window.PeriodSSOT.getPeriodForExport() : assicuraRangeValido();
 
   if (!range) {
     mostraMessaggio('Errore nella selezione del periodo', 'error');

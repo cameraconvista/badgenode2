@@ -1,0 +1,91 @@
+/* Period Selector V2 - Shadow Mode Styles */
+/* Stili per modalità shadow (visibili solo con flag ON) */
+
+.period-v2-shadow {
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid #334155;
+  border-radius: 6px;
+  display: none; /* Nascosto di default */
+}
+
+.shadow-period-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.shadow-period-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a0aec0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.shadow-period-controls input[type="date"] {
+  padding: 6px 10px;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  background: #1e293b;
+  color: white;
+  font-size: 14px;
+}
+
+.shadow-period-controls input[type="date"]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.btn-shadow {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.btn-shadow:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-shadow:active {
+  transform: translateY(0);
+}
+
+.btn-shadow::before {
+  content: "🧪";
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+/* Opzione shadow nel select (nascosta di default) */
+option[value="custom-v2"] {
+  background: #1e293b;
+  color: #3b82f6;
+  font-style: italic;
+}
+
+/* Responsive per mobile */
+@media (max-width: 768px) {
+  .shadow-period-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .shadow-period-controls label {
+    justify-content: space-between;
+  }
+}
