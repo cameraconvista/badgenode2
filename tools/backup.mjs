@@ -28,10 +28,12 @@ const EXCLUDE_PATTERNS = [
 
 function getTimestamp() {
   const now = new Date();
-  return now.toISOString()
-    .replace(/[-:]/g, '')
-    .replace(/\.\d{3}Z$/, '')
-    .replace('T', '-');
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${day}_${month}_${year}_${hours}_${minutes}`;
 }
 
 async function createTarExcludeArgs() {
@@ -50,7 +52,7 @@ async function createBackup() {
     }
 
     const timestamp = getTimestamp();
-    const backupName = `backup-${timestamp}.tgz`;
+    const backupName = `backup_${timestamp}.tgz`;
     const backupPath = path.join(BACKUP_DIR, backupName);
 
     console.log(`Creating backup: ${backupName}`);
@@ -95,7 +97,7 @@ async function rotateBackups() {
   try {
     const files = await fs.readdir(BACKUP_DIR);
     const backupFiles = files
-      .filter(file => file.startsWith('backup-') && file.endsWith('.tgz'))
+      .filter(file => (file.startsWith('backup-') || file.startsWith('backup_')) && file.endsWith('.tgz'))
       .map(file => ({
         name: file,
         path: path.join(BACKUP_DIR, file),
