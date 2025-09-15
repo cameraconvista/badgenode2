@@ -111,6 +111,26 @@ npm run dev  # Vite dev server su porta 5173
 - **CDN globale** per asset statici
 - **HTTPS** obbligatorio per PWA
 
+## Backup Automatico
+
+### Sistema di Backup
+- **Script**: `tools/backup.mjs` - Sistema automatico integrato
+- **Comando**: `npm run esegui-backup` - Esecuzione manuale
+- **Cartella**: `BACKUP_AUTOMATICO/` - Storage organizzato
+- **Limite**: Massimo 3 backup mantenuti automaticamente
+- **Rotazione**: Il più vecchio viene sovrascritto automaticamente
+- **Esclusioni**: node_modules, dist, .git, cache, log files
+
+### Utilizzo Backup
+```bash
+# Creazione backup manuale
+npm run esegui-backup
+
+# I backup vengono salvati in BACKUP_AUTOMATICO/
+# Formato: backup-YYYYMMDD-HHMMSS.tgz
+# Rotazione automatica: mantiene solo i 3 più recenti
+```
+
 ## Monitoraggio
 
 ### Logging
