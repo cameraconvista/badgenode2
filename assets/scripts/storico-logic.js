@@ -41,7 +41,7 @@ function getDefaultRange() {
 function assicuraRangeValido() {
   if (!currentRange || !currentRange.inizio || !currentRange.fine) {
     currentRange = getDefaultRange();
-    console.log('🔧 Range default applicato:', currentRange);
+    console.info('🔧 Range default applicato:', currentRange);
   }
 
   // Guardia: se from > to, correggi con swap
@@ -49,7 +49,7 @@ function assicuraRangeValido() {
     const temp = currentRange.inizio;
     currentRange.inizio = currentRange.fine;
     currentRange.fine = temp;
-    console.log('🔄 Range corretto (swap):', currentRange);
+    console.info('🔄 Range corretto (swap):', currentRange);
   }
 
   return currentRange;
@@ -62,7 +62,7 @@ function aggiornaMese() {
 
   // ✅ GUARDIA: Controlla elementi DOM presenti
   if (!document.getElementById('data-inizio') || !document.getElementById('data-fine')) {
-    console.log('⚠️ Elementi calendario non presenti, uso default');
+    console.info('⚠️ Elementi calendario non presenti, uso default');
     currentRange = getDefaultRange();
     return;
   }
@@ -75,7 +75,7 @@ function aggiornaMese() {
 
     // ✅ VALIDATION: Assicura range valido prima di procedere
     assicuraRangeValido();
-    console.log('📅 Range aggiornato (corrente):', currentRange);
+    console.info('📅 Range aggiornato (corrente):', currentRange);
     caricaDatiServer();
   } else {
     // ✅ FALLBACK: Mostra messaggio se range incompleto
@@ -84,7 +84,7 @@ function aggiornaMese() {
       messaggioDiv.textContent = 'Seleziona un intervallo valido';
       messaggioDiv.style.display = 'block';
     }
-    console.log('⚠️ Range incompleto, fetch bloccato');
+    console.info('⚠️ Range incompleto, fetch bloccato');
   }
 }
 
@@ -94,7 +94,7 @@ async function caricaDatiServer() {
   const range = assicuraRangeValido();
 
   if (!range || !range.inizio || !range.fine) {
-    console.log('❌ Range non valido per caricamento');
+    console.info('❌ Range non valido per caricamento');
     const messaggioDiv = document.getElementById('messaggioRange');
     if (messaggioDiv) {
       messaggioDiv.textContent = 'Errore: intervallo date non valido';
@@ -109,7 +109,7 @@ async function caricaDatiServer() {
     messaggioDiv.style.display = 'none';
   }
 
-  console.log('🔄 Caricamento dati da server...');
+  console.info('🔄 Caricamento dati da server...');
   const { dipendente: d, timbrature: t } = await caricaDati(pin, range.inizio, range.fine);
   dipendente = d;
   timbrature = t;
@@ -117,13 +117,13 @@ async function caricaDatiServer() {
   // ✅ FIX CRITICO: Imposta sempre il nome del dipendente
   if (dipendente && dipendente.nome && dipendente.cognome) {
     intestazione.textContent = `${dipendente.nome} ${dipendente.cognome}`;
-    console.log('✅ Nome dipendente impostato:', dipendente.nome, dipendente.cognome);
+    console.info('✅ Nome dipendente impostato:', dipendente.nome, dipendente.cognome);
   } else if (pin) {
     intestazione.textContent = `PIN ${pin} - Utente non trovato`;
-    console.log('⚠️ Dipendente non trovato per PIN:', pin);
+    console.info('⚠️ Dipendente non trovato per PIN:', pin);
   } else {
     intestazione.textContent = 'Dipendente non identificato';
-    console.log('❌ PIN mancante');
+    console.info('❌ PIN mancante');
   }
 
   const result = renderizzaTabella(dipendente, timbrature, range.inizio, range.fine, tbody, footerTbody, pin);
@@ -253,7 +253,7 @@ async function exportaPDF() {
   btn.disabled = true;
 
   try {
-    console.log('📄 Inizio generazione PDF...');
+    console.info('📄 Inizio generazione PDF...');
 
     const jsPDFModule = await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
     const { jsPDF } = jsPDFModule.default || window.jspdf || {};
@@ -299,7 +299,7 @@ async function exportaPDF() {
 
     } catch (error) {
       console.warn('Errore caricamento logo:', error);
-      console.log('📄 Continuo senza logo...');
+      console.info('📄 Continuo senza logo...');
     }
 
     doc.setFontSize(16);
@@ -386,7 +386,7 @@ async function exportaPDF() {
     const nomeFile = `${nomeCompleto.replace(/\s+/g, '_')}_timbrature_${range.inizio}_${range.fine}.pdf`;
     doc.save(nomeFile);
 
-    console.log('✅ PDF generato con successo:', nomeFile);
+    console.info('✅ PDF generato con successo:', nomeFile);
 
   } catch (error) {
     console.error('❌ Errore generazione PDF:', error);
@@ -414,7 +414,7 @@ async function exportaExcel() {
   btn.disabled = true;
 
   try {
-    console.log('📊 Inizio generazione Excel...');
+    console.info('📊 Inizio generazione Excel...');
 
     const XLSXModule = await import('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
     const XLSX = XLSXModule.default || window.XLSX;
@@ -519,7 +519,7 @@ async function exportaExcel() {
     const nomeFile = `${nomeCompleto.replace(/\s+/g, '_')}_timbrature_${range.inizio}_${range.fine}.xlsx`;
     writeFile(workbook, nomeFile);
 
-    console.log('✅ Excel generato con successo:', nomeFile);
+    console.info('✅ Excel generato con successo:', nomeFile);
 
   } catch (error) {
     console.error('❌ Errore generazione Excel:', error);
@@ -544,19 +544,19 @@ function mostraMessaggio(messaggio, tipo = 'info') {
       statusElement.className = 'status-message';
     }, 3000);
   } else {
-    console.log(`${tipo.toUpperCase()}: ${messaggio}`);
+    console.info(`${tipo.toUpperCase()}: ${messaggio}`);
   }
 }
 
 // ✅ INIZIALIZZAZIONE SICURA E ORDINATA - UNA SOLA VOLTA
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('📊 STORICO: Inizializzazione...');
+  console.info('📊 STORICO: Inizializzazione...');
 
   // 1. Forza il filtro su "mese corrente" se non impostato
   const selectFiltro = document.getElementById('filtro-mese');
   if (selectFiltro && !selectFiltro.value) {
     selectFiltro.value = 'corrente';
-    console.log('🔧 Filtro forzato su "mese corrente"');
+    console.info('🔧 Filtro forzato su "mese corrente"');
   }
 
   // 2. Calcola range usando helper locali per mese corrente
@@ -569,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fine: fmtYmd(range.end)
   };
   
-  console.log('🔧 Range mese corrente calcolato:', currentRange);
+  console.info('🔧 Range mese corrente calcolato:', currentRange);
 
   // 3. Aggiorna input date con range corretto
   const dataInizioEl = document.getElementById('data-inizio');
@@ -578,11 +578,11 @@ document.addEventListener('DOMContentLoaded', function() {
   if (dataInizioEl && dataFineEl) {
     dataInizioEl.value = currentRange.inizio;
     dataFineEl.value = currentRange.fine;
-    console.log('📅 Input date inizializzati con range mese corrente');
+    console.info('📅 Input date inizializzati con range mese corrente');
   }
 
   // 4. Primo caricamento IMMEDIATO con range corretto
   caricaDatiServer();
 
-  console.log('✅ Storico inizializzato e caricamento avviato');
+  console.info('✅ Storico inizializzato e caricamento avviato');
 });

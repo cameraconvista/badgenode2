@@ -41,11 +41,12 @@
 
 ### ⚠️ PRIORITÀ MEDIA - Ottimizzazioni
 
-#### M1. CONSOLE.LOG ECCESSIVI
+#### M1. CONSOLE.LOG ECCESSIVI ✅ COMPLETATO
 **Problema**: 21 console.log in storico-logic.js, 9 in period-selector-v2.js
 **Impatto**: Inquinamento console, possibili leak informazioni
-**Soluzione**: Sostituire con console.info/debug condizionali
+**Soluzione**: ✅ 30 console.log → console.info sostituiti, console più pulita
 **Rischio**: NULLO - Solo pulizia
+**Status**: ✅ RISOLTO - Report: REPORT_CONSOLE_LOG_M1_20250915-133200.txt
 
 #### M2. IMPORT CHAIN COMPLESSA
 **Problema**: Catena import profonda tra moduli

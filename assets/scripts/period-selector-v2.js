@@ -10,7 +10,7 @@ class PeriodSelectorV2 {
     this.listeners = [];
     
     if (this.isEnabled) {
-      console.log('🔄 [PeriodV2] Shadow mode ATTIVO');
+      console.info('🔄 [PeriodV2] Shadow mode ATTIVO');
       this.init();
     }
   }
@@ -21,7 +21,7 @@ class PeriodSelectorV2 {
     this.setupShadowUI();
     this.bindEvents();
     
-    console.log('📅 [PeriodV2] Inizializzato con periodo:', this.currentPeriod);
+    console.info('📅 [PeriodV2] Inizializzato con periodo:', this.currentPeriod);
   }
   
   getDefaultPeriod() {
@@ -67,7 +67,7 @@ class PeriodSelectorV2 {
       filtroContainer.appendChild(shadowContainer);
     }
     
-    console.log('🎭 [PeriodV2] Shadow UI creata (nascosta)');
+    console.info('🎭 [PeriodV2] Shadow UI creata (nascosta)');
   }
   
   bindEvents() {
@@ -98,12 +98,12 @@ class PeriodSelectorV2 {
             fine: shadowFine.value,
             modalita: 'custom'
           });
-          console.log('📅 [PeriodV2] Periodo personalizzato applicato:', this.currentPeriod);
+          console.info('📅 [PeriodV2] Periodo personalizzato applicato:', this.currentPeriod);
         }
       });
     }
     
-    console.log('🔗 [PeriodV2] Eventi shadow collegati');
+    console.info('🔗 [PeriodV2] Eventi shadow collegati');
   }
   
   showShadowUI() {
@@ -128,7 +128,7 @@ class PeriodSelectorV2 {
       shadowFine.value = this.currentPeriod.fine;
     }
     
-    console.log('👁️ [PeriodV2] Shadow UI mostrata');
+    console.info('👁️ [PeriodV2] Shadow UI mostrata');
   }
   
   hideShadowUI() {
@@ -136,7 +136,7 @@ class PeriodSelectorV2 {
     if (shadowContainer) {
       shadowContainer.style.display = 'none';
     }
-    console.log('🙈 [PeriodV2] Shadow UI nascosta');
+    console.info('🙈 [PeriodV2] Shadow UI nascosta');
   }
   
   handlePredefinedPeriod(modalita) {
@@ -159,7 +159,7 @@ class PeriodSelectorV2 {
     periodo.modalita = modalita;
     this.setPeriod(periodo);
     
-    console.log('📅 [PeriodV2] Periodo predefinito:', modalita, periodo);
+    console.info('📅 [PeriodV2] Periodo predefinito:', modalita, periodo);
   }
   
   getMonthOffset(offset) {
@@ -203,7 +203,7 @@ class PeriodSelectorV2 {
   // API pubblica per export
   getCurrentPeriodForExport() {
     const periodo = this.getPeriod();
-    console.log('📤 [PeriodV2] Periodo per export:', periodo);
+    console.info('📤 [PeriodV2] Periodo per export:', periodo);
     return periodo;
   }
 }
