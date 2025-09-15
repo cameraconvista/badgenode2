@@ -70,65 +70,13 @@ body {
 
 .filtro-temporale {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.filtro-temporale select {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  font-size: 14px;
-  min-width: 200px;
-}
-
-.range-personalizzato {
-  display: flex;
+  flex-wrap: wrap;
   gap: 15px;
-  align-items: center;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 6px;
-  margin-top: 5px;
+  flex: 1;
+  max-width: 700px;
 }
 
-.range-personalizzato .data-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.range-personalizzato label {
-  font-weight: 500;
-  color: #333;
-  font-size: 14px;
-}
-
-.range-personalizzato input[type="date"] {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.btn-applica {
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.2s;
-}
-
-.btn-applica:hover {
-  background: #0056b3;
-}
-
+.filtro-temporale select,
 .filtro-temporale input[type="date"] {
   width: 210px;
   padding: 10px 14px;

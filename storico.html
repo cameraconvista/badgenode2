@@ -143,22 +143,18 @@
 
         <div class="filtro-e-pulsanti">
           <div class="filtro-temporale">
-            <select id="filtro-mese" aria-label="Seleziona periodo">
+            <select id="filtro-mese">
               <option value="corrente">Mese corrente</option>
               <option value="precedente">Mese precedente</option>
               <option value="due-precedenti">2 mesi precedenti</option>
-              <option value="custom">Periodo personalizzato</option>
             </select>
-            <div class="range-personalizzato" id="range-personalizzato" style="display: none;">
-              <div class="data-container">
-                <label for="data-inizio">Dal:</label>
-                <input type="date" id="data-inizio" aria-label="Data inizio" />
-              </div>
-              <div class="data-container">
-                <label for="data-fine">Al:</label>
-                <input type="date" id="data-fine" aria-label="Data fine" />
-              </div>
-              <button type="button" id="applica-range" class="btn-applica">Applica</button>
+            <div class="data-container">
+              <input type="date" id="data-inizio" />
+              <img src="/assets/icons/calendario.png" class="icona-calendario-campo" alt="Calendario" data-campo="data-inizio" />
+            </div>
+            <div class="data-container">
+              <input type="date" id="data-fine" />
+              <img src="/assets/icons/calendario.png" class="icona-calendario-campo" alt="Calendario" data-campo="data-fine" />
             </div>
           </div>
 
