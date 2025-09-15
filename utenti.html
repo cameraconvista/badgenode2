@@ -727,27 +727,8 @@
       }
     };
 
-    // Guard per prevenire doppi click
-    let isArchivingUser = false;
-    let isDeletingUser = false;
-
     window.archiviaUtente = async function(pin, nome, cognome) {
-      if (isArchivingUser) {
-        console.log('🔒 Archiviazione già in corso, ignoro click');
-        return;
-      }
-      
       if (!confirm(`⚠️ Archiviare ${nome} ${cognome}?\n\nQuesta azione sposterà il dipendente nell'archivio e libererà il PIN.`)) return;
-
-      isArchivingUser = true;
-      
-      // Disabilita il pulsante durante l'operazione
-      const archiveBtn = document.querySelector(`button[onclick*="archiviaUtente(${pin}"]`);
-      if (archiveBtn) {
-        archiveBtn.disabled = true;
-        archiveBtn.style.opacity = '0.5';
-        archiveBtn.style.cursor = 'not-allowed';
-      }
 
       try {
         const { data: dipendente, error: dipendenteError } = await supabaseClient
@@ -788,54 +769,16 @@
         if (deleteError) console.error('Errore eliminazione:', deleteError);
 
         alert(`✅ ${nome} ${cognome} archiviato con successo!\nTimbrature salvate: ${timbrature?.length || 0}\nPIN ${pin} ora disponibile.`);
-        
-        // Rimuovi la riga dalla tabella senza ricaricare
-        const rows = document.querySelectorAll('#lista-dipendenti tr');
-        const targetRow = Array.from(rows).find(row => {
-          const pinCell = row.cells[1]; // Colonna PIN è la seconda (indice 1)
-          return pinCell && pinCell.textContent.trim() === pin.toString();
-        });
-        
-        if (targetRow) {
-          targetRow.style.transition = 'opacity 0.5s ease';
-          targetRow.style.opacity = '0';
-          setTimeout(() => targetRow.remove(), 500);
-        } else {
-          // Fallback: ricarica solo se non trova la riga
-          caricaUtenti();
-        }
+        caricaUtenti();
 
       } catch (error) {
         console.error('Errore archiviazione:', error);
         alert('Errore durante l\'archiviazione: ' + error.message);
-      } finally {
-        // Ripristina il pulsante e il guard
-        isArchivingUser = false;
-        if (archiveBtn) {
-          archiveBtn.disabled = false;
-          archiveBtn.style.opacity = '1';
-          archiveBtn.style.cursor = 'pointer';
-        }
       }
     };
 
     window.eliminaUtente = async function(pin, nome, cognome) {
-      if (isDeletingUser) {
-        console.log('🔒 Eliminazione già in corso, ignoro click');
-        return;
-      }
-      
       if (!confirm(`ATTENZIONE: Eliminare definitivamente ${nome} ${cognome}?\n\nQuesta azione NON può essere annullata.`)) return;
-
-      isDeletingUser = true;
-      
-      // Disabilita il pulsante durante l'operazione
-      const deleteBtn = document.querySelector(`button[onclick*="eliminaUtente('${pin}'"]`);
-      if (deleteBtn) {
-        deleteBtn.disabled = true;
-        deleteBtn.style.opacity = '0.5';
-        deleteBtn.style.cursor = 'not-allowed';
-      }
 
       try {
         const { error: timbratureError } = await supabaseClient
@@ -853,34 +796,11 @@
         if (utenteError) throw utenteError;
 
         alert(`✅ ${nome} ${cognome} eliminato definitivamente.\nPIN ${pin} ora disponibile.`);
-        
-        // Rimuovi la riga dalla tabella senza ricaricare
-        const rows = document.querySelectorAll('#lista-dipendenti tr');
-        const targetRow = Array.from(rows).find(row => {
-          const pinCell = row.cells[1]; // Colonna PIN è la seconda (indice 1)
-          return pinCell && pinCell.textContent.trim() === pin.toString();
-        });
-        
-        if (targetRow) {
-          targetRow.style.transition = 'opacity 0.5s ease';
-          targetRow.style.opacity = '0';
-          setTimeout(() => targetRow.remove(), 500);
-        } else {
-          // Fallback: ricarica solo se non trova la riga
-          caricaUtenti();
-        }
+        caricaUtenti();
 
       } catch (error) {
         console.error('Errore eliminazione:', error);
         alert('Errore durante l\'eliminazione: ' + error.message);
-      } finally {
-        // Ripristina il pulsante e il guard
-        isDeletingUser = false;
-        if (deleteBtn) {
-          deleteBtn.disabled = false;
-          deleteBtn.style.opacity = '1';
-          deleteBtn.style.cursor = 'pointer';
-        }
       }
     };
 
@@ -930,7 +850,7 @@
   window.supabase = supabase;
   console.info('[UTENTI] Singleton Supabase attivo');
 </script>
-<script type="module">import { installUsersStable } from './assets/scripts/users-stable.mjs'; installUsersStable();</script>
+<script type="module">import { installUsersStable } from './assets/scripts/users-stable.mjs'; installUsersStable();
 <script>
 /* REC-SW-GUARD-ALL */
 (function(){
