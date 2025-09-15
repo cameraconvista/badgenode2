@@ -617,16 +617,16 @@
       }
 
       tbody.innerHTML = utenti.map(utente => `
-        <tr style="display: flex; width: 100%; background-color: #1e293b; border-bottom: 1px solid #374151; min-height: 60px;">
-          <td style="width: 15%; display: flex; align-items: center; justify-content: center; padding: 12px 6px; border-right: 1px solid #374151;">
+        <tr style="display: flex; width: 100%; background-color: #1e293b; border-bottom: 1px solid #374151;">
+          <td style="width: 15%; display: flex; align-items: center; justify-content: center; padding: 16px 6px; border-right: 1px solid #374151;">
             <a href="storico.html?pin=${utente.pin}" style="color: #60a5fa; text-decoration: none;">
               <img src="assets/icons/orologio.png" alt="Storico" style="width: 20px; height: 20px;" />
             </a>
           </td>
-          <td style="width: 15%; display: flex; align-items: center; justify-content: center; padding: 12px 6px; border-right: 1px solid #374151;">${utente.pin}</td>
-          <td style="width: 25%; display: flex; align-items: center; justify-content: center; padding: 12px 6px; border-right: 1px solid #374151;">${utente.nome}</td>
-          <td style="width: 25%; display: flex; align-items: center; justify-content: center; padding: 12px 6px; border-right: 1px solid #374151;">${utente.cognome}</td>
-          <td style="width: 20%; display: flex; align-items: center; justify-content: center; padding: 12px 6px; white-space: nowrap;">
+          <td style="width: 15%; display: flex; align-items: center; justify-content: center; padding: 16px 6px; border-right: 1px solid #374151;">${utente.pin}</td>
+          <td style="width: 25%; display: flex; align-items: center; justify-content: center; padding: 16px 6px; border-right: 1px solid #374151;">${utente.nome}</td>
+          <td style="width: 25%; display: flex; align-items: center; justify-content: center; padding: 16px 6px; border-right: 1px solid #374151;">${utente.cognome}</td>
+          <td style="width: 20%; display: flex; align-items: center; justify-content: center; padding: 16px 6px; white-space: nowrap;">
             <button onclick="modificaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}', '${utente.email || ''}', '${utente.telefono || ''}', '${utente.descrizione_contratto || ''}', ${utente.ore_contrattuali || 8.0})" 
                     title="Modifica dipendente" style="color: #3b82f6; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 4px; padding: 4px;">✏️</button>
             <button onclick="archiviaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}')" 
