@@ -1,0 +1,58 @@
+REPORT ROLLBACK HOTFIX UTENTI - ARCHIVIA/ELIMINA BUTTONS
+======================================================
+Data: 2025-09-15T02:17:16+02:00
+Commit: 3343a10 - "revert(utenti): rollback hotfix Archivia/Elimina e ripristino stato precedente"
+
+MOTIVAZIONE ROLLBACK
+===================
+Il rollback dell'hotfix utenti è stato eseguito per ripristinare lo stato precedente e consentire una diagnosi più approfondita del problema originale senza le modifiche introdotte dal tentativo di fix.
+
+OPERAZIONI ESEGUITE
+==================
+1. ✅ IDENTIFICATO commit hotfix: a06472f "fix(utenti): stabilizza Archivia/Elimina con dedup bind e blocco doppio click"
+2. ✅ ESEGUITO revert pulito con git revert --no-edit a06472f
+3. ✅ VERIFICATO ripristino stato pre-fix in utenti.html:
+   - Rimossi guard concorrenza (isArchivingUser/isDeletingUser)
+   - Rimossa disabilitazione visiva pulsanti
+   - Ripristinato caricaUtenti() completo invece di rimozione riga selettiva
+   - Rimossi finally block per cleanup
+4. ✅ VERIFICATO altre pagine invariate:
+   - Shadow mode storico: PRESERVATO (feature-flags.js, period-selector-v2.js, period-ssot.js)
+   - STEP 1 e STEP 2: PRESERVATI
+   - Modale modifica: INVARIATO
+5. ✅ COMMIT SINGOLO con messaggio specifico
+
+STATO ATTUALE
+============
+- Pagina utenti.html: ripristinata al comportamento pre-hotfix
+- Funzioni archiviaUtente/eliminaUtente: versione originale senza guard
+- Altre funzionalità: inalterate
+- Shadow mode storico: completamente preservato
+
+INDIZI PER DIAGNOSI SUCCESSIVA
+=============================
+Il problema originale dei "messaggi lampeggianti" potrebbe essere causato da:
+
+1. **Timing Supabase**: Le chiamate async potrebbero avere latenza variabile che causa comportamenti inconsistenti nell'UI
+
+2. **Event Bubbling**: Possibili conflitti tra onclick handlers e altri event listener sulla pagina
+
+3. **Browser Caching**: Problemi di cache che interferiscono con le chiamate Supabase o il rendering
+
+4. **Concorrenza UI**: Multiple chiamate simultanee che si sovrappongono senza proper debouncing
+
+5. **Supabase RLS**: Row Level Security policies che potrebbero bloccare operazioni in modo intermittente
+
+RACCOMANDAZIONI
+==============
+- Testare con network throttling per simulare latenza
+- Verificare console browser per errori Supabase specifici
+- Implementare logging più dettagliato per tracciare il flusso delle operazioni
+- Considerare implementazione graduale con feature flag locale per testing
+
+SCOPE PRESERVATO
+===============
+- ✅ STEP 1 (modal deduplication): INTATTO
+- ✅ STEP 2 (Service Worker cleanup): INTATTO  
+- ✅ Shadow mode storico (feature flags): INTATTO
+- ✅ Altre pagine (index.html, storico.html, ex-dipendenti.html): INALTERATE
