@@ -33,7 +33,9 @@
 
   <!-- Icone PWA -->
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/BADGENODE.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/BADGENODE.png" />
+  <link rel="apple-touch-icon" href="assets/icons/BADGENODE.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icons/badgenode-192.png" />
   <style>
     @media only screen and (max-width: 768px) {
       /* Fix per icona PWA su mobile/tablet - rimuove sfondo bianco */
@@ -364,23 +366,20 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header fisso -->
-    <div class="header-fisso" style="position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); padding: 10px 0;">
-      <div style="text-align: center; margin-bottom: 10px;">
-        <img src="assets/icons/BNLOGO.png" alt="BADGENODE Logo" style="width: 120px; height: auto; margin-bottom: 15px;" />
-        <h1 style="margin: 0 0 4px 0;">Archivio Dipendenti</h1>
-      </div>
-      
-      <!-- Header tabella fisso -->
-      <div style="display: flex; justify-content: center;">
-        <div style="width: 70%; background-color: #1f3a56; border-radius: 16px 16px 0 0; overflow: hidden;">
-          <div style="display: flex; height: 54px; align-items: center; font-weight: 600; font-size: 18px; color: white;">
-            <div style="width: 12%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Storico</div>
-            <div style="width: 12%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">PIN</div>
-            <div style="width: 17.5%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Nome</div>
-            <div style="width: 17.5%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Cognome</div>
-            <div style="width: 12.3%; text-align: center; padding: 2px 6px;">Azioni</div>
-          </div>
+    <div style="position: relative; text-align: center; margin-bottom: 10px;">
+      <img src="assets/icons/BNLOGO.png" alt="BADGENODE Logo" style="width: 120px; height: auto; margin-bottom: 15px;" />
+      <h1 style="margin: 0 0 4px 0;">Archivio Dipendenti</h1>
+    </div>
+
+    <!-- Header tabella fisso -->
+    <div class="header-fisso" style="position: sticky; top: 0; z-index: 100; display: flex; justify-content: center;">
+      <div style="width: 70%; background-color: #1f3a56; border-radius: 16px 16px 0 0; overflow: hidden;">
+        <div style="display: flex; height: 54px; align-items: center; font-weight: 600; font-size: 18px; color: white;">
+          <div style="width: 15%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Storico</div>
+          <div style="width: 15%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">PIN</div>
+          <div style="width: 25%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Nome</div>
+          <div style="width: 25%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Cognome</div>
+          <div style="width: 20%; text-align: center; padding: 2px 6px;">Azioni</div>
         </div>
       </div>
     </div>
@@ -394,9 +393,7 @@
       </table>
     </div>
 
-    <!-- Footer fisso -->
-    <div class="footer-fisso" style="position: sticky; bottom: 0; z-index: 100; background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); padding: 20px 0;">
-      <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
       <div style="width: 70%; display: flex; justify-content: space-between; align-items: center;">
         <button onclick="window.location.href='index.html'" style="
           background-color: #b45309;
@@ -621,21 +618,21 @@
 
       tbody.innerHTML = utenti.map(utente => `
         <tr style="display: flex; width: 100%; background-color: #1e293b; border-bottom: 1px solid #374151;">
-          <td style="width: 12%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">
+          <td style="width: 15%; display: flex; align-items: center; justify-content: center; padding: 8px 6px; border-right: 1px solid #374151;">
             <a href="storico.html?pin=${utente.pin}" style="color: #60a5fa; text-decoration: none;">
               <img src="assets/icons/orologio.png" alt="Storico" style="width: 20px; height: 20px;" />
             </a>
           </td>
-          <td style="width: 12%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">${utente.pin}</td>
-          <td style="width: 17.5%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">${utente.nome}</td>
-          <td style="width: 17.5%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">${utente.cognome}</td>
-          <td style="width: 12.3%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; white-space: nowrap; min-width: 100px;">
+          <td style="width: 15%; display: flex; align-items: center; justify-content: center; padding: 8px 6px; border-right: 1px solid #374151;">${utente.pin}</td>
+          <td style="width: 25%; display: flex; align-items: center; justify-content: center; padding: 8px 6px; border-right: 1px solid #374151;">${utente.nome}</td>
+          <td style="width: 25%; display: flex; align-items: center; justify-content: center; padding: 8px 6px; border-right: 1px solid #374151;">${utente.cognome}</td>
+          <td style="width: 20%; display: flex; align-items: center; justify-content: center; padding: 8px 6px; white-space: nowrap;">
             <button onclick="modificaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}', '${utente.email || ''}', '${utente.telefono || ''}', '${utente.descrizione_contratto || ''}', ${utente.ore_contrattuali || 8.0})" 
-                    title="Modifica dipendente" style="color: #3b82f6; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 1px; padding: 2px;">✏️</button>
+                    title="Modifica dipendente" style="color: #3b82f6; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 4px; padding: 4px;">✏️</button>
             <button onclick="archiviaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}')" 
-                    title="Archivia dipendente" style="color: #f59e0b; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 1px; padding: 2px;">📦</button>
+                    title="Archivia dipendente" style="color: #f59e0b; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 4px; padding: 4px;">📦</button>
             <button onclick="eliminaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}')" 
-                    title="Elimina" style="color: #ef4444; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 1px; padding: 2px;">❌</button>
+                    title="Elimina" style="color: #ef4444; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 4px; padding: 4px;">❌</button>
           </td>
         </tr>
       `).join('');
