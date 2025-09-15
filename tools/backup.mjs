@@ -6,7 +6,7 @@ import { pipeline } from 'stream/promises';
 import { spawn } from 'child_process';
 import path from 'path';
 
-const BACKUP_DIR = 'backups';
+const BACKUP_DIR = 'BACKUP_AUTOMATICO';
 const MAX_BACKUPS = 3;
 const EXCLUDE_PATTERNS = [
   'node_modules/',
@@ -14,6 +14,7 @@ const EXCLUDE_PATTERNS = [
   'build/',
   '.git/',
   'backups/',
+  'BACKUP_AUTOMATICO/',
   'archivio_deprecati/',
   '.backups/',
   'coverage/',
