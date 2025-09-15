@@ -139,6 +139,20 @@
     td:nth-child(5) {
       white-space: nowrap;
       line-height: 1;
+      min-width: 100px; /* Garantisce spazio per tutti e 3 i pulsanti */
+    }
+
+    /* Fix colonna Azioni su tablet orizzontale - pulsante X sempre visibile */
+    @media (min-width: 481px) and (max-width: 1024px) and (orientation: landscape) {
+      th:nth-child(5), td:nth-child(5) { 
+        width: 15% !important; 
+        min-width: 120px !important;
+      }
+      td:nth-child(5) button {
+        font-size: 16px !important;
+        padding: 4px !important;
+        margin: 0 2px !important;
+      }
     }
 
     td button:hover {
@@ -350,27 +364,39 @@
 </head>
 <body>
   <div class="container">
-    <div style="position: relative; text-align: center; margin-bottom: 10px;">
-      <img src="assets/icons/BNLOGO.png" alt="BADGENODE Logo" style="width: 120px; height: auto; margin-bottom: 15px;" />
-      <h1 style="margin: 0 0 4px 0;">Archivio Dipendenti</h1>
+    <!-- Header fisso -->
+    <div class="header-fisso" style="position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); padding: 10px 0;">
+      <div style="text-align: center; margin-bottom: 10px;">
+        <img src="assets/icons/BNLOGO.png" alt="BADGENODE Logo" style="width: 120px; height: auto; margin-bottom: 15px;" />
+        <h1 style="margin: 0 0 4px 0;">Archivio Dipendenti</h1>
+      </div>
+      
+      <!-- Header tabella fisso -->
+      <div style="display: flex; justify-content: center;">
+        <div style="width: 70%; background-color: #1f3a56; border-radius: 16px 16px 0 0; overflow: hidden;">
+          <div style="display: flex; height: 54px; align-items: center; font-weight: 600; font-size: 18px; color: white;">
+            <div style="width: 12%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Storico</div>
+            <div style="width: 12%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">PIN</div>
+            <div style="width: 17.5%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Nome</div>
+            <div style="width: 17.5%; text-align: center; border-right: 1px solid #374151; padding: 2px 6px;">Cognome</div>
+            <div style="width: 12.3%; text-align: center; padding: 2px 6px;">Azioni</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Storico</th>
-          <th>PIN</th>
-          <th>Nome</th>
-          <th>Cognome</th>
-          <th>Azioni</th>
-        </tr>
-      </thead>
-      <tbody id="lista-dipendenti">
-        <!-- Gli utenti verranno caricati dinamicamente -->
-      </tbody>
-    </table>
+    <!-- Contenitore scorrevole -->
+    <div class="tabella-scorrevole" style="max-height: 60vh; overflow-y: auto; display: flex; justify-content: center;">
+      <table style="width: 70%; margin: 0; border-radius: 0; box-shadow: none;">
+        <tbody id="lista-dipendenti" style="display: block; width: 100%;">
+          <!-- Gli utenti verranno caricati dinamicamente -->
+        </tbody>
+      </table>
+    </div>
 
-    <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <!-- Footer fisso -->
+    <div class="footer-fisso" style="position: sticky; bottom: 0; z-index: 100; background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); padding: 20px 0;">
+      <div style="display: flex; justify-content: center;">
       <div style="width: 70%; display: flex; justify-content: space-between; align-items: center;">
         <button onclick="window.location.href='index.html'" style="
           background-color: #b45309;
@@ -594,22 +620,22 @@
       }
 
       tbody.innerHTML = utenti.map(utente => `
-        <tr>
-          <td>
+        <tr style="display: flex; width: 100%; background-color: #1e293b; border-bottom: 1px solid #374151;">
+          <td style="width: 12%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">
             <a href="storico.html?pin=${utente.pin}" style="color: #60a5fa; text-decoration: none;">
               <img src="assets/icons/orologio.png" alt="Storico" style="width: 20px; height: 20px;" />
             </a>
           </td>
-          <td>${utente.pin}</td>
-          <td>${utente.nome}</td>
-          <td>${utente.cognome}</td>
-          <td>
+          <td style="width: 12%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">${utente.pin}</td>
+          <td style="width: 17.5%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">${utente.nome}</td>
+          <td style="width: 17.5%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; border-right: 1px solid #374151;">${utente.cognome}</td>
+          <td style="width: 12.3%; display: flex; align-items: center; justify-content: center; padding: 2px 6px; white-space: nowrap; min-width: 100px;">
             <button onclick="modificaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}', '${utente.email || ''}', '${utente.telefono || ''}', '${utente.descrizione_contratto || ''}', ${utente.ore_contrattuali || 8.0})" 
-                    title="Modifica dipendente" style="color: #3b82f6;">✏️</button>
+                    title="Modifica dipendente" style="color: #3b82f6; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 1px; padding: 2px;">✏️</button>
             <button onclick="archiviaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}')" 
-                    title="Archivia dipendente" style="color: #f59e0b;">📦</button>
+                    title="Archivia dipendente" style="color: #f59e0b; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 1px; padding: 2px;">📦</button>
             <button onclick="eliminaUtente(${utente.pin}, '${utente.nome}', '${utente.cognome}')" 
-                    title="Elimina" style="color: #ef4444;">❌</button>
+                    title="Elimina" style="color: #ef4444; background: none; border: none; font-size: 16px; cursor: pointer; margin: 0 1px; padding: 2px;">❌</button>
           </td>
         </tr>
       `).join('');
