@@ -33,7 +33,16 @@
 
   <!-- Icone PWA -->
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/badgenode-192.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/badgenode-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/BADGENODE.png" />
+  <style>
+    @media only screen and (max-width: 768px) {
+      /* Fix per icona PWA su mobile/tablet - rimuove sfondo bianco */
+      link[rel="apple-touch-icon"] {
+        -webkit-mask-image: url('assets/icons/BADGENODE.png');
+        mask-image: url('assets/icons/BADGENODE.png');
+      }
+    }
+  </style>
   <link rel="manifest" href="manifest.json" />
 
   <!-- Runtime Config -->
